@@ -1,0 +1,39 @@
+#!/bin/bash
+# Show cumulative diff across a series of commits
+# Usage: git-series-diff [start_commit] [end_commit]
+# Example: git-series-diff HEAD~10 HEAD
+
+START_COMMIT=${1:-"HEAD~5"}
+END_COMMIT=${2:-"HEAD"}
+
+echo "📊 Series Analysis: $START_COMMIT to $END_COMMIT"
+echo "══════════════════════════════════════════════════════════"
+
+echo ""
+echo "📝 Individual Commits in Series:"
+git log --oneline --reverse $START_COMMIT..$END_COMMIT
+
+echo ""
+echo "📁 All Files Modified in Series:"
+git diff --name-status $START_COMMIT..$END_COMMIT
+
+echo ""
+echo "📊 Cumulative Statistics:"
+git diff --stat $START_COMMIT..$END_COMMIT
+
+echo ""
+echo "🔍 Per-Commit Changes:"
+for commit in $(git rev-list --reverse $START_COMMIT..$END_COMMIT); do
+    echo "──────────────────────────────────────────────────"
+    echo "📦 Commit: $(git log --format='%h %s' -n 1 $commit)"
+    echo "👤 Author: $(git log --format='%an <%ae>' -n 1 $commit)"
+    echo "🗺️ Files changed:"
+    git show --name-status --format= $commit
+    echo ""
+done
+
+echo ""
+echo "🔮 Summary for Claude Code:"
+echo "This series spans $(git rev-list --count $START_COMMIT..$END_COMMIT) commits"
+echo "Primary changes involve: $(git diff --name-only $START_COMMIT..$END_COMMIT | head -5 | tr '\n' ', ' | sed 's/,$//')"
+echo "Main contributors: $(git log --format='%an' $START_COMMIT..$END_COMMIT | sort | uniq | tr '\n' ', ' | sed 's/,$//')"

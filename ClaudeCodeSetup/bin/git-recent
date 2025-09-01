@@ -1,0 +1,2 @@
+#!/bin/bash
+git log --oneline --graph -n ${1:-10}

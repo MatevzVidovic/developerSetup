@@ -1,0 +1,23 @@
+#!/bin/bash
+# Show diff between commit ranges
+# Usage: git-diff-range [start_commit] [end_commit]
+# Example: git-diff-range HEAD~5 HEAD
+
+START_COMMIT=${1:-"HEAD~1"}
+END_COMMIT=${2:-"HEAD"}
+
+echo "🔍 Diff from $START_COMMIT to $END_COMMIT:"
+echo "═══════════════════════════════════════════════════"
+
+echo ""
+echo "📁 Files changed:"
+git diff --name-status $START_COMMIT..$END_COMMIT
+
+echo ""
+echo "📊 Summary:"
+git diff --stat $START_COMMIT..$END_COMMIT
+
+echo ""
+echo "🔍 Detailed diff:"
+echo "───────────────────────────────────────────────────"
+git diff --color=always $START_COMMIT..$END_COMMIT

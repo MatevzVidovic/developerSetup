@@ -1,0 +1,39 @@
+#!/bin/bash
+# Analyze commit patterns and provide insights
+# Usage: git-analyze-commits [number_of_commits]
+
+NUM_COMMITS=${1:-20}
+
+echo "🔍 Git Repository Analysis (last $NUM_COMMITS commits)"
+echo "══════════════════════════════════════════════════════════"
+
+echo ""
+echo "👥 Top Contributors:"
+git log --format='%an' -n $NUM_COMMITS | sort | uniq -c | sort -rn | head -10
+
+echo ""
+echo "🗺️ Files Most Frequently Changed:"
+git log --name-only --format= -n $NUM_COMMITS | sort | uniq -c | sort -rn | head -10
+
+echo ""
+echo "🔄 Commit Types (if using conventional commits):"
+git log --format='%s' -n $NUM_COMMITS | sed -n 's/^\([a-z]*\)\(([^)]*)\)\?:.*/\1/p' | sort | uniq -c | sort -rn
+
+echo ""
+echo "📅 Commit Activity by Day of Week:"
+git log --format='%ad' --date=format:'%A' -n $NUM_COMMITS | sort | uniq -c | sort -rn
+
+echo ""
+echo "🕰️ Commit Activity by Hour:"
+git log --format='%ad' --date=format:'%H' -n $NUM_COMMITS | sort | uniq -c | sort -k2 -n
+
+echo ""
+echo "📊 Code Churn (lines added/deleted in last $NUM_COMMITS commits):"
+git log --shortstat -n $NUM_COMMITS | grep -E "fil.*changed" | awk '{files+=$1; inserted+=$4; deleted+=$6} END {print "Files changed:", files, "\nLines added:", inserted, "\nLines deleted:", deleted}'
+
+echo ""
+echo "🌳 Branch Information:"
+echo "Current branch: $(git branch --show-current)"
+echo "Total branches: $(git branch -r | wc -l)"
+echo "Branches with recent activity (last 30 days):"
+git for-each-ref --format='%(refname:short) %(committerdate:relative)' refs/remotes | head -10

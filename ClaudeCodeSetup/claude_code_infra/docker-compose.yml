@@ -1,0 +1,43 @@
+# The top-level key that defines all the individual services (containers) you want to run.
+services:
+  # Defines the "Zen" MCP server, which consults other AI models.
+  zen-mcp:
+    # Tells Docker Compose to build an image from the Dockerfile located in the './mcp-servers/zen' directory.
+    build: ./mcp-servers/zen
+    # Assigns a static, predictable name to the container for easier management.
+    container_name: claude-zen-mcp
+    # Loads environment variables (like API keys) from a .env file in the service's directory.
+    env_file: ./mcp-servers/zen/.env
+    # Maps port 3001 on your local machine (host) to port 3000 inside the container.
+    # This is how Claude Code will connect to the service, by sending requests to http://localhost:3001.
+    ports:
+      - "3001:3000"
+    # Ensures the container automatically restarts if it stops, unless you manually stop it.
+    restart: unless-stopped
+
+  # Defines the "GitHub" MCP server for interacting with GitHub issues.
+  github-mcp:
+    build: ./mcp-servers/github
+    container_name: claude-github-mcp
+    env_file: ./mcp-servers/github/.env
+    ports:
+      - "3003:3000" # This service will be available at http://localhost:3003
+    restart: unless-stopped
+
+  # Google Keep MCP server for note management and task tracking
+  google-keep-mcp:
+    build: ./mcp-servers/google-keep
+    container_name: claude-google-keep-mcp
+    env_file: ./mcp-servers/google-keep/.env
+    ports:
+      - "3004:3000"
+    restart: unless-stopped
+
+  # Atlassian/Jira MCP server for project management and ticket tracking
+  atlassian-mcp:
+    build: ./mcp-servers/atlassian
+    container_name: claude-atlassian-mcp
+    env_file: ./mcp-servers/atlassian/.env
+    ports:
+      - "3005:3000"
+    restart: unless-stopped
