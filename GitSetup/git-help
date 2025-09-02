@@ -1,0 +1,36 @@
+
+# [Uppercase branch-name no -]
+[branch-name no -]
+[branch-name]
+[jira-id]
+[change type (feat(infra):)]
+
+Jira:
+[Uppercase branch-name no -]
+
+Desc:
+
+MR name:
+[change type (feat(infra):)] [branch-name no -]
+
+
+Create:
+
+git worktree add ~/onko/[jira-id] -b PAS-[jira-id]-[branch-name] origin/main
+cd ~/onko/[jira-id]
+git push -u origin PAS-[jira-id]-[branch-name]
+git worktree add ~/onko/[jira-id]-dev -b [jira-id]-dev PAS-[jira-id]-[branch-name]
+
+Switch to and push and rebase:
+
+cd ~/onko/[jira-id]
+git fap
+git push --force-with-lease -u origin PAS-[jira-id]-[branch-name]
+git rebase origin/main
+git push --force-with-lease -u origin PAS-[jira-id]-[branch-name]
+
+
+Commit msg stub:
+
+[change type (feat(infra):)] [branch-name no -]
+

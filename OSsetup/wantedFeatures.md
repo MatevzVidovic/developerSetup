@@ -24,6 +24,7 @@ cmd shift t to open a new tab with the same cwd as the current tab
 I want alt + c, alt+v, alt+x to do copy, paste, cut
 
 cmd shift n to make new directory (if in file explorer)
+cmd shift backspace to be delete
 
 
 

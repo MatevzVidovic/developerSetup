@@ -1,0 +1,111 @@
+
+
+
+# [user]
+# 	signingkey = 8DD503F5D0B54C6A
+# [includeIf "gitdir:~/git/getinge/"]
+#         path = ~/git/getinge/.gitconfig
+
+
+
+
+# [user]
+#     email = matevz.vidovic@3fs.si
+#     name = Matevž Vidovič
+#     signingkey = 0972DF6FBF6D41E9
+# [tag]
+#     gpgsign = true
+#     forceSignAnnotated = true
+# [gpg]
+#     program = /opt/homebrew/bin/gpg
+# [push]
+#     # prevents your from accidentally pushing to a wrong branch
+#     default = nothing
+# [commit]
+# 	gpgsign = true
+
+
+
+
+
+[core]
+    editor = "code --wait"
+	autocrlf = input
+[alias]
+    dc     = diff --cached
+    co     = checkout
+    ci     = commit
+    cm     = commit -m
+    st     = status
+    br     = branch
+    lg     = !git log --graph --pretty='format:%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    slog   = log --oneline
+    rb     = rebase
+    rbc    = rebase --continue
+    rbi    = rebase -i
+    fap    = fetch --all --prune --progress
+    latest = for-each-ref --sort=-committerdate refs/heads refs/remotes --format='%(committerdate:iso8601)  %(refname:short)                        %(authorname)'
+    all = add .
+    ad = commit --amend --no-edit
+    adl = "!f() { \
+        git add .; \
+        git commit --amend --no-edit; \
+    }; f"
+    s = "!f() { \
+        git add .; \
+        git commit -m work; \
+    }; f"
+    rev = revert --no-commit
+    res = reset HEAD~1
+    stasha = "!f() { \
+        for stash_ref in $(git stash list --format='%gd'); do \
+            stash_msg=$(git stash list -1 \"$stash_ref\" --format='%gs'); \
+            echo '--- Showing changes for'; \
+            echo \"$stash_ref:\"; \
+            echo \"$stash_msg ---\"; \
+            git --no-pager stash show --color=always --stat \"$stash_ref\"; \
+            echo ''; \
+      done; \
+    }; f"
+    stashb = "!f() { \
+        if [ -z \"$1\" ]; then \
+            echo 'Usage: git stashb <stash_number>'; \
+            echo 'Example: git stashb 4  # shows code changes for stash@{4}'; \
+            return 1; \
+        fi; \
+        stash_ref=\"stash@{$1}\"; \
+        if ! git rev-parse --verify \"$stash_ref\" >/dev/null 2>&1; then \
+            echo \"Error: $stash_ref does not exist\"; \
+            return 1; \
+        fi; \
+        stash_msg=$(git stash list -1 \"$stash_ref\" --format='%gs'); \
+        echo \"--- Showing code changes for $stash_ref ---\"; \
+        echo \"Message: $stash_msg\"; \
+        echo ''; \
+        git --no-pager stash show --color=always -p \"$stash_ref\"; \
+    }; f"
+    stashc = "!f() { \
+    echo 'Searching for empty stashes...'; \
+    stashes_info=$(git stash list | while IFS=':' read -r stash_ref rest; do \
+        index=$(echo \"$stash_ref\" | sed 's/stash@{\\([0-9]*\\)}/\\1/'); \
+        if ! git stash show \"$stash_ref\" >/dev/null 2>&1 || \
+           [ -z \"$(git stash show --name-only \"$stash_ref\" 2>/dev/null)\" ]; then \
+            echo \"$index $stash_ref\"; \
+        fi; \
+    done); \
+    if [ -n \"$stashes_info\" ]; then \
+        echo 'Found the following empty stashes to drop:'; \
+        echo \"$stashes_info\" | while read index stash_ref; do \
+            echo \"  $stash_ref\"; \
+        done; \
+        echo; \
+        echo 'Dropping stashes (highest index first to maintain consistency)...'; \
+        echo \"$stashes_info\" | sort -nr | while read index stash_ref; do \
+            echo \"Dropping $stash_ref...\"; \
+            git stash drop \"$stash_ref\"; \
+        done; \
+        echo 'Done!'; \
+    else \
+        echo 'No empty stashes found.'; \
+    fi; \
+}; f"
