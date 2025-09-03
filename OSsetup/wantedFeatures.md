@@ -26,6 +26,9 @@ I want alt + c, alt+v, alt+x to do copy, paste, cut
 cmd shift n to make new directory (if in file explorer)
 cmd shift backspace to be delete
 
+I want the terminal to have vim commands.
+I want it to have fzf functionality.
+
 
 
 
@@ -115,13 +118,10 @@ In alt-tab disable the split-screen options (doesnt just show you windows you ha
 
 
 
-Raycast - saved clipboard history (and better system search)
+Saved clipboard history, easily accessible to get back to the current clipboard area
 
-  GitLab to GitHub Migration
+Better system search
 
-MR suggestions: marking what code should be replaced with what other code. And then being able to make a batch of those changes and make a commit diretly in the browser.
-Thread comments: What still needs to be resolved is nicely apparent and you can go through all of them with one button.
-Web IDE: being able to ctrl shift f in the project from some specific commit directly in the web (for seeing how sth worked in the past)
 
 
 Firefox important:

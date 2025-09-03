@@ -28,6 +28,15 @@
 
 
 
+[user]
+    email = matevz.vidovic@gmail.si
+    name = Matevž Vidovič
+
+
+
+
+
+
 [core]
     editor = "code --wait"
 	autocrlf = input
