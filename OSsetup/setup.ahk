@@ -1,4 +1,14 @@
 
+; PowerToys FUCKING SUUUUUUUUUUUCKS!!!!!
+; Could not get it to fucking apply.
+; AutoHotkey v2 for the fucking win!!!!!!!!!!!!!
+
+; Just download it, double-click this .ahk file, and everything just works (also for future boots). 
+; (or make a sthsth.ahk, then double click it to run it)
+
+
+
+
 
 
 ; =========================================
@@ -8,8 +18,13 @@
 ; Designed for English US/Slovenian keyboard layout
 ; Compatible with AutoHotkey v2.0+
 
+; to diable the the script, right-click the autoHotkey icon and check Suspend Hotkeys
+
 #Requires AutoHotkey v2.0
 #SingleInstance Force
+; #NoEnv ; ahk v1 only
+; #Persistent ; ahk v1 only
+; Persistent(true) ; Built-in function (if your v2 version supports it)
 SendMode("Input")
 
 ; =========================================
@@ -195,14 +210,14 @@ CheckCorners() {
     MonitorGet(1, &MonLeft, &MonTop, &MonRight, &MonBottom)
     
     ; Left bottom corner - SLEEP (larger detection area)
-    if (MouseX <= 50 && MouseY >= MonBottom - 50) {
+    if (MouseX <= 5 && MouseY >= MonBottom - 5) {
         Sleep(500)
         DllCall("powrprof.dll\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
         return
     }
     
     ; Right bottom corner - LOCK (larger detection area)
-    if (MouseX >= MonRight - 50 && MouseY >= MonBottom - 50) {
+    if (MouseX >= MonRight - 5 && MouseY >= MonBottom - 5) {
         Sleep(500)
         DllCall("user32.dll\LockWorkStation")
         return

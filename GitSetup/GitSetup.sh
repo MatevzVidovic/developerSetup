@@ -1,5 +1,5 @@
 
-ln -s $(pwd)/.gitconfig ~/.gitconfig
+ln -s /mnt/c/Users/Uporabnik/Desktop/developerSetup/GitSetup/.gitconfig ~/.gitconfig
 
 # # For windows ones first move to ClaudeCodeSetup/GitSetup/
 
@@ -8,3 +8,5 @@ ln -s $(pwd)/.gitconfig ~/.gitconfig
 
 # # In PowerShell (run as administrator)
 # New-Item -ItemType SymbolicLink -Path "~\.gitconfig" -Target "$(Get-Location)\.gitconfig"
+# reading the link:
+# (Get-Item -Path ".gitconfig" -Force).Target
