@@ -8,6 +8,16 @@
 
 
 
+; Persistent across reboots:
+; Press Win + R, type shell:startup, press Enter
+; It opens the folder of scripts that get run when the system boots.
+; Right click the file explorer and open the terminal - copy the path.
+; (the path is sth like C:\Users\Uporabnik\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup)
+; then
+; In PowerShell (run as administrator), go to the folder containing this script.
+; New-Item -ItemType SymbolicLink -Path "C:\Users\Uporabnik\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\setup.ahk" -Target "$(Get-Location)\setup.ahk"
+; reading the link:
+; (Get-Item -Path ".gitconfig" -Force).Target
 
 
 
@@ -201,28 +211,28 @@ NumpadDot::Send("&")      ; Comma/Dot becomes &
 ; =========================================
 ; 10. HOT CORNER SETUP (Bottom Left: Sleep, Bottom Right: Lock)
 ; =========================================
-#SingleInstance Force
+; #SingleInstance Force
 
-SetTimer(CheckCorners, 100)
+; SetTimer(CheckCorners, 100)
 
-CheckCorners() {
-    MouseGetPos(&MouseX, &MouseY)
-    MonitorGet(1, &MonLeft, &MonTop, &MonRight, &MonBottom)
+; CheckCorners() {
+;     MouseGetPos(&MouseX, &MouseY)
+;     MonitorGet(1, &MonLeft, &MonTop, &MonRight, &MonBottom)
     
-    ; Left bottom corner - SLEEP (larger detection area)
-    if (MouseX <= 5 && MouseY >= MonBottom - 5) {
-        Sleep(500)
-        DllCall("powrprof.dll\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
-        return
-    }
+;     ; Left bottom corner - SLEEP (larger detection area)
+;     if (MouseX <= 5 && MouseY >= MonBottom - 5) {
+;         Sleep(500)
+;         DllCall("powrprof.dll\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
+;         return
+;     }
     
-    ; Right bottom corner - LOCK (larger detection area)
-    if (MouseX >= MonRight - 5 && MouseY >= MonBottom - 5) {
-        Sleep(500)
-        DllCall("user32.dll\LockWorkStation")
-        return
-    }
-}
+;     ; Right bottom corner - LOCK (larger detection area)
+;     if (MouseX >= MonRight - 5 && MouseY >= MonBottom - 5) {
+;         Sleep(500)
+;         DllCall("user32.dll\LockWorkStation")
+;         return
+;     }
+; }
 
 
 ; =========================================
