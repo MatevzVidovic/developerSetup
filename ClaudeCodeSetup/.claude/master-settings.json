@@ -18,9 +18,12 @@
     ],
     "deny": [],
     "ask": [],
+    "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "./claude_project_template",
       "./claude_code_infra"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": ["zen", "github", "google-keep", "atlassian", "websearch"]
 }
