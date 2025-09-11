@@ -77,6 +77,9 @@ To not mess with the LLM:
 
 
 
+cmd shift n to make new directory (if in file explorer)
+
+
 Saved clipboard history, easily accessible to get back to the current clipboard area
 
 Better system search

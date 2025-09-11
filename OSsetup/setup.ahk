@@ -163,21 +163,8 @@ NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 ; =========================================
 ; 7. ADDITIONAL USEFUL SHORTCUTS
 ; =========================================
-; Alt+Space for Spotlight-like functionality (Windows Search)
-!Space::Send("#s")
-
-; Win+Space for default Windows search (redundant but matches Mac muscle memory)
+; Win+Space for default Windows search (same as pressing Win key)
 #Space::Send("#")
-
-; Win+Tab behaves like Alt+Tab
-LWin & Tab::AltTab
-
-; Win+Up opens Task View (what Win+Tab used to do)
-#Up::Send("#{Tab}")
-
-; Win+Left/Right for virtual desktop switching
-#Left::Send("^#{Left}")
-#Right::Send("^#{Right}")
 
 ; Alt+Shift+Backspace for Delete
 !+BackSpace::Send("{Delete}")
@@ -195,41 +182,9 @@ LWin & Tab::AltTab
 ^+Down::Send("+{Down}")     ; Select line down
 
 ; =========================================
-; 8. WSL/TERMINAL SPECIFIC SHORTCUTS
+; 8. RESERVED FOR FUTURE USE
 ; =========================================
-#HotIf WinActive("ahk_exe WindowsTerminal.exe") || WinActive("ahk_exe wt.exe") || WinActive("ahk_exe powershell.exe") || WinActive("ahk_exe cmd.exe")
-; Alt+C/V/X for copy/paste/cut in terminal
-!c::Send("^+c")
-!v::Send("^+v")
-!x::Send("^+x")
-
-; Alt+U to delete current line (Ctrl+U in terminal)
-!u::Send("^u")
-
-; Tab navigation in terminal
-!1::Send("^!1")
-!2::Send("^!2")
-!3::Send("^!3")
-!4::Send("^!4")
-!5::Send("^!5")
-!6::Send("^!6")
-!7::Send("^!7")
-!8::Send("^!8")
-!9::Send("^!9")
-
-; Alt+Left/Right for tab navigation in terminal
-!Left::Send("^+{Tab}")       ; Previous tab
-!Right::Send("^{Tab}")       ; Next tab
-
-; Alt+T for new tab
-!t::Send("^+t")
-
-; Alt+Shift+T for new tab with same directory
-!+t::Send("^+d")
-
-; Alt+F for search in terminal
-!f::Send("^+f")
-#HotIf
+; Terminal-specific shortcuts removed as per new spec
 
 ; =========================================
 ; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS & FILE EXPLORER
@@ -240,14 +195,25 @@ LWin & Tab::AltTab
 !+n::Send("^+n")
 #HotIf
 
-; Fn key combinations (using F13-F24 as Fn modifier simulation)
-; Since most keyboards don't have true Fn key detection, we'll use alternatives
-; Page navigation
-Home::Send("{Home}")        ; Already goes to start of line
-End::Send("{End}")          ; Already goes to end of line
-; Modified Page Up/Down for half-page scrolling
-PgUp::Send("^{Up 10}")       ; Move up approximately half page
-PgDn::Send("^{Down 10}")     ; Move down approximately half page
+; Fn key combinations - Page navigation with half-page scrolling
+; PgUp/PgDn modified to scroll half a page instead of full page
+PgUp:: {
+    ; Send multiple up arrows to simulate half-page scroll
+    Loop 15 {
+        Send("{Up}")
+    }
+}
+
+PgDn:: {
+    ; Send multiple down arrows to simulate half-page scroll
+    Loop 15 {
+        Send("{Down}")
+    }
+}
+
+; Home/End for start/end of line (already default behavior)
+Home::Send("{Home}")        ; Start of line
+End::Send("{End}")          ; End of line
 
 ; =========================================
 ; 10. HOT CORNER SETUP (Bottom Left: Sleep, Bottom Right: Lock)
@@ -322,32 +288,9 @@ CheckCorners() {
 }
 
 ; =========================================
-; 11. MEDIA & SYSTEM CONTROLS
+; 11. RESERVED FOR FUTURE USE
 ; =========================================
-; Media controls (using F9-F12 as media keys)
-F9::Volume_Mute         ; Mute/Unmute
-F10::Volume_Down        ; Volume Down
-F11::Volume_Up          ; Volume Up
-F12::Media_Play_Pause   ; Play/Pause
-
-; Alternative media controls with Alt modifier
-!F9::Media_Prev         ; Previous track
-!F10::Media_Next        ; Next track
-!F11::Media_Stop        ; Stop
-
-; Brightness controls (Windows doesn't have direct brightness keys like Mac)
-; These will work on laptops with appropriate drivers
-; Using Shift+F keys for brightness
-+F1:: {
-    ; Decrease brightness
-    ; This is system-dependent and may not work on all systems
-    Run("powershell.exe -Command (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,20)", , "Hide")
-}
-
-+F2:: {
-    ; Increase brightness
-    Run("powershell.exe -Command (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,80)", , "Hide")
-}
+; Media and brightness controls removed as per new spec
 
 
 ; =========================================

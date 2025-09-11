@@ -4,16 +4,14 @@
 Very important: I want this setup to be as simple as possible. I dont mind if you do not implement some features, just tell me what you didnt implement.
 
 
-
-cmd shift n to make new directory (if in file explorer)
-cmd shift backspace to be delete
-
-
 Also very important:
 Below are the mac commands which use cmd.
 Many of these commands already work on windows when you use ctrl instead.
 Keep those commands if they work - otherwise make a new ctrl + key command that does that.
 Also, make it so that for all these cases alt + key maps to ctrl + key.
+
+
+
 
 
 
@@ -63,6 +61,9 @@ And I want shift+ctrl+arrowkeys to mark text character by character (like how sh
 System important:
 - For using virtual desktops: When searching for an app (pressing winkey, typing the app's name and running it), that shouldn't route you to an existing window (possibly in another virtual desktop). Make it just open the app. Or if nothing else, prevent it from switching virtual desktops, so it just "switches to it" in the background and you can then do ctrl n.
 - Make winkey space be the default search, just like only pressing winkey.
+
+
+cmd shift backspace should be like pressing Delete
 
 
 - Fn arrow up being half of page up, and down being half of PgDn.
