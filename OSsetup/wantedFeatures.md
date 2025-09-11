@@ -52,47 +52,14 @@ Keep those commands it hey work - otherwise make a new ctrl + key command that d
 Also, make it so that for all these cases alt + key maps to ctrl + key.
 
 
-
-
-  macOS to Windows Migration
-Cmd W to close tabs (browser, terminal, IDE)
-Cmd Q to quit application completely (all windows)
-Want sth like: Cmd E to quit the applications current window (not all firefox windows, and not just the current tab, but the current window)
-winkey+alt+ arrowUp (ctrl arrowUp on mac) to open virtual desktops, and 
-winkey+alt+arrowRight/left  (ctrl arrowRight/left on mac) to switch between them
-cmd 1/2/3/... to move to tabs in the browser
-cmd arrowLeft/right to move in tabs
-cmd c, v, z, s, a, x, r, t, n
-cmd shift z
-(I want alt c, z, y, (shift+z)   to directly do copy, undo, redo, and redo, not just to map to ctrl c, z, y (shift+z) - becausee in the terminal, i e.g. dont want alt c to cause sigint).
-CapsLock being escape (good for using vim)
-
-
-on my windows computer I would like to make my numpad numbers and the operation symbols and the numlock area comma and enter when the numlock is off to actually be: 
-1-9: ( { [ ~ / _ = | ´
-/: )
-*: }
--: ]
-+: @
-enter: ^
-0: %
-comma: & 
-
-
-
-=================================
-
-Hot corners:
-Putting mouse into left bottom corner puts computer to sleep
-Putting mouse into right bottom corner just locks it and turns off screen
+F11 should hide the taskbar and the bar with tabs (for browsers).
+(It already does that on windows)
 
 Add non-fn fn capabilities:
 Sound up, down, mute. 
 Play/pause (for the most recent media)
 Brightness up, down.
 
-I want shift + arrowkeys to mark text word by word (like hot shift + ctrl + arrowkeys does).
-And I want shift+ctrl+arrowkeys to mark text character by character (like how shift + arrowkeys does).
 
 For terminal:
 fzf search is insanely useful and necessary
@@ -101,20 +68,12 @@ Oh My Zsh (showing git branch, num of changed files, num of staged files, num of
 To not mess with the LLM:
 (already winkey arrows on windows) fn ctrl arrows to position window tiling on part of screen or fullscreen
 
-System important:
-- For using virtual desktops: When searching for an app (winkey), that shoudlnt route you to an existing window (possibly in another virtual desktop). Make it just open the app. Or if nothing else, prevent it from switching virtual desktops, so it just "switches to it" in the background and you can then do ctrl n.
-- Make winkey tab be just like alt tab.
-- Make winkey arrowup be like what winkey tab was before.
-- Make winkey arrowSide switch between virtual desktops.
-- Make winkey space be the default search, just like only pressing winkey.
 
-- Fn arrow up being page up, and down for PgDn
-Its quite awesome that the new top of screen is exactly where bottom of line was previously. But also kinda annoying, because it disorients you in many cases.
-So I want to make it so it moves only half a screen down.
-- Fn arrow left going to start of line, and right to end of line.
+## System important:
 
-
-In alt-tab disable the split-screen options (doesnt just show you windows you have open, but also combined tilings of certain windows. I dont like the unnecessary mess.)
+### Window tilind (this already works on windows with winkey + arrowkeys so no need to change it)
+- make cmd + arrowLeft/right position the current window into that tiling (left or right)
+- make cmd + arrowUp put the current window to fullscreen,
 
 
 

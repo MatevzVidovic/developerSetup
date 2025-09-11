@@ -126,26 +126,26 @@ CapsLock::Escape
 #HotIf !GetKeyState("NumLock", "T")
 
 ; Numbers 1-9 remapped
-Numpad1::Send("(")
-Numpad2::Send("{")
-Numpad3::Send("[")
-Numpad4::Send("~")
-Numpad5::Send("/")
-Numpad6::Send("_")
-Numpad7::Send("=")
-Numpad8::Send("|")
-Numpad9::Send("´")
+NumpadEnd::Send("(")       ; Numpad1 (End when NumLock off)
+NumpadDown::Send("{{}}")    ; Numpad2 (Down when NumLock off) - { needs escaping
+NumpadPgDn::Send("[")       ; Numpad3 (PgDn when NumLock off)
+NumpadLeft::Send("~")       ; Numpad4 (Left when NumLock off)
+NumpadClear::Send("/")      ; Numpad5 (Clear when NumLock off)
+NumpadRight::Send("_")      ; Numpad6 (Right when NumLock off)
+NumpadHome::Send("=")       ; Numpad7 (Home when NumLock off)
+NumpadUp::Send("|")         ; Numpad8 (Up when NumLock off)
+NumpadPgUp::Send("´")       ; Numpad9 (PgUp when NumLock off)
 
 ; Operation symbols
-NumpadDiv::Send(")")      ; / becomes )
-NumpadMult::Send("}")     ; * becomes }
-NumpadSub::Send("]")      ; - becomes ]
-NumpadAdd::Send("@")      ; + becomes @
-NumpadEnter::Send("^")    ; Enter becomes ^
+NumpadDiv::Send(")")        ; / becomes )
+NumpadMult::Send("{}}")      ; * becomes } - needs escaping
+NumpadSub::Send("]")        ; - becomes ]
+NumpadAdd::Send("@")        ; + becomes @
+NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
 
 ; Special keys
-Numpad0::Send("%")        ; 0 becomes %
-NumpadDot::Send("&")      ; Comma/Dot becomes &
+NumpadIns::Send("{%}")       ; Numpad0 (Ins when NumLock off) - % needs escaping
+NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 
 #HotIf
 
