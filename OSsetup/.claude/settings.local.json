@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tasklist)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(start setup.ahk)",
+      "Bash(where autohotkey)",
+      "Bash(\"C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe\" \"C:\\Users\\User\\Desktop\\developerSetup\\OSsetup\\setup.ahk\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

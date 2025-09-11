@@ -62,7 +62,7 @@
     }; f"
     s = "!f() { \
         git add .; \
-        git commit -m work; \
+        git commit -m autosave; \
     }; f"
     rev = revert --no-commit
     res = reset HEAD~1

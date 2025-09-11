@@ -152,22 +152,12 @@ NumpadDot::Send("&")      ; Comma/Dot becomes &
 ; =========================================
 ; 6. BROWSER-SPECIFIC OPTIMIZATIONS
 ; =========================================
-; Browser navigation (back/forward) using Alt+Shift+Left/Right
-; This avoids conflict with Alt+Tab and preserves Alt+Left/Right for system use
+; Browser navigation using Alt+Left/Right for tab switching
+; Consistent with macOS Cmd+Left/Right behavior
 
-#HotIf WinActive("ahk_exe chrome.exe")
-!+Left::Send("^{PgUp}")      ; Alt+Shift+Left - Previous tab
-!+Right::Send("^{PgDn}")     ; Alt+Shift+Right - Next tab
-#HotIf
-
-#HotIf WinActive("ahk_exe firefox.exe")
-!+Left::Send("^{PgUp}")      ; Alt+Shift+Left - Previous tab
-!+Right::Send("^{PgDn}")     ; Alt+Shift+Right - Next tab
-#HotIf
-
-#HotIf WinActive("ahk_exe msedge.exe")
-!+Left::Send("^{PgUp}")      ; Alt+Shift+Left - Previous tab
-!+Right::Send("^{PgDn}")     ; Alt+Shift+Right - Next tab
+#HotIf WinActive("ahk_exe chrome.exe") || WinActive("ahk_exe firefox.exe") || WinActive("ahk_exe msedge.exe") || WinActive("ahk_exe brave.exe")
+!Left::Send("^{PgUp}")       ; Alt+Left - Previous tab
+!Right::Send("^{PgDn}")      ; Alt+Right - Next tab
 #HotIf
 
 ; =========================================
@@ -176,63 +166,188 @@ NumpadDot::Send("&")      ; Comma/Dot becomes &
 ; Alt+Space for Spotlight-like functionality (Windows Search)
 !Space::Send("#s")
 
-; Alt+Tab equivalent (Cmd+Tab on Mac) - Note: this might conflict with system Alt+Tab
-; Uncomment the line below if you want to override the default Alt+Tab behavior
-; !Tab::AltTab
+; Win+Space for default Windows search (redundant but matches Mac muscle memory)
+#Space::Send("#")
+
+; Win+Tab behaves like Alt+Tab
+LWin & Tab::AltTab
+
+; Win+Up opens Task View (what Win+Tab used to do)
+#Up::Send("#{Tab}")
+
+; Win+Left/Right for virtual desktop switching
+#Left::Send("^#{Left}")
+#Right::Send("^#{Right}")
+
+; Alt+Shift+Backspace for Delete
+!+BackSpace::Send("{Delete}")
+
+; Shift+Arrow keys for word-by-word selection (swap with default behavior)
++Left::Send("^+{Left}")     ; Select word left
++Right::Send("^+{Right}")   ; Select word right
++Up::Send("^+{Up}")         ; Select paragraph up
++Down::Send("^+{Down}")     ; Select paragraph down
+
+; Ctrl+Shift+Arrow keys for character-by-character selection
+^+Left::Send("+{Left}")     ; Select character left
+^+Right::Send("+{Right}")   ; Select character right
+^+Up::Send("+{Up}")         ; Select line up
+^+Down::Send("+{Down}")     ; Select line down
 
 ; =========================================
 ; 8. WSL/TERMINAL SPECIFIC SHORTCUTS
 ; =========================================
-#HotIf WinActive("ahk_exe WindowsTerminal.exe")
-; Alt+C/V for copy/paste in terminal (many terminals use Ctrl+Shift)
+#HotIf WinActive("ahk_exe WindowsTerminal.exe") || WinActive("ahk_exe wt.exe") || WinActive("ahk_exe powershell.exe") || WinActive("ahk_exe cmd.exe")
+; Alt+C/V/X for copy/paste/cut in terminal
 !c::Send("^+c")
 !v::Send("^+v")
-#HotIf
+!x::Send("^+x")
 
-; Also handle other common terminals
-#HotIf WinActive("ahk_exe wt.exe")
-!c::Send("^+c")
-!v::Send("^+v")
-#HotIf
+; Alt+U to delete current line (Ctrl+U in terminal)
+!u::Send("^u")
 
-; PowerShell
-#HotIf WinActive("ahk_exe powershell.exe")
-!c::Send("^+c")
-!v::Send("^+v")
+; Tab navigation in terminal
+!1::Send("^!1")
+!2::Send("^!2")
+!3::Send("^!3")
+!4::Send("^!4")
+!5::Send("^!5")
+!6::Send("^!6")
+!7::Send("^!7")
+!8::Send("^!8")
+!9::Send("^!9")
+
+; Alt+Left/Right for tab navigation in terminal
+!Left::Send("^+{Tab}")       ; Previous tab
+!Right::Send("^{Tab}")       ; Next tab
+
+; Alt+T for new tab
+!t::Send("^+t")
+
+; Alt+Shift+T for new tab with same directory
+!+t::Send("^+d")
+
+; Alt+F for search in terminal
+!f::Send("^+f")
 #HotIf
 
 ; =========================================
-; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS
+; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS & FILE EXPLORER
 ; =========================================
-; Additional shift combinations can be added here if needed
-; Example: Alt+Shift+T for new tab in some applications
-; !+t::Send("^+t")
+; File Explorer specific shortcuts
+#HotIf WinActive("ahk_class CabinetWClass") || WinActive("ahk_class ExploreWClass")
+; Alt+Shift+N for new folder (Cmd+Shift+N on Mac)
+!+n::Send("^+n")
+#HotIf
+
+; Fn key combinations (using F13-F24 as Fn modifier simulation)
+; Since most keyboards don't have true Fn key detection, we'll use alternatives
+; Page navigation
+Home::Send("{Home}")        ; Already goes to start of line
+End::Send("{End}")          ; Already goes to end of line
+; Modified Page Up/Down for half-page scrolling
+PgUp::Send("^{Up 10}")       ; Move up approximately half page
+PgDn::Send("^{Down 10}")     ; Move down approximately half page
 
 ; =========================================
 ; 10. HOT CORNER SETUP (Bottom Left: Sleep, Bottom Right: Lock)
 ; =========================================
-; #SingleInstance Force
+; Hot corners functionality
+SetTimer(CheckCorners, 100)
 
-; SetTimer(CheckCorners, 100)
+; Variable to track if action was already triggered
+global CornerTriggered := false
+global LastCornerTime := 0
 
-; CheckCorners() {
-;     MouseGetPos(&MouseX, &MouseY)
-;     MonitorGet(1, &MonLeft, &MonTop, &MonRight, &MonBottom)
+CheckCorners() {
+    global CornerTriggered, LastCornerTime
     
-;     ; Left bottom corner - SLEEP (larger detection area)
-;     if (MouseX <= 5 && MouseY >= MonBottom - 5) {
-;         Sleep(500)
-;         DllCall("powrprof.dll\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
-;         return
-;     }
+    ; Get current mouse position
+    MouseGetPos(&MouseX, &MouseY)
     
-;     ; Right bottom corner - LOCK (larger detection area)
-;     if (MouseX >= MonRight - 5 && MouseY >= MonBottom - 5) {
-;         Sleep(500)
-;         DllCall("user32.dll\LockWorkStation")
-;         return
-;     }
-; }
+    ; Get monitor dimensions
+    MonitorGet(MonitorGetPrimary(), &MonLeft, &MonTop, &MonRight, &MonBottom)
+    
+    ; Define corner detection area (5 pixels)
+    CornerSize := 5
+    
+    ; Check if we're in a corner
+    InLeftBottom := (MouseX <= MonLeft + CornerSize && MouseY >= MonBottom - CornerSize)
+    InRightBottom := (MouseX >= MonRight - CornerSize && MouseY >= MonBottom - CornerSize)
+    
+    ; If not in any corner, reset the trigger
+    if (!InLeftBottom && !InRightBottom) {
+        CornerTriggered := false
+        return
+    }
+    
+    ; If already triggered, don't trigger again until mouse leaves corner
+    if (CornerTriggered) {
+        return
+    }
+    
+    ; Prevent rapid triggers (1 second cooldown)
+    CurrentTime := A_TickCount
+    if (CurrentTime - LastCornerTime < 1000) {
+        return
+    }
+    
+    ; Left bottom corner - SLEEP
+    if (InLeftBottom) {
+        CornerTriggered := true
+        LastCornerTime := CurrentTime
+        ; Wait a moment to ensure intentional trigger
+        Sleep(300)
+        ; Check again if still in corner
+        MouseGetPos(&MouseX2, &MouseY2)
+        if (MouseX2 <= MonLeft + CornerSize && MouseY2 >= MonBottom - CornerSize) {
+            ; Put computer to sleep
+            DllCall("PowrProf\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
+        }
+    }
+    
+    ; Right bottom corner - LOCK
+    if (InRightBottom) {
+        CornerTriggered := true
+        LastCornerTime := CurrentTime
+        ; Wait a moment to ensure intentional trigger
+        Sleep(300)
+        ; Check again if still in corner
+        MouseGetPos(&MouseX2, &MouseY2)
+        if (MouseX2 >= MonRight - CornerSize && MouseY2 >= MonBottom - CornerSize) {
+            ; Lock workstation
+            DllCall("User32\LockWorkStation")
+        }
+    }
+}
+
+; =========================================
+; 11. MEDIA & SYSTEM CONTROLS
+; =========================================
+; Media controls (using F9-F12 as media keys)
+F9::Volume_Mute         ; Mute/Unmute
+F10::Volume_Down        ; Volume Down
+F11::Volume_Up          ; Volume Up
+F12::Media_Play_Pause   ; Play/Pause
+
+; Alternative media controls with Alt modifier
+!F9::Media_Prev         ; Previous track
+!F10::Media_Next        ; Next track
+!F11::Media_Stop        ; Stop
+
+; Brightness controls (Windows doesn't have direct brightness keys like Mac)
+; These will work on laptops with appropriate drivers
+; Using Shift+F keys for brightness
++F1:: {
+    ; Decrease brightness
+    ; This is system-dependent and may not work on all systems
+    Run("powershell.exe -Command (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,20)", , "Hide")
+}
+
++F2:: {
+    ; Increase brightness
+    Run("powershell.exe -Command (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,80)", , "Hide")
+}
 
 
 ; =========================================

@@ -3,10 +3,11 @@
 
 - Make Claude commands autoallowed (or create list of autoallowed commands)
 - How to add directories for Claude Code to consider (working in worktree)
-- Have navigation to previous prompts
+- Have navigation to previous prompts (so i can jump to where the previous prompt was)
+- To be able to copy my prompts and to copy what claude generated, without having the unnecessary | at the start of each line.
 
  Claude wrapper around project directory: 
-- To have .md files for development guiding (what kind of unit tests to make, integration tests, linter setups, to make code as independent and modular as possible (its much nicer to have self-contained modules that are reusable for other projects also - they can also be nicely tested and are more stable), to try to make code have as little state as possible while not sacrificing readability and simplicity (leaning towards functional programming). Basically, how to make it so that claude code often reads these .md files and follows them, and what the contents should be.
+- To have .md files for development guiding (what kind of unit tests to make, integration tests, linter setups, to make code as independent and modular as possible (its much nicer to have self-contained modules that are reusable for other projects also - they can also be nicely tested and are more stable), to try to make code have as little state as possible while not sacrificing readability and simplicity (leaning towards functional programming). Basically, how to make it so that claude code often reads these .md files and follows them, and what the contents should be).
 - And to have makefiles/taskfiles that claude code can use while working inside the project directory. I also want task commands that allow claude code to see the diffs of past commits, and diff of a series of commits
 
 
