@@ -1,0 +1,55 @@
+{
+  "mcpServers": {
+    "zen": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "--network", "host", "claude-zen-mcp"],
+      "description": "Consult other AI models for assistance",
+      "env": {
+        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "github": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "--network", "host", "claude-github-mcp"],
+      "description": "GitHub integration for project planning and issue management",
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "google-keep": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "--network", "host", "claude-google-keep-mcp"],
+      "description": "Google Keep integration for note-taking and task management",
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN}"
+      }
+    },
+    "atlassian": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "--network", "host", "claude-atlassian-mcp"],
+      "description": "Atlassian/Jira integration for ticket management",
+      "env": {
+        "ATLASSIAN_HOST": "${ATLASSIAN_HOST}",
+        "ATLASSIAN_EMAIL": "${ATLASSIAN_EMAIL}",
+        "ATLASSIAN_API_TOKEN": "${ATLASSIAN_API_TOKEN}"
+      }
+    },
+    "websearch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-websearch"],
+      "description": "Enhanced web search capability for Claude Code",
+      "env": {
+        "SEARCH_API_KEY": "${SEARCH_API_KEY}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./"],
+      "description": "Enhanced filesystem access for complex file operations"
+    }
+  }
+}

@@ -1,0 +1,274 @@
+version: '3'
+
+vars:
+  PYTHON: python
+  NODE: node
+  NPM: npm
+
+tasks:
+  # Development Tasks
+  dev:
+    desc: Start development environment
+    cmds:
+      - echo "Starting development environment..."
+      - task: lint
+      - task: test
+    
+  build:
+    desc: Build the project
+    cmds:
+      - echo "Building project..."
+      - cmd: '{{.NPM}} run build'
+        ignore_error: true
+      - cmd: '{{.PYTHON}} setup.py build'
+        ignore_error: true
+    
+  clean:
+    desc: Clean build artifacts and temporary files
+    cmds:
+      - rm -rf build/ dist/ *.egg-info/ __pycache__/ .pytest_cache/ .coverage
+      - rm -rf node_modules/.cache/
+      - find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+      - find . -type f -name "*.pyc" -delete 2>/dev/null || true
+    
+  # Testing Tasks
+  test:
+    desc: Run all tests
+    cmds:
+      - task: test:unit
+      - task: test:integration
+    
+  test:unit:
+    desc: Run unit tests
+    cmds:
+      - cmd: '{{.NPM}} test'
+        ignore_error: true
+      - cmd: '{{.PYTHON}} -m pytest tests/unit -v'
+        ignore_error: true
+    
+  test:integration:
+    desc: Run integration tests
+    cmds:
+      - cmd: '{{.NPM}} run test:integration'
+        ignore_error: true
+      - cmd: '{{.PYTHON}} -m pytest tests/integration -v'
+        ignore_error: true
+    
+  test:coverage:
+    desc: Run tests with coverage
+    cmds:
+      - cmd: '{{.NPM}} run test:coverage'
+        ignore_error: true
+      - cmd: '{{.PYTHON}} -m pytest --cov=src --cov-report=html --cov-report=term'
+        ignore_error: true
+    
+  test:watch:
+    desc: Run tests in watch mode
+    cmds:
+      - cmd: '{{.NPM}} run test:watch'
+        ignore_error: true
+      - cmd: '{{.PYTHON}} -m pytest-watch'
+        ignore_error: true
+    
+  # Linting and Formatting Tasks
+  lint:
+    desc: Run all linters
+    cmds:
+      - task: lint:js
+      - task: lint:python
+    
+  lint:js:
+    desc: Lint JavaScript/TypeScript files
+    cmds:
+      - cmd: npx eslint . --ext .js,.jsx,.ts,.tsx
+        ignore_error: true
+    
+  lint:python:
+    desc: Lint Python files
+    cmds:
+      - cmd: ruff check .
+        ignore_error: true
+      - cmd: mypy .
+        ignore_error: true
+    
+  lint:fix:
+    desc: Auto-fix linting issues
+    cmds:
+      - cmd: npx eslint . --ext .js,.jsx,.ts,.tsx --fix
+        ignore_error: true
+      - cmd: ruff check . --fix
+        ignore_error: true
+    
+  format:
+    desc: Format all code
+    cmds:
+      - task: format:js
+      - task: format:python
+    
+  format:js:
+    desc: Format JavaScript/TypeScript files
+    cmds:
+      - npx prettier --write "**/*.{js,jsx,ts,tsx,json,css,md}"
+    
+  format:python:
+    desc: Format Python files
+    cmds:
+      - black .
+    
+  format:check:
+    desc: Check formatting without making changes
+    cmds:
+      - npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}"
+      - black --check .
+    
+  # Git Tasks
+  git:status:
+    desc: Show git status
+    cmds:
+      - git status
+    
+  git:diff:
+    desc: Show uncommitted changes
+    cmds:
+      - git diff HEAD
+    
+  git:diff-staged:
+    desc: Show staged changes
+    cmds:
+      - git diff --staged
+    
+  git:diff-range:
+    desc: Show diff for last N commits (default 5)
+    vars:
+      COMMITS: '{{.COMMITS | default "5"}}'
+    cmds:
+      - git diff HEAD~{{.COMMITS}}..HEAD
+    
+  git:diff-commit:
+    desc: Show diff for a specific commit
+    vars:
+      COMMIT: '{{.COMMIT | default "HEAD"}}'
+    cmds:
+      - git show {{.COMMIT}}
+    
+  git:diff-between:
+    desc: Show diff between two commits or branches
+    vars:
+      FROM: '{{.FROM}}'
+      TO: '{{.TO | default "HEAD"}}'
+    cmds:
+      - git diff {{.FROM}}..{{.TO}}
+    
+  git:log:
+    desc: Show recent commits
+    cmds:
+      - git log --oneline -10
+    
+  git:log-detailed:
+    desc: Show detailed commit history
+    vars:
+      COUNT: '{{.COUNT | default "10"}}'
+    cmds:
+      - git log --stat -{{.COUNT}}
+    
+  git:log-graph:
+    desc: Show commit history as graph
+    cmds:
+      - git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -20
+    
+  git:files-changed:
+    desc: List files changed in last N commits
+    vars:
+      COMMITS: '{{.COMMITS | default "1"}}'
+    cmds:
+      - git diff --name-only HEAD~{{.COMMITS}}..HEAD
+    
+  git:blame:
+    desc: Show who changed a file
+    vars:
+      FILE: '{{.FILE}}'
+    cmds:
+      - git blame {{.FILE}}
+    
+  # Project Information Tasks
+  info:
+    desc: Show project information
+    cmds:
+      - echo "Project Structure:"
+      - find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" | head -20
+      - echo ""
+      - echo "Git Status:"
+      - git status --short
+      - echo ""
+      - echo "Recent Commits:"
+      - git log --oneline -5
+    
+  deps:check:
+    desc: Check project dependencies
+    cmds:
+      - cmd: '{{.NPM}} outdated'
+        ignore_error: true
+      - cmd: pip list --outdated
+        ignore_error: true
+    
+  deps:install:
+    desc: Install project dependencies
+    cmds:
+      - cmd: '{{.NPM}} install'
+        ignore_error: true
+      - cmd: pip install -r requirements.txt
+        ignore_error: true
+    
+  deps:update:
+    desc: Update project dependencies
+    cmds:
+      - cmd: '{{.NPM}} update'
+        ignore_error: true
+      - cmd: pip install --upgrade -r requirements.txt
+        ignore_error: true
+    
+  # Security Tasks
+  security:check:
+    desc: Run security checks
+    cmds:
+      - cmd: npm audit
+        ignore_error: true
+      - cmd: pip-audit
+        ignore_error: true
+    
+  security:fix:
+    desc: Auto-fix security issues
+    cmds:
+      - cmd: npm audit fix
+        ignore_error: true
+    
+  # Docker Tasks (for MCP servers)
+  docker:up:
+    desc: Start Docker services
+    dir: ../claude_code_infra
+    cmds:
+      - docker-compose up -d
+    
+  docker:down:
+    desc: Stop Docker services
+    dir: ../claude_code_infra
+    cmds:
+      - docker-compose down
+    
+  docker:logs:
+    desc: Show Docker logs
+    dir: ../claude_code_infra
+    cmds:
+      - docker-compose logs -f
+    
+  docker:build:
+    desc: Rebuild Docker services
+    dir: ../claude_code_infra
+    cmds:
+      - docker-compose build
+    
+  # Help Task
+  help:
+    desc: Show all available tasks
+    cmds:
+      - task --list-all

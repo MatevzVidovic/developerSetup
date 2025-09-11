@@ -13,8 +13,11 @@
 
 
 
-  MCP (Model Context Protocol) Servers
+MCP (Model Context Protocol) Servers
 
+If servers need to be run for the MCP setup, I would like that to be done through docker.
+
+ - I want claude code to have web search (if it is not included from the start).
  - How to create custom MCP, and how will Claude Code know when it is useful to call it
  - Mainly Zen MCP so the model can consult other models, and additional websearch integration (like maybe having a cheap fast model search a bunch of pages and get exactly the relevant data)
   - Google Keep MCP

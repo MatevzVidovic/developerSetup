@@ -6,12 +6,39 @@
       "Bash(dir)",
       "Bash(powershell:*)",
       "Bash(find:*)",
-      "Bash(docker-compose build:*)",
-      "Bash(docker-compose up:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker:*)",
       "Bash(curl:*)",
-      "Bash(docker-compose logs:*)"
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(pnpm:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Bash(task:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(awk:*)",
+      "Bash(echo:*)",
+      "Bash(cd:*)",
+      "Bash(pwd)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(touch:*)",
+      "Bash(test:*)",
+      "Bash(which:*)",
+      "Bash(where:*)",
+      "Bash(type:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": [
+      "./claude_project_template",
+      "./claude_code_infra"
+    ]
   }
 }
