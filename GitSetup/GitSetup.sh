@@ -7,6 +7,7 @@ ln -s /mnt/c/Users/Uporabnik/Desktop/developerSetup/GitSetup/.gitconfig ~/.gitco
 # mklink "%USERPROFILE%\.gitconfig" "%CD%\.gitconfig"
 
 # # In PowerShell (run as administrator)
+# # Move to GitSetup/
 # New-Item -ItemType SymbolicLink -Path "~\.gitconfig" -Target "$(Get-Location)\.gitconfig"
 # reading the link:
 # (Get-Item -Path ".gitconfig" -Force).Target
