@@ -32,6 +32,8 @@ ln -s $(pwd)/settings.local.json ~/.claude/settings.local.json
 
 
 
+npm install -g @anthropic-ai/claude-code
+
 
 
 
