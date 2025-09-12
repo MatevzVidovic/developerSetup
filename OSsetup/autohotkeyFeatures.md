@@ -1,6 +1,15 @@
 
 
 
+Handlging keybindings for the OS is really tricky and there are so many problems, always.
+So try to keep it short and sweet, and try to only make new mappings for unused things, instead of doing remappings.
+The problems you usually face are, that the OS wide keybindings work for some programs, but work differently for others.
+So may the force be with you on this.
+
+
+
+
+
 Very important: I want this setup to be as simple as possible. I dont mind if you do not implement some features, just tell me what you didnt implement.
 
 

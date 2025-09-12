@@ -12,10 +12,11 @@
 ; Press Win + R, type shell:startup, press Enter
 ; It opens the folder of scripts that get run when the system boots.
 ; Right click the file explorer and open the terminal - copy the path.
-; (the path is sth like C:\Users\Uporabnik\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup)
+; (the path is sth like C:\Users\Uporabnik\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+; make it be ~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup)
 ; then
 ; In PowerShell (run as administrator), go to the folder containing this script.
-; New-Item -ItemType SymbolicLink -Path "C:\Users\Uporabnik\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\setup.ahk" -Target "$(Get-Location)\setup.ahk"
+; New-Item -ItemType SymbolicLink -Path "~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\setup.ahk" -Target "$(Get-Location)\setup.ahk"
 ; reading the link:
 ; (Get-Item -Path ".gitconfig" -Force).Target
 
@@ -229,21 +230,6 @@ NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 ; Preserve Shift+Enter by doing nothing (let it pass through normally)
 ; No mapping for Shift+Enter - this allows it to work naturally
 
-; Shift+Arrow key swapping DISABLED to fix Shift+Enter interference
-; Original spec: Shift+Arrow for word selection, Ctrl+Shift+Arrow for character selection  
-; Commented out because it interferes with browser functionality including Shift+Enter
-
-; #HotIf !WinActive("ahk_exe chrome.exe") && !WinActive("ahk_exe firefox.exe") && !WinActive("ahk_exe msedge.exe")
-; +Left::Send("^+{Left}")     ; Select word left
-; +Right::Send("^+{Right}")   ; Select word right  
-; +Up::Send("^+{Up}")         ; Select paragraph up
-; +Down::Send("^+{Down}")     ; Select paragraph down
-
-; ^+Left::Send("+{Left}")     ; Select character left
-; ^+Right::Send("+{Right}")   ; Select character right
-; ^+Up::Send("+{Up}")         ; Select line up  
-; ^+Down::Send("+{Down}")     ; Select line down
-; #HotIf
 
 ; =========================================
 ; 8. RESERVED FOR FUTURE USE
@@ -253,7 +239,6 @@ NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 ; =========================================
 ; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS
 ; =========================================
-; File Explorer shortcuts removed as per updated spec
 
 ; Fn key combinations - Page navigation with half-page scrolling
 ; PgUp/PgDn modified to scroll half a page instead of full page
@@ -346,11 +331,6 @@ CheckCorners() {
         }
     }
 }
-
-; =========================================
-; 11. RESERVED FOR FUTURE USE
-; =========================================
-; Media and brightness controls removed as per new spec
 
 
 ; =========================================
