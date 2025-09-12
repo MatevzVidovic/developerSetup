@@ -37,16 +37,20 @@
 ; Persistent(true) ; Built-in function (if your v2 version supports it)
 SendMode("Input")
 
+; Shift+Enter mapping completely removed to test Claude Code behavior
+; No Shift+Enter handling at all
+
 ; =========================================
 ; 0. !!!DISABLE!!! Y/Z CHARACTER REMAPPING (QWERTY <-> QWERTZ)
 ; =========================================
-; Basic Y/Z swap
-y::y
-z::z
+; Basic Y/Z swap - DISABLED
+; y::y
+; z::z
 
-; Y/Z swap with Shift (for capital letters)
-+y::Y
-+z::Z
+; Y/Z swap with Shift (for capital letters) - DISABLED to fix Shift+Enter
+; These mappings interfere with Shift combinations in browsers
+; +y::Y
+; +z::Z
 
 ; =========================================
 ; 1. CAPSLOCK AS ESCAPE (for Vim users)
@@ -60,18 +64,66 @@ CapsLock::Escape
 ; Go to Settings → Time & Language → Language & region → Advanced keyboard settings 
 ; → Language bar options → Advanced Key Settings → "Between input languages" → "Not Assigned"
 
-; Alternative Redo shortcuts
-; Use Alt+Y as primary Redo (matches Ctrl+Y standard)
-!y::Send("^y")      ; Redo - Primary option
+; Alternative Redo shortcuts - now handled in terminal-aware section below
 
-; Use traditional hotkey syntax - Alt+Shift+Z MUST come before Alt+Z
-!+z::Send("^y")     ; Alt+Shift+Z for Redo (must come BEFORE Alt+Z)
-!z::Send("^z")      ; Alt+Z for Undo
+; Note: Alt+Z, Alt+Y, Alt+Shift+Z are now handled in the terminal-aware section below
 
-; Common shortcuts - using traditional syntax
-!c::Send("^c")      ; Copy
-!v::Send("^v")      ; Paste
-!x::Send("^x")      ; Cut
+; Terminal-aware shortcuts - use different keys for terminals vs other apps
+!c:: {
+    ; Check if we're in a terminal application
+    if (WinActive("ahk_exe WindowsTerminal.exe") || WinActive("ahk_exe wt.exe") || 
+        WinActive("ahk_exe powershell.exe") || WinActive("ahk_exe cmd.exe") || 
+        WinActive("ahk_exe ubuntu.exe") || WinActive("ahk_exe wsl.exe")) {
+        ; In terminal: use Ctrl+Shift+C for copy (avoids sigint)
+        Send("^+c")
+    } else {
+        ; In other apps: use normal Ctrl+C
+        Send("^c")
+    }
+}
+
+!v:: {
+    ; Check if we're in a terminal application
+    if (WinActive("ahk_exe WindowsTerminal.exe") || WinActive("ahk_exe wt.exe") || 
+        WinActive("ahk_exe powershell.exe") || WinActive("ahk_exe cmd.exe") || 
+        WinActive("ahk_exe ubuntu.exe") || WinActive("ahk_exe wsl.exe")) {
+        ; In terminal: use Ctrl+Shift+V for paste
+        Send("^+v")
+    } else {
+        ; In other apps: use normal Ctrl+V
+        Send("^v")
+    }
+}
+
+!x:: {
+    ; Cut action - less problematic in terminals but keep consistent
+    if (WinActive("ahk_exe WindowsTerminal.exe") || WinActive("ahk_exe wt.exe") || 
+        WinActive("ahk_exe powershell.exe") || WinActive("ahk_exe cmd.exe") || 
+        WinActive("ahk_exe ubuntu.exe") || WinActive("ahk_exe wsl.exe")) {
+        ; In terminal: use Ctrl+Shift+X if supported, otherwise just copy
+        Send("^+c")
+    } else {
+        ; In other apps: use normal Ctrl+X
+        Send("^x")
+    }
+}
+
+!z:: {
+    ; Undo - safe to use Ctrl+Z in most contexts
+    Send("^z")
+}
+
+!y:: {
+    ; Redo action (primary)
+    Send("^y")
+}
+
+; !+z:: {
+;     ; Redo action (Alt+Shift+Z) - TEMPORARILY DISABLED
+;     Send("^y")
+; }
+
+; Other common shortcuts that can safely use Ctrl+ mapping
 !a::Send("^a")      ; Select All
 !s::Send("^s")      ; Save
 !n::Send("^n")      ; New
@@ -147,6 +199,11 @@ NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
 NumpadIns::Send("{%}")       ; Numpad0 (Ins when NumLock off) - % needs escaping
 NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 
+; Shift + Numpad combinations (when NumLock is OFF)
++NumpadClear::Send("\")        ; Shift+/ becomes \
++NumpadEnd::Send("<")        ; Shift+Numpad1 (End when NumLock off) becomes <
++NumpadDown::Send(">")      ; Shift+Numpad2 (Down when NumLock off) becomes >
+
 #HotIf
 
 ; =========================================
@@ -166,20 +223,27 @@ NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 ; Win+Space for default Windows search (same as pressing Win key)
 #Space::Send("#")
 
-; Alt+Shift+Backspace for Delete
-!+BackSpace::Send("{Delete}")
+; Alt+Shift+Backspace for Delete - TEMPORARILY DISABLED to test Shift+Enter
+; !+BackSpace::Send("{Delete}")
 
-; Shift+Arrow keys for word-by-word selection (swap with default behavior)
-+Left::Send("^+{Left}")     ; Select word left
-+Right::Send("^+{Right}")   ; Select word right
-+Up::Send("^+{Up}")         ; Select paragraph up
-+Down::Send("^+{Down}")     ; Select paragraph down
+; Preserve Shift+Enter by doing nothing (let it pass through normally)
+; No mapping for Shift+Enter - this allows it to work naturally
 
-; Ctrl+Shift+Arrow keys for character-by-character selection
-^+Left::Send("+{Left}")     ; Select character left
-^+Right::Send("+{Right}")   ; Select character right
-^+Up::Send("+{Up}")         ; Select line up
-^+Down::Send("+{Down}")     ; Select line down
+; Shift+Arrow key swapping DISABLED to fix Shift+Enter interference
+; Original spec: Shift+Arrow for word selection, Ctrl+Shift+Arrow for character selection  
+; Commented out because it interferes with browser functionality including Shift+Enter
+
+; #HotIf !WinActive("ahk_exe chrome.exe") && !WinActive("ahk_exe firefox.exe") && !WinActive("ahk_exe msedge.exe")
+; +Left::Send("^+{Left}")     ; Select word left
+; +Right::Send("^+{Right}")   ; Select word right  
+; +Up::Send("^+{Up}")         ; Select paragraph up
+; +Down::Send("^+{Down}")     ; Select paragraph down
+
+; ^+Left::Send("+{Left}")     ; Select character left
+; ^+Right::Send("+{Right}")   ; Select character right
+; ^+Up::Send("+{Up}")         ; Select line up  
+; ^+Down::Send("+{Down}")     ; Select line down
+; #HotIf
 
 ; =========================================
 ; 8. RESERVED FOR FUTURE USE
@@ -187,13 +251,9 @@ NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 ; Terminal-specific shortcuts removed as per new spec
 
 ; =========================================
-; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS & FILE EXPLORER
+; 9. SPECIAL HANDLING FOR SHIFT COMBINATIONS
 ; =========================================
-; File Explorer specific shortcuts
-#HotIf WinActive("ahk_class CabinetWClass") || WinActive("ahk_class ExploreWClass")
-; Alt+Shift+N for new folder (Cmd+Shift+N on Mac)
-!+n::Send("^+n")
-#HotIf
+; File Explorer shortcuts removed as per updated spec
 
 ; Fn key combinations - Page navigation with half-page scrolling
 ; PgUp/PgDn modified to scroll half a page instead of full page

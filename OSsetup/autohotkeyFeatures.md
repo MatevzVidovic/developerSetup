@@ -25,7 +25,9 @@ cmd 1/2/3/... to move to tabs in the browser
 cmd arrowLeft/right to move in tabs
 cmd c, v, z, s, a, x, r, t, n
 cmd shift z
-(I want alt c, z, y, (shift+z)   to directly do copy, undo, redo, and redo, not just to map to ctrl c, z, y (shift+z) - becausee in the terminal, i e.g. dont want alt c to cause sigint).
+
+I want alt c, z, y, (shift+z)   to directly do copy, undo, redo, and redo, not just to map to ctrl c, z, y (shift+z) - becausee in the terminal, i e.g. dont want alt c to cause sigint.
+
 CapsLock being escape (good for using vim)
 
 
@@ -43,6 +45,10 @@ I would prefer these symbols would work when numlock is turned off.
 But in the past this sisn't work - it only worked when thengs were set up to work when numlock was on.
 I am okay with this second option also if the first one doesn't work.
 
+Also, when I hold shift and click the numpad button for:
+/ I would like it to be \
+( to be <
+{ to be >
 
 
 =================================
@@ -51,9 +57,6 @@ Hot corners:
 Putting mouse into left bottom corner puts computer to sleep
 Putting mouse into right bottom corner just locks it and turns off screen
 
-
-I want shift + arrowkeys to mark text word by word (like shift + ctrl + arrowkeys does).
-And I want shift+ctrl+arrowkeys to mark text character by character (like how shift + arrowkeys does).
 
 
 
