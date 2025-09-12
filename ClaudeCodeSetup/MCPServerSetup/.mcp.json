@@ -37,19 +37,6 @@
         "ATLASSIAN_EMAIL": "${ATLASSIAN_EMAIL}",
         "ATLASSIAN_API_TOKEN": "${ATLASSIAN_API_TOKEN}"
       }
-    },
-    "websearch": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-websearch"],
-      "description": "Enhanced web search capability for Claude Code",
-      "env": {
-        "SEARCH_API_KEY": "${SEARCH_API_KEY}"
-      }
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./"],
-      "description": "Enhanced filesystem access for complex file operations"
     }
   }
 }

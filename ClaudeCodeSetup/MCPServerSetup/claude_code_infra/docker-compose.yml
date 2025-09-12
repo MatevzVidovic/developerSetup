@@ -41,3 +41,20 @@ services:
     ports:
       - "3005:3000"
     restart: unless-stopped
+
+  # Note: Advanced MCP servers (Context7, Playwright, Consult7, Serena, SuperClaude) 
+  # are configured but disabled by default. Enable them by uncommenting the sections
+  # below and ensuring the servers are properly implemented.
+  #
+  # To use the official MCP servers:
+  # 1. Use the Node.js versions instead of Docker for some servers
+  # 2. Check the repositories for proper installation instructions
+  # 3. Enable them gradually as you implement/configure each one
+  
+  # context7-mcp:
+  #   build: ./mcp-servers/context7
+  #   container_name: claude-context7-mcp
+  #   env_file: ./mcp-servers/context7/.env
+  #   ports:
+  #     - "3006:3000"
+  #   restart: unless-stopped

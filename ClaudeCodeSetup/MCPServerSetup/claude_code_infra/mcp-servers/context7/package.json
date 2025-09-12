@@ -1,0 +1,12 @@
+{
+  "name": "context7-mcp",
+  "version": "1.0.0",
+  "description": "Context7 MCP Server for library documentation lookup",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.2.0"
+  }
+}

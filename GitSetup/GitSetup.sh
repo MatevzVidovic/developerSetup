@@ -1,6 +1,9 @@
 
 ln -s /mnt/c/Users/Uporabnik/Desktop/developerSetup/GitSetup/.gitconfig ~/.gitconfig
 
+
+ln -s /mnt/c/Users/User/Desktop/developerSetup/GitSetup/.gitconfig ~/.gitconfig
+
 # # For windows ones first move to ClaudeCodeSetup/GitSetup/
 
 # # In Command Prompt (run as administrator)
