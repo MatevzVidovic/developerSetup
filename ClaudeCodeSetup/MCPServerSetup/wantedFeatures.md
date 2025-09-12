@@ -5,6 +5,10 @@ MCP (Model Context Protocol) Servers
 
 If servers need to be run for the MCP setup, I would like that to be done through docker.
 
+I also want very simple instructions for how to make my claude code session then work with these MCP servers and how to set everything up.
+If it is possible, I want a script for how to set everything up.
+I am on WSL.
+
  - I want claude code to have web search (if it is not included from the start).
  - How to create custom MCP, and how will Claude Code know when it is useful to call it
  - Zen MCP using OpenRouter and using the google gemini api (as it is free, if i remember correctly) 

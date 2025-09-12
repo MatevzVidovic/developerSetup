@@ -15,7 +15,7 @@ mkdir -p ~/.claude
 # New-Item -ItemType SymbolicLink -Path "~\.claude\settings.local.json" -Target "$(Get-Location)\settings.local.json"
 
 
-ln -s ~/.claude/settings.local.json ./settings.local.json
+ln -s $(pwd)/settings.local.json ~/.claude/settings.local.json
 
 
 
