@@ -1,6 +1,18 @@
 
 
 
+
+# For some reason, at least for WSL, making a symbolic link doesnt work. So you have to actualyl copy settings.local.json into .claude/
+
+cp settings.local.json ~/.claude/settings.local.json
+
+
+
+
+
+
+
+
 # We will add .claude/ dir to ~ and add a link to this settings.local.json inside it.
 # This way globally all of these commands will be autoallowed for claude code, so it doesn't get blocked when we are not looking.
 

@@ -1,18 +1,18 @@
 {
   "autoApprove": {
-    "bash": ["*"],
-    "read": ["*"],
+    "bash": ["**"],
+    "read": ["**"],
     "write": ["./**"],
     "edit": ["./**"],
     "multiEdit": ["./**"],
-    "glob": ["*"],
-    "grep": ["*"],
+    "glob": ["**"],
+    "grep": ["**"],
     "notebookEdit": ["./**"],
-    "webFetch": ["*"],
-    "webSearch": ["*"],
-    "todoWrite": ["*"],
-    "task": ["*"],
-    "bashOutput": ["*"],
-    "killBash": ["*"]
+    "webFetch": ["**"],
+    "webSearch": ["**"],
+    "todoWrite": ["**"],
+    "task": ["**"],
+    "bashOutput": ["**"],
+    "killBash": ["**"]
   }
 }
