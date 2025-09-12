@@ -1,0 +1,31 @@
+{
+  "hooks": [
+    {
+      "eventName": "tool_code",
+      "matcher": { "toolName": "read_file" },
+      "action": "approve"
+    },
+    {
+      "eventName": "tool_code",
+      "matcher": { "toolName": "run_shell_command", "args": { "command": "^make" } },
+      "action": "approve"
+    },
+    {
+      "eventName": "tool_code",
+      "matcher": { "toolName": "write_file" },
+      "action": "approve"
+    }
+  ],
+  "mcpServers": {
+    "zen": {
+      "url": "http://localhost:3001",
+      "enabled": true,
+      "description": "Consults other AI models (GPT, Gemini, OpenRouter models) for second opinions or specialized tasks."
+    },
+    "github": {
+      "url": "http://localhost:3003",
+      "enabled": true,
+      "description": "Manages GitHub issues and project planning."
+    }
+  }
+}
