@@ -4,6 +4,9 @@
 # We will add .claude/ dir to ~ and add a link to this settings.local.json inside it.
 # This way globally all of these commands will be autoallowed for claude code, so it doesn't get blocked when we are not looking.
 
+# When you are working with claude code in some dir, it can then make its own .claude/settings.local.json where it has specific allowed commands for that directory 
+# (because some might not be on this general autoallowed list)
+
 
 mkdir -p ~/.claude
 
