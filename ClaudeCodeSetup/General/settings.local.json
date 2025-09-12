@@ -17,10 +17,6 @@
       "KillBash(*)"
     ],
     "deny": [],
-    "ask": [],
-    "additionalDirectories": [
-      "./claude_project_template",
-      "./claude_code_infra"
-    ]
+    "ask": []
   }
 }
