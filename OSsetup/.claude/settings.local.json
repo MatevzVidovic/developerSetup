@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/User/Desktop/developerSetup/ClaudeCodeSetup/**)",
+      "Read(//c/Users/User/Desktop/developerSetup/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

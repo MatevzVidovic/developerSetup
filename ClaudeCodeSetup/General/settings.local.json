@@ -1,22 +1,18 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(*)",
-      "Read(*)",
-      "Write(*)",
-      "Edit(*)",
-      "MultiEdit(*)",
-      "Glob(*)",
-      "Grep(*)",
-      "NotebookEdit(*)",
-      "WebFetch(*)",
-      "WebSearch(*)",
-      "TodoWrite(*)",
-      "Task(*)",
-      "BashOutput(*)",
-      "KillBash(*)"
-    ],
-    "deny": [],
-    "ask": []
+  "autoApprove": {
+    "bash": ["*"],
+    "read": ["*"],
+    "write": ["./**"],
+    "edit": ["./**"],
+    "multiEdit": ["./**"],
+    "glob": ["*"],
+    "grep": ["*"],
+    "notebookEdit": ["./**"],
+    "webFetch": ["*"],
+    "webSearch": ["*"],
+    "todoWrite": ["*"],
+    "task": ["*"],
+    "bashOutput": ["*"],
+    "killBash": ["*"]
   }
 }
