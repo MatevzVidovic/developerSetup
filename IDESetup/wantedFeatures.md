@@ -1,7 +1,7 @@
 
 
 Many of these settings are present in Goland. I want these settings set up in VScode.
-I want these settigns to be set up using some sort of settings.json (so i can just pastethem in).
+I want these settigns to be set up using some sort of settings.json (so i can just paste them in).
 Some of these features are to be supported using plugins.
 These are for MacOS (Using cmd). Should use ctrl and additionally have the commands be duplicated for the alt command.
 

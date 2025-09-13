@@ -1,0 +1,115 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Current Go File",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "args": [],
+      "env": {},
+      "showLog": true,
+      "trace": "verbose",
+      "logOutput": "rpc"
+    },
+    {
+      "name": "Debug Go Tests",
+      "type": "go",
+      "request": "launch",
+      "mode": "test",
+      "program": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "-test.v"
+      ],
+      "showLog": true,
+      "trace": "verbose"
+    },
+    {
+      "name": "Debug Go Test (Current Function)",
+      "type": "go",
+      "request": "launch",
+      "mode": "test",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "-test.run",
+        "^${input:testName}$",
+        "-test.v"
+      ]
+    },
+    {
+      "name": "Debug Python File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": []
+    },
+    {
+      "name": "Debug Python Tests",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": [
+        "-v",
+        "--tb=short"
+      ]
+    },
+    {
+      "name": "Debug Node.js File",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "--runInBand",
+        "--coverage",
+        "--no-cache"
+      ],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Debug Current TypeScript File",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "runtimeArgs": [
+        "--loader",
+        "ts-node/esm"
+      ],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "testName",
+      "description": "Test function name to run",
+      "type": "promptString"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "recommendations": [
+    // Git Integration (Essential)
+    "eamodio.gitlens",
+    "mhutchie.git-graph", 
+    "donjayamanne.githistory",
+    "github.vscode-pull-request-github",
+    
+    // Code Navigation & Search
+    "ms-vscode.vscode-json",
+    "bradlc.vscode-tailwindcss",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    
+    // Testing & Debugging
+    "ms-vscode.test-adapter-converter",
+    "hbenl.vscode-test-explorer",
+    "ryanluker.vscode-coverage-gutters",
+    "ms-vscode.vscode-js-debug",
+    
+    // Code Quality & Linting
+    "esbenp.prettier-vscode",
+    "ms-python.flake8",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    
+    // Language Support
+    "golang.go",
+    "ms-python.python",
+    "ms-python.debugpy",
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    
+    // Productivity & Advanced IDE Features
+    "alefragnani.bookmarks",
+    "gruntfuggly.todo-tree",
+    "aaron-bond.better-comments",
+    "oderwat.indent-rainbow",
+    "mechatroner.rainbow-csv",
+    "ms-vscode.vscode-json",
+    "streetsidesoftware.code-spell-checker",
+    "wayou.vscode-todo-highlight",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    
+    // UI Enhancements
+    "vscode-icons-team.vscode-icons",
+    "ms-vscode.theme-tomorrow-kit",
+    "zhuangtongfa.material-theme",
+    "pkief.material-icon-theme",
+    
+    // File Management
+    "sleistner.vscode-fileutils",
+    "formulahendry.code-runner",
+    "ms-vscode-remote.remote-containers",
+    
+    // Scope & Context Visualization
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "ms-vsliveshare.vsliveshare",
+    
+    // Docker & DevOps
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    
+    // Markdown & Documentation
+    "yzhang.markdown-all-in-one",
+    "shd101wyy.markdown-preview-enhanced",
+    
+    // Database
+    "mtxr.sqltools",
+    "formulahendry.vscode-mysql",
+    
+    // Refactoring & Code Actions
+    "ms-vscode.vscode-typescript-next",
+    "ms-python.python",
+    "golang.go"
+  ]
+}

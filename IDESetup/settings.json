@@ -1,0 +1,211 @@
+{
+  // Editor Behavior
+  "editor.folding": true,
+  "editor.foldingStrategy": "indentation",
+  "editor.showFoldingControls": "always",
+  "editor.foldingImportsByDefault": true,
+  "editor.unfoldOnClickAfterEndOfLine": true,
+  
+  // Undo configuration - increase undo limit
+  "editor.history.limit": 50000,
+  "workbench.editor.restoreViewState": true,
+  
+  // Save behavior - prevent auto-formatting on save that expands code
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": false
+  },
+  
+  // Search configuration
+  "search.useGlobalIgnoreFiles": true,
+  "search.useParentIgnoreFiles": true,
+  "search.smartCase": true,
+  "search.globalFindClipboard": false,
+  
+  // Quick Open behavior for shift+shift
+  "workbench.quickOpen.closeOnFocusLost": false,
+  "workbench.quickOpen.preserveInput": false,
+  
+  // File Explorer
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.openEditors.visible": 10,
+  "explorer.autoReveal": true,
+  
+  // Editor tabs
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.editor.tabSizing": "fit",
+  "workbench.editor.wrapTabs": true,
+  
+  // Double-click to reveal in explorer - closest alternative
+  "workbench.editor.revealIfOpen": true,
+  "explorer.autoReveal": true,
+  "workbench.list.openMode": "doubleClick",
+  
+  // Hover behavior for definitions
+  "editor.hover.enabled": true,
+  "editor.hover.delay": 300,
+  "editor.hover.sticky": true,
+  
+  // IntelliSense
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.quickSuggestionsDelay": 10,
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  
+  // Code lens for tests
+  "editor.codeLens": true,
+  "editor.codeLensFontFamily": "Monaco, 'Courier New', monospace",
+  
+  // Breadcrumbs for scope showing
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.showFunctions": true,
+  "breadcrumbs.showClasses": true,
+  "breadcrumbs.showMethods": true,
+  "breadcrumbs.showProperties": true,
+  "breadcrumbs.showVariables": true,
+  
+  // Minimap
+  "editor.minimap.enabled": true,
+  "editor.minimap.showSlider": "always",
+  
+  // Indentation guides
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "editor.guides.highlightActiveIndentation": true,
+  
+  // Bracket matching
+  "editor.matchBrackets": "always",
+  "editor.bracketPairColorization.enabled": true,
+  
+  // Word wrap
+  "editor.wordWrap": "off",
+  
+  // Font settings
+  "editor.fontSize": 13,
+  "editor.fontFamily": "Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  
+  // Line numbers
+  "editor.lineNumbers": "on",
+  "editor.renderWhitespace": "selection",
+  
+  // Git integration
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.decorations.enabled": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  
+  // GitLens settings for heatmap and recent changes
+  "gitlens.heatmap.enabled": true,
+  "gitlens.blame.enabled": true,
+  "gitlens.codeLens.enabled": true,
+  "gitlens.currentLine.enabled": true,
+  "gitlens.hovers.enabled": true,
+  "gitlens.blame.heatmap.enabled": true,
+  
+  // Testing
+  "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+  "testing.followRunningTest": true,
+  "testing.openTesting": "neverOpen",
+  
+  // Debugging
+  "debug.allowBreakpointsEverywhere": true,
+  "debug.openDebug": "openOnDebugBreak",
+  "debug.showInStatusBar": "always",
+  
+  // Terminal
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.cursorBlinking": true,
+  
+  // Extensions auto-update
+  "extensions.autoUpdate": true,
+  "extensions.autoCheckUpdates": true,
+  
+  // Workspace trust
+  "security.workspace.trust.untrustedFiles": "open",
+  
+  // Problems panel
+  "problems.autoReveal": true,
+  "problems.showCurrentInStatus": true,
+  
+  // Language-specific settings for Go (if using Go)
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4
+  },
+  
+  // TypeScript/JavaScript settings
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  
+  // Python settings
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  
+  // File associations
+  "files.associations": {
+    "*.env.*": "properties",
+    "Dockerfile*": "dockerfile"
+  },
+  
+  // Auto-save
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  
+  // Workbench appearance
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.iconTheme": "vs-seti",
+  "workbench.startupEditor": "welcomePage",
+  
+  // Performance
+  "search.followSymlinks": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.git": true
+  },
+  
+  // File watching
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true
+  }
+}
