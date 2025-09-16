@@ -64,6 +64,11 @@
         git add .; \
         git commit -m autosave; \
     }; f"
+    sp = "!f() { \
+        git add .; \
+        git commit -m autosave; \
+        git push; \
+    }; f"
     rev = revert --no-commit
     res = reset HEAD~1
     stasha = "!f() { \
