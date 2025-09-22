@@ -10,7 +10,7 @@ mkdir -p ~/.claude
 
 # For some reason, at least for WSL, making a symbolic link doesnt work. So you have to actualyl copy settings.local.json into .claude/
 
-cp settings.local.json ~/.claude/settings.local.json
+cp settings.json ~/.claude/settings.json
 
 # This autoallows all edits inside cwd, and all reads across the system.
 # For some reason, it will sometimes still prompt you for stuff. It is what it is.
