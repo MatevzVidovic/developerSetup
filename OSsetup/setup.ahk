@@ -264,73 +264,73 @@ End::Send("{End}")          ; End of line
 ; 10. HOT CORNER SETUP (Bottom Left: Sleep, Bottom Right: Lock)
 ; =========================================
 ; Hot corners functionality
-SetTimer(CheckCorners, 100)
+; SetTimer(CheckCorners, 100)
 
-; Variable to track if action was already triggered
-global CornerTriggered := false
-global LastCornerTime := 0
+; ; Variable to track if action was already triggered
+; global CornerTriggered := false
+; global LastCornerTime := 0
 
-CheckCorners() {
-    global CornerTriggered, LastCornerTime
+; CheckCorners() {
+;     global CornerTriggered, LastCornerTime
     
-    ; Get current mouse position
-    MouseGetPos(&MouseX, &MouseY)
+;     ; Get current mouse position
+;     MouseGetPos(&MouseX, &MouseY)
     
-    ; Get monitor dimensions
-    MonitorGet(MonitorGetPrimary(), &MonLeft, &MonTop, &MonRight, &MonBottom)
+;     ; Get monitor dimensions
+;     MonitorGet(MonitorGetPrimary(), &MonLeft, &MonTop, &MonRight, &MonBottom)
     
-    ; Define corner detection area (5 pixels)
-    CornerSize := 5
+;     ; Define corner detection area (5 pixels)
+;     CornerSize := 5
     
-    ; Check if we're in a corner
-    InLeftBottom := (MouseX <= MonLeft + CornerSize && MouseY >= MonBottom - CornerSize)
-    InRightBottom := (MouseX >= MonRight - CornerSize && MouseY >= MonBottom - CornerSize)
+;     ; Check if we're in a corner
+;     InLeftBottom := (MouseX <= MonLeft + CornerSize && MouseY >= MonBottom - CornerSize)
+;     InRightBottom := (MouseX >= MonRight - CornerSize && MouseY >= MonBottom - CornerSize)
     
-    ; If not in any corner, reset the trigger
-    if (!InLeftBottom && !InRightBottom) {
-        CornerTriggered := false
-        return
-    }
+;     ; If not in any corner, reset the trigger
+;     if (!InLeftBottom && !InRightBottom) {
+;         CornerTriggered := false
+;         return
+;     }
     
-    ; If already triggered, don't trigger again until mouse leaves corner
-    if (CornerTriggered) {
-        return
-    }
+;     ; If already triggered, don't trigger again until mouse leaves corner
+;     if (CornerTriggered) {
+;         return
+;     }
     
-    ; Prevent rapid triggers (1 second cooldown)
-    CurrentTime := A_TickCount
-    if (CurrentTime - LastCornerTime < 1000) {
-        return
-    }
+;     ; Prevent rapid triggers (1 second cooldown)
+;     CurrentTime := A_TickCount
+;     if (CurrentTime - LastCornerTime < 1000) {
+;         return
+;     }
     
-    ; Left bottom corner - SLEEP
-    if (InLeftBottom) {
-        CornerTriggered := true
-        LastCornerTime := CurrentTime
-        ; Wait a moment to ensure intentional trigger
-        Sleep(300)
-        ; Check again if still in corner
-        MouseGetPos(&MouseX2, &MouseY2)
-        if (MouseX2 <= MonLeft + CornerSize && MouseY2 >= MonBottom - CornerSize) {
-            ; Put computer to sleep
-            DllCall("PowrProf\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
-        }
-    }
+;     ; Left bottom corner - SLEEP
+;     if (InLeftBottom) {
+;         CornerTriggered := true
+;         LastCornerTime := CurrentTime
+;         ; Wait a moment to ensure intentional trigger
+;         Sleep(300)
+;         ; Check again if still in corner
+;         MouseGetPos(&MouseX2, &MouseY2)
+;         if (MouseX2 <= MonLeft + CornerSize && MouseY2 >= MonBottom - CornerSize) {
+;             ; Put computer to sleep
+;             DllCall("PowrProf\SetSuspendState", "Int", 0, "Int", 0, "Int", 0)
+;         }
+;     }
     
-    ; Right bottom corner - LOCK
-    if (InRightBottom) {
-        CornerTriggered := true
-        LastCornerTime := CurrentTime
-        ; Wait a moment to ensure intentional trigger
-        Sleep(300)
-        ; Check again if still in corner
-        MouseGetPos(&MouseX2, &MouseY2)
-        if (MouseX2 >= MonRight - CornerSize && MouseY2 >= MonBottom - CornerSize) {
-            ; Lock workstation
-            DllCall("User32\LockWorkStation")
-        }
-    }
-}
+;     ; Right bottom corner - LOCK
+;     if (InRightBottom) {
+;         CornerTriggered := true
+;         LastCornerTime := CurrentTime
+;         ; Wait a moment to ensure intentional trigger
+;         Sleep(300)
+;         ; Check again if still in corner
+;         MouseGetPos(&MouseX2, &MouseY2)
+;         if (MouseX2 >= MonRight - CornerSize && MouseY2 >= MonBottom - CornerSize) {
+;             ; Lock workstation
+;             DllCall("User32\LockWorkStation")
+;         }
+;     }
+; }
 
 
 ; =========================================

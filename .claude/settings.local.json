@@ -2,9 +2,9 @@
   "permissions": {
     "allow": [
       "Read(//c/Users/User/Desktop/**)",
-      "Read(//home/user/.claude/**)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git submodule:*)",
+      "Bash(git push:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
