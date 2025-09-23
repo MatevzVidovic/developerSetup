@@ -37,7 +37,8 @@ You'll need to log out and back into WSL for this to take effect.
 
 4. Migrate Your Existing Configurations
 echo "source $(pwd)/aliasesAndSuch.sh" >> ~/.zshrc
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf ~/.fzf/install
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 
+~/.fzf/install
 
 # do this git clone even if previously already did it. Do y for all 3 questions.
 # This will now create .fzf.zsh (as it sees you have zsh intalled)
