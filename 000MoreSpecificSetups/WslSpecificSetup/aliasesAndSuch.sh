@@ -11,4 +11,4 @@ alias g='git'
 alias cla="claude --dangerously-skip-permissions"
 wsl
 
-alias farmer='cd /mnt/c/Users/'$windows_username'/AppData/LocalLow/TheFarmerWasReplaced/TheFarmerWasReplaced/Saves'
+alias farmer='cd /mnt/c/Users/'$windows_username'/AppData/LocalLow/TheFarmerWasReplaced/TheFarmerWasReplaced/Saves/Claude'
