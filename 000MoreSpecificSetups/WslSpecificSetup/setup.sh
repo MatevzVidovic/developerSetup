@@ -3,4 +3,12 @@
 
 # move to this dir, then:
 # . setup.sh | source ~/.bashrc
-echo "source $(pwd)/aliasesAndSuch.sh" >> ~/.bashrc
+
+# winUsername="User"
+# winUsername="Uporabnik"
+
+sourceAliases="
+source $(pwd)/aliasesAndSuch.sh "$winUsername
+
+echo $sourceAliases >> ~/.bashrc
+echo $sourceAliases >> ~/.zshrc
