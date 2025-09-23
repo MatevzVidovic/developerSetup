@@ -7,13 +7,38 @@ npm install -g @anthropic-ai/claude-code
 mkdir -p ~/.claude
 
 
+# I tried making a global settings.json in .claude/ that would autoapprove all reads and such.
+# It didnt work.
+# Just do this:
 
-# For some reason, at least for WSL, making a symbolic link doesnt work. So you have to actualyl copy settings.local.json into .claude/
+# maybe Write could be added - do what you like
 
-cp settings.json ~/.claude/settings.json
+alias cla="claude --dangerously-skip-permissions --allowedTools Bash,Read,Glob,Grep,WebFetch,WebSearch,TodoWrite,Task,BashOutput,KillShell"
 
-# This autoallows all edits inside cwd, and all reads across the system.
-# For some reason, it will sometimes still prompt you for stuff. It is what it is.
+# You then just shift+tab away from the dangerous permission mode
+# Use it when you feel like it.
+
+# And shift+tab to auto-approve edits. And there, edits in your curr dir and subdirs are allowed.
+# Which is a nice way of doing it, because you have that stuff under git, and you can rollback those changes.
+
+# Also, set model to: plan mode using claude opus, otherwise sonnet.
+# Its the best - you just change your model on the fly in the convo when you feel like it, by changing the mode.
+# And its the best setup anyway - its even better for a dumb model to implement the changes, or so i've heard.
+
+
+# Btw, make s and p aliases for 
+# s=(add everything, commit it with some whatever msg)
+# p=(git push)
+# This way you keep saving after each prompt, and you can rollback to any change.
+# If working on a serious repo, just do: 
+# git rebase -i
+# later, to squash commits into nice chunks with proper commis msgs.
+
+# Use dangerous permission mode when you feel like it, because:
+<!-- some commands, like python commands and whatever, will
+still request your approval. If you choose the option of approving them for the future, the auto-allow should be  saved in your .claude and it will be nice in the future.
+But sometmes even that is still annoying.
+So you just want to approve everything and let it rip. -->
 
 
 # Make your own commands:
