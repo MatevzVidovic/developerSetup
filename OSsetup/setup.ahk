@@ -194,7 +194,8 @@ NumpadDiv::Send(")")        ; / becomes )
 NumpadMult::Send("{}}")      ; * becomes } - needs escaping
 NumpadSub::Send("]")        ; - becomes ]
 NumpadAdd::Send("@")        ; + becomes @
-NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
+NumpadEnter::Send("``")     ; Enter becomes ` - needs this special escaping
+; NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
 
 ; Special keys
 NumpadIns::Send("{%}")       ; Numpad0 (Ins when NumLock off) - % needs escaping
