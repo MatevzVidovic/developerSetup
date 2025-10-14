@@ -1,13 +1,8 @@
 
-
-
 # [user]
 # 	signingkey = 8DD503F5D0B54C6A
 # [includeIf "gitdir:~/git/getinge/"]
 #         path = ~/git/getinge/.gitconfig
-
-
-
 
 # [user]
 #     email = matevz.vidovic@3fs.si
@@ -24,15 +19,9 @@
 # [commit]
 # 	gpgsign = true
 
-
-
-
-
 [user]
     email = matevz.vidovic@gmail.si
     name = Matevž Vidovič
-
-
 
 
 
@@ -41,6 +30,7 @@
     editor = "code --wait"
 	autocrlf = input
 [alias]
+    # 3fs aliases
     dc     = diff --cached
     co     = checkout
     ci     = commit
@@ -54,6 +44,7 @@
     rbi    = rebase -i
     fap    = fetch --all --prune --progress
     latest = for-each-ref --sort=-committerdate refs/heads refs/remotes --format='%(committerdate:iso8601)  %(refname:short)                        %(authorname)'
+    # custom aliases
     all = add .
     ad = commit --amend --no-edit
     adl = "!f() { \
