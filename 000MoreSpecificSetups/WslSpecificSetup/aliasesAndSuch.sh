@@ -26,6 +26,7 @@ alias gca='git commit --amend --no-edit'
 alias gcl='git clone'
 alias gf='git fetch --all --prune --progress'
 alias gri='git rebase -i'
+alias grc='git rebase --continue'
 alias grmc='git rm -r --cached .'
 
 
