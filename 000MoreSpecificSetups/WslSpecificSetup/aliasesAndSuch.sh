@@ -9,10 +9,23 @@ wsl
 
 # main dev aliases
 alias m="make"
+alias t="task"
+
+# git aliases
 alias g='git'
-alias s='git sp'
+alias s='git add . && git commit -m "autosave" && git push'
 alias p='git push'
-alias sp='s && p'
+alias gs='git status'
+alias gp='git pull'
+alias ga='git add .'
+alias gcm='git commit -m'
+# alphabetically ordered:
+alias gc='git commit'
+alias gca='git commit --amend --no-edit'
+alias gcl='git clone'
+alias gf='git fetch --all --prune --progress'
+alias gri='git rebase -i'
+
 
 # other dev aliases
 alias c='code .'
