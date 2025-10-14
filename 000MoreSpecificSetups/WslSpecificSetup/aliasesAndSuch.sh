@@ -19,12 +19,14 @@ alias gs='git status'
 alias gp='git pull'
 alias ga='git add .'
 alias gcm='git commit -m'
+alias grm='git rebase origin main'
 # alphabetically ordered:
 alias gc='git commit'
 alias gca='git commit --amend --no-edit'
 alias gcl='git clone'
 alias gf='git fetch --all --prune --progress'
 alias gri='git rebase -i'
+alias grmc='git rm -r --cached .'
 
 
 # git connect to origin remote repo
@@ -46,7 +48,10 @@ alias pm='python3 -m'
 alias d='docker'
 alias dc='docker-compose'
 alias pp='poetry run' # nice for short scripts you define in pyproject.toml
-
+alias gssh='ssh-keygen -t ed25519 -C example@gmail.com
+cat ~/.ssh/id_ed25519.pub
+ssh -T git@github.com
+yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 
 # LLM CLI stuff
