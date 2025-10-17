@@ -80,19 +80,21 @@ then add:
 Then do ctrl shift P again, and use:
 GitLens: Toggle File Heatmap
 Try this too:  Toggle File Blame, Toggle File Changes
-(I havent been able to get this to pop up in ctrl shift P tho, so this is not tested.)
-
 
 To always have Heatmap on, you do:
 in settings.json (ctrl shift P, then User Defined (JSON) sth sth):
-  "gitlens.modes": {
-    "alwaysHeatmap": {
-      "name": "Heatmap Always",
-      "annotations": "heatmap"
-    }
-  },
-  "gitlens.mode.active": "alwaysHeatmap"
-
+    "gitlens.modes": {
+        "alwaysHeatmap": {
+        "name": "Heatmap Always",
+        "annotations": "heatmap"
+        }
+    },
+    "gitlens.mode.active": "alwaysHeatmap",
+    "gitlens.heatmap.locations": ["gutter", "overview"],
+    "gitlens.heatmap.fadeLines": false,  
+    "gitlens.heatmap.ageThreshold": 30,
+    "gitlens.heatmap.hotColor": "#ff7043",
+    "gitlens.heatmap.coldColor": "#4fc3f7",
 
 
 
