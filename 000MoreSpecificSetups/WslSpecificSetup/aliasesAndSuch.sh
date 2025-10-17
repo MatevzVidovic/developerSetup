@@ -16,16 +16,16 @@ alias g='git'
 alias s='git add . && git commit -m "autosave" && git push'
 alias gs='git status'
 alias gpl='git pull'
-alias gps='git push'
+alias gph='git push'
 alias ga='git add'
 alias gax='git add .'
 alias gcmm='git commit -m'
+alias gf='git fetch --all --prune --progress'
 alias grbm='git rebase origin main'
 # alphabetically ordered:
 alias gcm='git commit'
 alias gcma='git commit --amend --no-edit'
 alias gcl='git clone'
-alias gf='git fetch --all --prune --progress'
 alias grbi='git rebase -i'
 alias grbc='git rebase --continue'
 alias grmc='git rm -r --cached .'
@@ -38,18 +38,22 @@ alias gcon2='git remote -v && git branch -M main && git push -u origin main && g
 
 # conda aliases
 alias cn='conda'
-alias ca='conda activate'
-alias ccr='conda create --name'
-alias cexp='conda env export > environment.yml'
-alias ccrf='conda env create -f environment.yml'
+alias cna='conda activate'
+alias cncr='conda create --name'
+alias cnex='mkdir -p .conda && conda env export > .conda/environment.yml'
+alias cnu='conda env update -f .conda/environment.yml'
+# r for regular:
+alias cnrex='conda env export > environment.yml'
+alias cnru='conda env update -f environment.yml'
 
 # other dev aliases
 alias c='code'
 alias cx='code .'
-alias pm='python3 -m'
-alias d='docker'
-alias dc='docker-compose'
-alias pp='poetry run' # nice for short scripts you define in pyproject.toml
+alias py='python3'
+alias pym='python3 -m'
+alias dr='docker'
+alias drc='docker-compose'
+alias pr='poetry run' # nice for short scripts you define in pyproject.toml
 alias gssh='ssh-keygen -t ed25519 -C example@gmail.com
 cat ~/.ssh/id_ed25519.pub
 ssh -T git@github.com
