@@ -32,7 +32,7 @@ cmd 1/2/3/... to move to the correct tab.
 cmd arrowLeft/right to move in tabs
 F2 for renaming a file, and refactoring where the name is used
 Keybinding to jump into filetree. Right arrow to open the dir I am on, and left arrow to close the dir I am in. Up and down arrows to navigate it. Enter to open the file. Ctrs shift n to make new dir, alt dir n to make new file.
-
+alt + M to toggle vim extension on and off
 
 
 Keybinding side-effects i want to be different:
