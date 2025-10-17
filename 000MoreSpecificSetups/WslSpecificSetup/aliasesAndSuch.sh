@@ -18,6 +18,7 @@ alias gs='git status'
 alias gpl='git pull'
 alias gph='git push'
 alias ga='git add'
+alias gam='git add . && git commit --amend --no-edit'
 alias gax='git add .'
 alias gcmm='git commit -m'
 alias gf='git fetch --all --prune --progress'
@@ -29,6 +30,8 @@ alias gcl='git clone'
 alias grbi='git rebase -i'
 alias grbc='git rebase --continue'
 alias grmc='git rm -r --cached .'
+alias gst='git stash'
+alias gstu='git stash -u'
 
 
 # git connect to origin remote repo
