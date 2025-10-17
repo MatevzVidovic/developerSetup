@@ -92,10 +92,17 @@ in settings.json (ctrl shift P, then User Defined (JSON) sth sth):
     "gitlens.mode.active": "alwaysHeatmap",
     "gitlens.heatmap.locations": ["gutter", "overview"],
     "gitlens.heatmap.fadeLines": false,  
-    "gitlens.heatmap.ageThreshold": 30,
+    "gitlens.heatmap.ageThreshold": 90,
     "gitlens.heatmap.hotColor": "#ff7043",
     "gitlens.heatmap.coldColor": "#4fc3f7",
 
+Most settings are self-explanatory.
+fadeLines is literally about lines gaining opacity the older they are if it is set to true. Literally text is less seeable.
+ageThreshold is in days. Gitlens splits lines into the cold and hot bucket.
+Cold lines get cold color, hot lines get hot color.
+Inside each bucket, it builds quantiles.
+The later the quantile lines have more saturated color on the side, and are less faded.
+By default, ageThreshold is 90 days. I might like having less so I get more granularity in the recent changes.
 
 
 
