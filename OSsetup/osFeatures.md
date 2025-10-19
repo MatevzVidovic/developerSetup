@@ -11,23 +11,41 @@ On windows they should use ctrl, and also be duplicated to use alt.
 
 
 
-
+## Terminal
 
 Terminal migration (for my wsl terminal):
+
+
 cmd U to delete the current line
 cmd 1/2/3/... to move to the correct tab.
 cmd arrowLeft/right to move in tabs
 cmd t to open new tab
-cmf f to search in the terminal
-cmd shift t to open a new tab with the same cwd as the current tab 
+cmd w to close current tab
+cmd f to search in the terminal
+cmd shift t to open a new tab with the same cwd as the current tab
 
 I want alt + c, alt+v, alt+x to do copy, paste, cut
+
+(Done through plugins in the wsl terminal)
+I want the terminal to have vim commands.
+I want it to have fzf functionality.
+
+
+
+
+I keep the default terminal as powershell.
+Because when you are in file explorer, you do right click and open terminal, it opens powershell in the windows terminal.
+If you have some other terminal as default, it won't work.
+
+But
+In the terminal keybinding settings, you can set ctrl shift t to open a new tab with ubuntu profile. (or ctrl t, or alt t, whatever you want).
+
+
+
 
 cmd shift n to make new directory (if in file explorer)
 cmd shift backspace to be delete
 
-I want the terminal to have vim commands.
-I want it to have fzf functionality.
 
 
 
@@ -71,7 +89,7 @@ To not mess with the LLM:
 
 ## System important:
 
-### Window tilind (this already works on windows with winkey + arrowkeys so no need to change it)
+### Window tiling (this already works on windows with winkey + arrowkeys so no need to change it)
 - make cmd + arrowLeft/right position the current window into that tiling (left or right)
 - make cmd + arrowUp put the current window to fullscreen,
 
