@@ -16,8 +16,8 @@ alt shift f to search the contents of all files in the project. In this search, 
 Shift shift to search file names and open any file in the project
 
 ### Other
-alt J for moving to previous cursor position
-and alt K   for moving to next cursor position
+alt H for moving to previous cursor position
+and alt L   for moving to next cursor position
 alt b for moving to uses or definition of the thing where the cursor is
 alt arrowLeft and alt arrowRight to move to tab to the left and to the right
 alt 1/2/3/... to move to the tab with that number.
@@ -29,13 +29,13 @@ alt E and alt R to collapse or expand the part of code that the cursor is on, or
 alt K  commenting lines, and uncommenting them if they are already comments
 alt shift K uncommenting all selected lines
 
-Alt B to refactor name of variable the cursor is on.
+Alt shift B to refactor name of variable the cursor is on.
 
 Alt G to jump into left sidebar in the filetree.
-When I am in it:
+When I am in the filetree:
 Right arrow to open the dir I am on, and left arrow to close the dir I am in. Up and down arrows to navigate it.
 Enter to open the file. 
-Ctrl shift n to make new dir, alt dir n to make new file.
+Ctrl shift n to make new dir, alt shift n to make new file.
 
 
 
@@ -50,7 +50,6 @@ Double click on tab to open it in filetree to the side
 
 Automatic definition peek: when hovering over sth, you see its definition and available attributes and fns
 
-
 Save hooks: like always do lint autofix on save.
 
 
@@ -62,16 +61,14 @@ F2 for renaming a file, and refactoring where the name is used
 
 ctrl J closes and opens and closes bottom panel (terminal, debug console, etc)
 
-
-Shadowing detection: Variables redefined in inner scopes get green coloring
 Scope showing: when in an fn in a for loop in an if statement, and you cant see the fn signature, for loop start, if start, zou get them on the top of the page. So you exactly know what scope you are in.
 
 
-
+## Heatmap
 
 Line heatmap, based on how old of a commit they belong to:
 
-GitLens has Heatmap - where lines changed in more recent commits are brighter).
+GitLens has Heatmap - where lines changed in more recent commits are brighter.
 Changes from recent commits: to not only see what is changed in the staging area, but to be able to toggle for e.g. 2 last commits which lines were changed (helps you navigate to relevant parts of code a lot when working with many commits on the same feature change
 
 For single file heatmap, you open user settings.json, (in ctrl + shift + P), 
@@ -95,6 +92,9 @@ in settings.json (ctrl shift P, then User Defined (JSON) sth sth):
     "gitlens.heatmap.ageThreshold": 90,
     "gitlens.heatmap.hotColor": "#ff7043",
     "gitlens.heatmap.coldColor": "#4fc3f7",
+
+And possibly you nonetheless still have to do:
+Ctrl Shift P, GitLens: Toggle File Heatmap
 
 Most settings are self-explanatory.
 fadeLines is literally about lines gaining opacity the older they are if it is set to true. Literally text is less seeable.
