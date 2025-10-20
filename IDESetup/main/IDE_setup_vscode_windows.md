@@ -36,10 +36,12 @@
 
     { "key": "alt+shift+c",     "command": "workbench.action.files.copyPathOfActiveFile" },
 
-    { "key": "alt+e",           "command": "editor.fold" },
-    { "key": "alt+r",           "command": "editor.unfold" },
-    { "key": "alt+shift+e",     "command": "editor.foldAll" },
-    { "key": "alt+shift+r",     "command": "editor.unfoldAll" },
+    { "key": "alt+shift+e",           "command": "editor.fold" }, // to fold all, just do alt+A, alt+shift+e
+    { "key": "alt+shift+d",           "command": "editor.unfold" },
+    { "key": "alt+shift+e",           "command": "editor.fold",
+      "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
+    { "key": "alt+shift+d",           "command": "editor.unfold",
+      "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
 
     { "key": "alt+k",           "command": "editor.action.commentLine", "when": "editorTextFocus" },
     { "key": "alt+shift+k",     "command": "editor.action.removeCommentLine" },
@@ -124,6 +126,60 @@
 
 
   - Run lint automatically on save with settings.json:
+
+
+
+
+### Already exist:
+
+F2 for renaming a file, and refactoring where the name is used
+
+ctrl J opens and closes bottom panel (terminal, debug console, etc)
+
+Scope showing: when in an if statement that is in a for loop, which is in an fn, you start to get lost as to where exactly you even are. In what context is this line of code I am looking at?
+So it is nice to see the fn signature, for loop start, if start, on the top of the page. So you exactly know what scope you are in.
+
+### Heatmap
+
+Line heatmap, based on how old of a commit they belong to:
+
+GitLens has Heatmap - where lines changed in more recent commits are brighter.
+Changes from recent commits: to not only see what is changed in the staging area, but to be able to toggle for e.g. 2 last commits which lines were changed (helps you navigate to relevant parts of code a lot when working with many commits on the same feature change
+
+For single file heatmap, you open user settings.json, (in ctrl + shift + P), 
+then add:
+    "gitlens.heatmap.toggleMode": true,
+Then do ctrl shift P again, and use:
+GitLens: Toggle File Heatmap
+Try this too:  Toggle File Blame, Toggle File Changes
+
+To always have Heatmap on, you do:
+in settings.json (ctrl shift P, then User Defined (JSON) sth sth):
+    "gitlens.modes": {
+        "alwaysHeatmap": {
+        "name": "Heatmap Always",
+        "annotations": "heatmap"
+        }
+    },
+    "gitlens.mode.active": "alwaysHeatmap",
+    "gitlens.heatmap.locations": ["gutter", "overview"],
+    "gitlens.heatmap.fadeLines": false,  
+    "gitlens.heatmap.ageThreshold": 90,
+    "gitlens.heatmap.hotColor": "#ff7043",
+    "gitlens.heatmap.coldColor": "#4fc3f7",
+
+And possibly you nonetheless still have to do:
+Ctrl Shift P, GitLens: Toggle File Heatmap
+
+Most settings are self-explanatory.
+fadeLines is literally about lines gaining opacity the older they are if it is set to true. Literally text is less seeable.
+ageThreshold is in days. Gitlens splits lines into the cold and hot bucket.
+Cold lines get cold color, hot lines get hot color.
+Inside each bucket, it builds quantiles.
+The later the quantile lines have more saturated color on the side, and are less faded.
+By default, ageThreshold is 90 days. I might like having less so I get more granularity in the recent changes.
+
+
 
 
 
