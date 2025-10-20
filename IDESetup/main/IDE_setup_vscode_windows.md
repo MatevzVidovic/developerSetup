@@ -5,55 +5,131 @@
 
 ## Setup
 
-### Keybindings
+### Keybindings.json
 
   - Open File → Preferences → Keyboard Shortcuts (JSON) and drop in the mappings below (adjust any existing
     duplicates as needed):
 
-  [
-    { "key": "alt+f",           "command": "editor.actions.find" },
-    { "key": "alt+r",     "command": "editor.action.startFindReplaceAction" },
-    { "key": "alt+shift+f",     "command": "workbench.action.findInFiles" },
+[
+  { "key": "alt+f",           "command": "editor.actions.find" },
+  { "key": "alt+r",     "command": "editor.action.startFindReplaceAction" },
+  { "key": "alt+shift+f",     "command": "workbench.action.findInFiles" },
 
-    { "key": "shift shift",     "command": "workbench.action.quickOpen" },               // requires “Double Shift” extension
+  { "key": "shift shift",     "command": "workbench.action.quickOpen" },               // requires “Double Shift” extension
 
-    { "key": "alt+h",           "command": "workbench.action.navigateBack" },
-    { "key": "alt+l",           "command": "workbench.action.navigateForward" },
-    { "key": "alt+b",           "command": "editor.action.referenceSearch.trigger" },
-    { "key": "alt+shift+b",     "command": "editor.action.rename" },
+  { "key": "alt+h",           "command": "workbench.action.navigateBack" },
+  { "key": "alt+l",           "command": "workbench.action.navigateForward" },
+  { "key": "alt+b",           "command": "editor.action.referenceSearch.trigger" },
+  { "key": "alt+shift+b",     "command": "editor.action.rename" },
 
-    { "key": "alt+left",        "command": "workbench.action.previousEditor" },
-    { "key": "alt+right",       "command": "workbench.action.nextEditor" },
-    { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" },
-    { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" },
-    { "key": "alt+3",           "command": "workbench.action.openEditorAtIndex3" },
-    { "key": "alt+4",           "command": "workbench.action.openEditorAtIndex4" },
-    { "key": "alt+5",           "command": "workbench.action.openEditorAtIndex5" },
-    { "key": "alt+6",           "command": "workbench.action.openEditorAtIndex6" },
-    { "key": "alt+7",           "command": "workbench.action.openEditorAtIndex7" },
-    { "key": "alt+8",           "command": "workbench.action.openEditorAtIndex8" },
-    { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
+  { "key": "alt+left",        "command": "workbench.action.previousEditor" },
+  { "key": "alt+right",       "command": "workbench.action.nextEditor" },
+  { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" },
+  { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" },
+  { "key": "alt+3",           "command": "workbench.action.openEditorAtIndex3" },
+  { "key": "alt+4",           "command": "workbench.action.openEditorAtIndex4" },
+  { "key": "alt+5",           "command": "workbench.action.openEditorAtIndex5" },
+  { "key": "alt+6",           "command": "workbench.action.openEditorAtIndex6" },
+  { "key": "alt+7",           "command": "workbench.action.openEditorAtIndex7" },
+  { "key": "alt+8",           "command": "workbench.action.openEditorAtIndex8" },
+  { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
 
-    { "key": "alt+shift+c",     "command": "workbench.action.files.copyPathOfActiveFile" },
+  { "key": "alt+shift+c",     "command": "workbench.action.files.copyPathOfActiveFile" },
 
-    { "key": "alt+shift+e",           "command": "editor.fold" }, // to fold all, just do alt+A, alt+shift+e
-    { "key": "alt+shift+d",           "command": "editor.unfold" },
-    { "key": "alt+shift+e",           "command": "editor.fold",
-      "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
-    { "key": "alt+shift+d",           "command": "editor.unfold",
-      "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
+  { "key": "alt+shift+e",           "command": "editor.fold" }, // to fold all, just do alt+A, alt+shift+e
+  { "key": "alt+shift+d",           "command": "editor.unfold" },
+  { "key": "alt+shift+e",           "command": "editor.fold",
+    "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
+  { "key": "alt+shift+d",           "command": "editor.unfold",
+    "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
 
-    { "key": "alt+k",           "command": "editor.action.commentLine", "when": "editorTextFocus" },
-    { "key": "alt+shift+k",     "command": "editor.action.removeCommentLine" },
+  { "key": "alt+k",           "command": "editor.action.commentLine", "when": "editorTextFocus" },
+  { "key": "alt+shift+k",     "command": "editor.action.removeCommentLine" },
 
-    { "key": "alt+g",           "command": "workbench.files.action.focusFilesExplorer" },
-    { "key": "ctrl+shift+n",    "command": "explorer.newFolder" },
-    { "key": "alt+shift+n",     "command": "explorer.newFile" },
+  { "key": "alt+g",           "command": "workbench.files.action.focusFilesExplorer" },
+  { "key": "ctrl+shift+n",    "command": "explorer.newFolder" },
+  { "key": "alt+shift+n",     "command": "explorer.newFile" },
 
-    { "key": "alt+shift+p",     "command": "workbench.action.tasks.runTask" }, // gives you choice of which task in tasks.json to run
+  { "key": "alt+shift+p",     "command": "workbench.action.tasks.runTask" }, // gives you choice of which task in tasks.json to run
 
-    { "key": "alt+shift+.",     "command": "workbench.files.action.showActiveFileInExplorer" }  // to quickly reveal current file in explorer 
-  ]
+  { "key": "alt+shift+.",     "command": "workbench.files.action.showActiveFileInExplorer" },  // to quickly reveal current file in explorer 
+
+
+
+  { "key": "alt+m", "command": "toggleVim" }, // if using vim extension, toggle it on/off quickly
+
+
+  // IDE terminal navigation and creation
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.terminal.newWithCwd",
+    "args": {
+      "cwd": "${workspaceFolder}"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "workbench.action.terminal.newWithCwd",
+    "args": {
+      "cwd": "${fileDirname}"
+    },
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+right",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+left",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+c",
+    "command": "workbench.action.terminal.copySelection",
+    "when": "terminalFocus && terminalTextSelected"
+  },
+
+
+]
+
+
+
+
+
+
+
+  {
+    "key": "alt+shift+e",
+    "command": "editor.foldRecursively",
+    "when": "editorTextFocus && !editorHasSelection"
+  },
+  {
+    "key": "alt+shift+d",
+    "command": "editor.unfoldRecursively",
+    "when": "editorTextFocus && !editorHasSelection"
+  },
+  {
+  "key": "alt+shift+e",
+  "command": "editor.createFoldingRangeFromSelection",
+  "when": "editorTextFocus && editorHasSelection"
+  },
+  {
+    "key": "alt+shift+d",
+    "command": "editor.removeManualFoldingRanges",
+    "when": "editorTextFocus && editorHasSelection"
+  },
+
+
+
+
+
+
+
+
+
 
   - VS Code will complain if the same key is listed more than once; remove or redefine any duplicates (e.g.,
     decide whether Alt+K is navigation or commenting).
