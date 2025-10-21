@@ -10,9 +10,6 @@
   - Open File → Preferences → Keyboard Shortcuts (JSON) and drop in the mappings below (adjust any existing
     duplicates as needed):
 
-
-
-
 [
   // search
   { "key": "alt+f",           "command": "editor.actions.find" },
@@ -32,18 +29,20 @@
   { "key": "alt+l",           "command": "workbench.action.navigateForward" },
   
   // tab navigation and manaagement
-  { "key": "alt+w",           "command": "workbench.action.closeActiveEditor" },
+  { "key": "alt+w",           "command": "workbench.action.closeActiveEditor" }, // also closes groups (side panels)
   { "key": "alt+left",        "command": "workbench.action.previousEditor" },
-  { "key": "alt+right",       "command": "workbench.action.nextEditor" },
+  { "key": "alt+right",       "command": "workbench.action.nextEditor" }, // goes over group boundaries too
+  { "key": "alt+shift+right", "command": "workbench.action.moveEditorToNextGroup", "when": "editorIsOpen" }, // moves current tab to next group (side-panel). Creates group if it didn't exist.
+  { "key": "alt+shift+left",  "command": "workbench.action.moveEditorToPreviousGroup", "when": "editorIsOpen" },
   { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
-  { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" },
-  { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" },
-  { "key": "alt+3",           "command": "workbench.action.openEditorAtIndex3" },
-  { "key": "alt+4",           "command": "workbench.action.openEditorAtIndex4" },
-  { "key": "alt+5",           "command": "workbench.action.openEditorAtIndex5" },
-  { "key": "alt+6",           "command": "workbench.action.openEditorAtIndex6" },
-  { "key": "alt+7",           "command": "workbench.action.openEditorAtIndex7" },
-  { "key": "alt+8",           "command": "workbench.action.openEditorAtIndex8" },
+  // { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" }, // for some reason, this tries to move to the group with that ix, not the tab
+  // { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" }, // so alt 2 just created a new group (side panel) and so on.
+  // { "key": "alt+3",           "command": "workbench.action.openEditorAtIndex3" }, // But,
+  // { "key": "alt+4",           "command": "workbench.action.openEditorAtIndex4" }, // This is kind of nice too.
+  // { "key": "alt+5",           "command": "workbench.action.openEditorAtIndex5" }, // Because actually alt + left/right works well,
+  // { "key": "alt+6",           "command": "workbench.action.openEditorAtIndex6" }, // and now I can use alt+1..8 for other things I think of on the fly.
+  // { "key": "alt+7",           "command": "workbench.action.openEditorAtIndex7" },
+  // { "key": "alt+8",           "command": "workbench.action.openEditorAtIndex8" },
   
   // commenting
   { "key": "alt+k",           "command": "editor.action.commentLine",  "when": "editorTextFocus" },
