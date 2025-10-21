@@ -14,7 +14,6 @@ Very important: I want this setup to be as simple as possible. I dont mind if yo
 
 
 Also very important:
-Below are the mac commands which use cmd.
 Many of these commands already work on windows when you use ctrl instead.
 Keep those commands if they work - otherwise make a new ctrl + key command that does that.
 Also, make it so that for all these cases alt + key maps to ctrl + key.
@@ -24,16 +23,25 @@ Also, make it so that for all these cases alt + key maps to ctrl + key.
 
 
 
-Cmd W to close tabs (browser, terminal, IDE)
-Cmd Q to quit application completely (all windows)
-Cmd E to quit the applications current window (not all firefox windows, and not just the current tab, but the current window)
+alt W to close tabs (browser, terminal, IDE)
+alt Q to quit application completely (all windows)
+alt shift Q to quit the applications current window (not all firefox windows, and not just the current tab, but the current window)
 
 winkey+alt+ arrowUp (ctrl arrowUp on mac) to open virtual desktops, and 
 winkey+alt+arrowRight/left  (ctrl arrowRight/left on mac) to switch between them
-cmd 1/2/3/... to move to tabs in the browser
-cmd arrowLeft/right to move in tabs
-cmd c, v, z, s, a, x, r, t, n
-cmd shift z
+alt 1/2/3/... to move to tabs in the browser
+alt arrowLeft/right to move in tabs
+alt c, v, z, s, a, x, t, n
+alt shift z
+
+But,
+I won't do alt r (refresh in browsers).
+I want to keep as many alt + key clear for other things as possible, 
+because lets say you then want a vscode keybinding setup:
+It's very nice if you can have alt + key free.
+I can have ctrl + r be its own thing, and let alt r be something else.
+But if autohotkey already maps alt r to ctrl r, then I can't have alt r be something else in vscode.
+So it's nice to not have this overpopulated with things.
 
 I want alt c, z, y, (shift+z)   to directly do copy, undo, redo, and redo, not just to map to ctrl c, z, y (shift+z) - becausee in the terminal, i e.g. dont want alt c to cause sigint.
 
@@ -75,7 +83,7 @@ System important:
 - Make winkey space be the default search, just like only pressing winkey.
 
 
-cmd shift backspace should be like pressing Delete
+alt shift backspace should be like pressing Delete
 
 
 - Fn arrow up being half of page up, and down being half of PgDn.

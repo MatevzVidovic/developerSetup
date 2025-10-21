@@ -10,10 +10,16 @@ The desired settings should use alt, so they can work on Windows and Ubuntu.
 ## Keybinding settings:
 
 ### Search:
-alt f, arrow up/down to move along the instances, esc to close
-alt f, alt r (open replace field), tab (move to replace field), (button for replace and replace all), esc to close
+alt f, enter to move to next instance, shift+enter to move to previous instance, esc to close
+alt r (open find field, open and move to replace field), (while in replace field, enter replaces curr instance. Ctrl+alt+enter replaces all instances.), esc to close
+(When in replace field, just do alt f to move back to find field and then use enter to move in instances - as long as the cursor is in the find field, enter just moves to next instance)
 alt shift f to search the contents of all files in the project. In this search, I want to be able to set the search scope (opened files, in a specific directory, etc.)
 Shift shift to search file names and open any file in the project
+
+(goland search description:
+alt f, arrow up/down to move along the instances, esc to close
+alt f, alt r (open replace field), tab (move to replace field), (button for replace and replace all), esc to close)
+
 
 ### Other
 alt H for moving to previous cursor position
@@ -57,7 +63,7 @@ Save hooks: like always do lint autofix on save.
 
 ## Already exist:
 
-F2 for renaming a file, and refactoring where the name is used
+F2 for renaming a file, and refactoring where the filename is used (like imports)
 
 ctrl J closes and opens and closes bottom panel (terminal, debug console, etc)
 

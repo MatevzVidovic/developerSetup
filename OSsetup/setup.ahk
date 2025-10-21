@@ -128,7 +128,6 @@ CapsLock::Escape
 !a::Send("^a")      ; Select All
 !s::Send("^s")      ; Save
 !n::Send("^n")      ; New
-!r::Send("^r")      ; Refresh/Reload
 !t::Send("^t")      ; New Tab
 !f::Send("^f")      ; Find
 
@@ -141,9 +140,9 @@ CapsLock::Escape
 ; Alt+Q (Cmd+Q) - Quit application completely
 !q::Send("!{F4}")
 
-; Alt+E - Close current window (not all windows, not just tab)
+; Alt+Shift+Q - Close current window (not all windows, not just tab)
 ; This will close the current window of the application
-!e::WinClose("A")
+!+q::WinClose("A")
 
 ; Tab navigation with number keys (these don't interfere with Alt+Tab)
 ; (Number hotkeys are defined in the Window/Tab Management section below)

@@ -10,20 +10,32 @@
   - Open File → Preferences → Keyboard Shortcuts (JSON) and drop in the mappings below (adjust any existing
     duplicates as needed):
 
+
+
+
 [
+  // search
   { "key": "alt+f",           "command": "editor.actions.find" },
-  { "key": "alt+r",     "command": "editor.action.startFindReplaceAction" },
-  { "key": "alt+shift+f",     "command": "workbench.action.findInFiles" },
+  { "key": "alt+r",           "command": "editor.action.startFindReplaceAction" },
+  // awesome feature to remember - in the find field, there is a button to toggle "Find in selection":
+  // you do alt f, make a selection, then click that button, 
+  // and now that selection of lines permanently stays the find selection until you click the button again.
+  //  You can even replace things only in that selection.
+  { "key": "shift shift",     "command": "workbench.action.quickOpen" },
+  { "key": "alt+shift+f",     "command": "workbench.action.findInFiles" }, // toggle search details (3 dots), then book icon to search only in open tabs
+  // to search in a specific folder, you can eaiter write out the include path in the search bar, 
+  // or right click the folder in explorer and choose "Find in Folder"
 
-  { "key": "shift shift",     "command": "workbench.action.quickOpen" },               // requires “Double Shift” extension
-
+  // implementations and definitions navigation
+  { "key": "alt+.",           "command": "editor.action.referenceSearch.trigger" }, // find all refs to var/function/class under cursor
   { "key": "alt+h",           "command": "workbench.action.navigateBack" },
   { "key": "alt+l",           "command": "workbench.action.navigateForward" },
-  { "key": "alt+b",           "command": "editor.action.referenceSearch.trigger" },
-  { "key": "alt+shift+b",     "command": "editor.action.rename" },
-
+  
+  // tab navigation and manaagement
+  { "key": "alt+w",           "command": "workbench.action.closeActiveEditor" },
   { "key": "alt+left",        "command": "workbench.action.previousEditor" },
   { "key": "alt+right",       "command": "workbench.action.nextEditor" },
+  { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
   { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" },
   { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" },
   { "key": "alt+3",           "command": "workbench.action.openEditorAtIndex3" },
@@ -32,102 +44,39 @@
   { "key": "alt+6",           "command": "workbench.action.openEditorAtIndex6" },
   { "key": "alt+7",           "command": "workbench.action.openEditorAtIndex7" },
   { "key": "alt+8",           "command": "workbench.action.openEditorAtIndex8" },
-  { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
-
-  { "key": "alt+shift+c",     "command": "workbench.action.files.copyPathOfActiveFile" },
-
-  { "key": "alt+shift+e",           "command": "editor.fold" }, // to fold all, just do alt+A, alt+shift+e
-  { "key": "alt+shift+d",           "command": "editor.unfold" },
-  { "key": "alt+shift+e",           "command": "editor.fold",
-    "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
-  { "key": "alt+shift+d",           "command": "editor.unfold",
-    "args": { "selectionLines": true },      "when": "editorTextFocus && editorHasSelection"    },
-
-  { "key": "alt+k",           "command": "editor.action.commentLine", "when": "editorTextFocus" },
+  
+  // commenting
+  { "key": "alt+k",           "command": "editor.action.commentLine",  "when": "editorTextFocus" },
   { "key": "alt+shift+k",     "command": "editor.action.removeCommentLine" },
-
+  
+  // file explorer
   { "key": "alt+g",           "command": "workbench.files.action.focusFilesExplorer" },
+  // if when condiotion is met, the below keybinding will override the above one.
+  // It will close the explorer if it is already open and in focus.
+  { "key": "alt+g",    "command": "workbench.action.closeSidebar",    "when": "explorerViewletVisible && activeViewlet == 'workbench.view.explorer'"  }, 
   { "key": "ctrl+shift+n",    "command": "explorer.newFolder" },
   { "key": "alt+shift+n",     "command": "explorer.newFile" },
-
-  { "key": "alt+shift+p",     "command": "workbench.action.tasks.runTask" }, // gives you choice of which task in tasks.json to run
-
   { "key": "alt+shift+.",     "command": "workbench.files.action.showActiveFileInExplorer" },  // to quickly reveal current file in explorer 
 
+  // miscelaneous
+  { "key": "alt+b",     "command": "editor.action.rename" }, // for var name refactoring
+  { "key": "alt+p",     "command": "workbench.action.tasks.runTask" }, // gives you choice of which task in tasks.json to run
+  { "key": "alt+shift+c",     "command": "workbench.action.files.copyPathOfActiveFile" }, // good for telling CLI LLMs about a file
+  { "key": "alt+m",           "command": "toggleVim" }, // if using vim extension, toggle it on/off quickly
 
-
-  { "key": "alt+m", "command": "toggleVim" }, // if using vim extension, toggle it on/off quickly
-
+  // Folding and unfolding code blocks
+  { "key": "alt+d",     "command": "multicommand.fold.eachSelectedLineRecursively",  "when": "editorTextFocus && editorHasSelection" },  // to fold all, just do alt+A, alt+shift+e
+  { "key": "alt+shift+d",     "command": "multicommand.unfold.eachSelectedLineRecursively",  "when": "editorTextFocus && editorHasSelection" },
+  { "key": "alt+d",     "command": "editor.fold",  "args": { "levels": 2, "direction": "down" },  "when": "editorTextFocus && !editorHasSelection" },
+  { "key": "alt+shift+d",     "command": "editor.unfoldRecursively",  "when": "editorTextFocus && !editorHasSelection" },
 
   // IDE terminal navigation and creation
-  {
-    "key": "ctrl+t",
-    "command": "workbench.action.terminal.newWithCwd",
-    "args": {
-      "cwd": "${workspaceFolder}"
-    },
-    "when": "terminalFocus"
-  },
-  {
-    "key": "ctrl+n",
-    "command": "workbench.action.terminal.newWithCwd",
-    "args": {
-      "cwd": "${fileDirname}"
-    },
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+right",
-    "command": "workbench.action.terminal.focusNext",
-    "when": "terminalFocus"
-  },
-  {
-    "key": "ctrl+left",
-    "command": "workbench.action.terminal.focusPrevious",
-    "when": "terminalFocus"
-  },
-  {
-    "key": "ctrl+c",
-    "command": "workbench.action.terminal.copySelection",
-    "when": "terminalFocus && terminalTextSelected"
-  },
-
-
+  { "key": "ctrl+t",          "command": "workbench.action.terminal.newWithCwd",  "args": { "cwd": "${workspaceFolder}" }, "when": "terminalFocus" },
+  { "key": "ctrl+n",          "command": "workbench.action.terminal.newWithCwd",  "args": { "cwd": "${fileDirname}" }, "when": "editorTextFocus"  },
+  { "key": "ctrl+right",      "command": "workbench.action.terminal.focusNext",  "when": "terminalFocus"  },
+  { "key": "ctrl+left",       "command": "workbench.action.terminal.focusPrevious",  "when": "terminalFocus"  },
+  { "key": "ctrl+c",          "command": "workbench.action.terminal.copySelection",  "when": "terminalFocus && terminalTextSelected"  },
 ]
-
-
-
-
-
-
-
-  {
-    "key": "alt+shift+e",
-    "command": "editor.foldRecursively",
-    "when": "editorTextFocus && !editorHasSelection"
-  },
-  {
-    "key": "alt+shift+d",
-    "command": "editor.unfoldRecursively",
-    "when": "editorTextFocus && !editorHasSelection"
-  },
-  {
-  "key": "alt+shift+e",
-  "command": "editor.createFoldingRangeFromSelection",
-  "when": "editorTextFocus && editorHasSelection"
-  },
-  {
-    "key": "alt+shift+d",
-    "command": "editor.removeManualFoldingRanges",
-    "when": "editorTextFocus && editorHasSelection"
-  },
-
-
-
-
-
-
-
 
 
 
@@ -136,21 +85,72 @@
 
 
 
+
+#### Explanation of folding keybindings
+
+Why does
+  { "key": "alt+shift+e", "command": "editor.foldRecursively", "when": "editorTextFocus && editorHasSelection" },
+not fold all selected lines recursively, but only the first one?
+Only if the selection started on a foldable line, that line gets folded, but nothing else.
+
+Because
+fold commands in VS Code act on the primary cursor, not on the whole selection. 
+So with a range selected, editor.fold / editor.foldRecursively behave as if the cursor were at the start of that selection.
+
+To fold all selected lines recursively, we need to create a custom command that places a cursor at the end of each selected line, folds at each cursor, then returns to a single cursor.
+
+
+
+
+
 ### settings.json
 
-// Keep current file highlighted in the explorer
-"explorer.autoReveal": true in settings.json
+<!-- 
 
-// Enable details when hovering over fns and objs
+// Enable details when hovering over fns and objs - already exists in many language extensions
 "editor.hover.enabled": true,
 "editor.hover.delay": 200,
 "editor.hover.sticky": true,
 "editor.foldingStrategy": "auto"
 
+// Mouse scroll sensitivity (kind of depends on your screen resolution, size, and mouse DPI)
+"editor.mouseWheelScrollSensitivity": 3,
+"editor.fastScrollSensitivity": 10,
+"workbench.list.mouseWheelScrollSensitivity": 1,
+"workbench.list.fastScrollSensitivity": 5,
+"terminal.integrated.mouseWheelScrollSensitivity": 1,
+"terminal.integrated.fastScrollSensitivity": 5, 
+-->
+
+
+"multiCommand.commands": [
+  {
+    "command": "multicommand.fold.eachSelectedLineRecursively",
+    "sequence": [
+      "editor.action.insertCursorAtEndOfEachLineSelected",  // 1 caret per line
+      "editor.foldRecursively",                             // fold at every caret
+      "cancelSelection",                                    // go back to single caret
+      "removeSecondaryCursors"
+    ]
+  },
+  {
+    "command": "multicommand.unfold.eachSelectedLineRecursively",
+    "sequence": [
+      "editor.action.insertCursorAtEndOfEachLineSelected",
+      "editor.unfoldRecursively",
+      "cancelSelection",
+      "removeSecondaryCursors"
+      ]
+  }
+],
+
+
 ### Extensions:
 
-- "Double Shift": Enables the Shift Shift chord to launch Quick Open.
-
+- "multi-command (by ryuta46)": Allows defining custom commands that chain multiple commands together.
+One of the more lightweight macro extensions.
+You can chain any commands you see in the Command Palette.
+Just define chains in settings.json, then bind them to keys in keybindings.json.
 
 ### Tasks & Save Hooks
 
