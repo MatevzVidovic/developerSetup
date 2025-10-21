@@ -1,8 +1,13 @@
 
 
+
+
+
+
 Use WSL2 (its just so amazing. Almost like a full fleged OS.)
 
 
+## Alias setup:
 
 Cd to this directory.
 
@@ -11,6 +16,20 @@ In aliases and such, you might need to change The "Uporabnik" to your windows us
 Then:
 
 . setup.sh
+
+
+## Vim motions inside WSL terminal:
+
+### .bashrc
+echo "
+set -o vi" >> ~/.bashrc
+source ~/.bashrc
+
+### .zshrc
+echo "
+bindkey -v" >> ~/.zshrc
+source ~/.zshrc
+
 
 
 
@@ -31,7 +50,7 @@ This will:
 - Backup any existing .zshrc to .zshrc.pre-oh-my-zsh
 - Ask if you want to change default shell to Zsh
 
-(not needed) 3. Set Zsh as Default Shell 
+3. (sometimes not needed) Set Zsh as Default Shell 
 chsh -s $(which zsh)
 You'll need to log out and back into WSL for this to take effect.
 
