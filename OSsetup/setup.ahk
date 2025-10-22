@@ -181,31 +181,49 @@ CapsLock::Escape
 NumpadEnd::Send("(")       ; Numpad1 (End when NumLock off)
 NumpadDown::Send("{{}}")    ; Numpad2 (Down when NumLock off) - { needs escaping
 NumpadPgDn::Send("[")       ; Numpad3 (PgDn when NumLock off)
+
 NumpadLeft::Send("~")       ; Numpad4 (Left when NumLock off)
 NumpadClear::Send("/")      ; Numpad5 (Clear when NumLock off)
 NumpadRight::Send("_")      ; Numpad6 (Right when NumLock off)
+
 NumpadHome::Send("=")       ; Numpad7 (Home when NumLock off)
 NumpadUp::Send("|")         ; Numpad8 (Up when NumLock off)
-NumpadPgUp::Send("´")       ; Numpad9 (PgUp when NumLock off)
+NumpadPgUp::Send("``")       ; Numpad9 (PgUp when NumLock off) - needs this special escaping
 
-; Operation symbols
+; Top-row Operation symbols
 NumpadDiv::Send(")")        ; / becomes )
 NumpadMult::Send("{}}")      ; * becomes } - needs escaping
 NumpadSub::Send("]")        ; - becomes ]
-NumpadAdd::Send("@")        ; + becomes @
-NumpadEnter::Send("``")     ; Enter becomes ` - needs this special escaping
-; NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
 
-; Special keys
-NumpadIns::Send("{%}")       ; Numpad0 (Ins when NumLock off) - % needs escaping
+; Side symbols
+NumpadAdd::Send("@")        ; + becomes @
+NumpadEnter::Send("{^}")     ; Enter becomes ^ - needs escaping
+
+; Bottom symbols
+NumpadIns::Send("$")       ; Numpad0 (Ins when NumLock off)
 NumpadDel::Send("&")         ; NumpadDot (Del when NumLock off)
 
+
 ; Shift + Numpad combinations (when NumLock is OFF)
-+NumpadClear::Send("\")        ; Shift+/ becomes \
-+NumpadEnd::Send("<")        ; Shift+Numpad1 (End when NumLock off) becomes <
-+NumpadDown::Send(">")      ; Shift+Numpad2 (Down when NumLock off) becomes >
++NumpadEnd::Send("<")        ; where ( is
+; ---
++NumpadClear::Send("\")        ; where \ is
+; ---
++NumpadPgUp::Send("´")      ; where ´ is
+; ---
++NumpadDiv::Send(">")      ; where ) is
+; ---
+; ---
++NumpadIns::Send("{%}")       ; where $ is - needs escaping
 
 #HotIf
+
+
+
+
+
+
+
 
 ; =========================================
 ; 6. BROWSER-SPECIFIC OPTIMIZATIONS
