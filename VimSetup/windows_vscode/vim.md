@@ -68,7 +68,8 @@
     "vim.handleKeys": {
         "<C-c>": false,
         "<C-y>": false,
-        "<C-x>": false
+        "<C-x>": false,
+        "<C-a>": false
     },
 }
 ```

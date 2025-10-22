@@ -23,7 +23,7 @@ alias gam='git add . && git commit --amend --no-edit'
 alias gax='git add .'
 alias gcmm='git commit -m'
 alias gf='git fetch --all --prune --progress'
-alias grbm='git rebase origin main'
+alias grbm='git rebase origin/main'
 # alphabetically ordered:
 alias gcm='git commit'
 alias gcma='git commit --amend --no-edit'
