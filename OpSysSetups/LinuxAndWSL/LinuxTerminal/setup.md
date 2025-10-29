@@ -2,23 +2,14 @@
 
 
 
-
-
-Use WSL2 (its just so amazing. Almost like a full fleged OS.)
-
-
 ## Alias setup:
 
-Cd to this directory.
-
-In aliases and such, you might need to change The "Uporabnik" to your windows user name.
-
-Then:
-
+Cd to here, then:
 . setup.sh
 
 
-## Vim motions inside WSL terminal:
+
+## Vim motions inside Ubuntu/WSL terminal:
 
 ### .bashrc
 echo "

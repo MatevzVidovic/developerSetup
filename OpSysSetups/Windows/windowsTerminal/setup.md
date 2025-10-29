@@ -10,7 +10,7 @@ Close the terminal.
 Paste stuff into settings.json.
 On next opening of terminal, settings will be applied (settings.json changes and properly uses the stuff you pasted in).
 
-(This didn't work for me tho - youldn't find Reload Settings in the command palette)
+(This didn't work for me tho - couldn't find Reload Settings in the command palette)
 or, don't close the terminal, paste into settings.json, and then reload with:
 (Ctrl+Shift+P) → “Reload Settings” so the bindings take effect
 

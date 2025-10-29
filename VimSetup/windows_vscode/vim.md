@@ -69,7 +69,10 @@
         "<C-c>": false,
         "<C-y>": false,
         "<C-x>": false,
-        "<C-a>": false
+        "<C-a>": false,
+        "<C-w>": false,
+        "<C-j>": false,
+        "<C-f>": false,
     },
 }
 ```

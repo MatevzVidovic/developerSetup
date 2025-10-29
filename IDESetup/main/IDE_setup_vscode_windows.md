@@ -32,8 +32,10 @@
   { "key": "alt+w",           "command": "workbench.action.closeActiveEditor" }, // also closes groups (side panels)
   { "key": "alt+left",        "command": "workbench.action.previousEditor" },
   { "key": "alt+right",       "command": "workbench.action.nextEditor" }, // goes over group boundaries too
-  { "key": "alt+shift+right", "command": "workbench.action.moveEditorToNextGroup", "when": "editorIsOpen" }, // moves current tab to next group (side-panel). Creates group if it didn't exist.
-  { "key": "alt+shift+left",  "command": "workbench.action.moveEditorToPreviousGroup", "when": "editorIsOpen" },
+  {  "key": "alt+shift+left", "command": "workbench.action.moveEditorLeftInGroup","when": "editorTextFocus" }, // moves current tab left within its group
+  {  "key": "alt+shift+right","command": "workbench.action.moveEditorRightInGroup","when": "editorTextFocus" },
+  { "key": "alt+ctrl+right", "command": "workbench.action.moveEditorToNextGroup", "when": "editorIsOpen" }, // moves current tab to next group (side-panel). Creates group if it didn't exist.
+  { "key": "alt+ctrl+left",  "command": "workbench.action.moveEditorToPreviousGroup", "when": "editorIsOpen" },
   { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
   // { "key": "alt+1",           "command": "workbench.action.openEditorAtIndex1" }, // for some reason, this tries to move to the group with that ix, not the tab
   // { "key": "alt+2",           "command": "workbench.action.openEditorAtIndex2" }, // so alt 2 just created a new group (side panel) and so on.

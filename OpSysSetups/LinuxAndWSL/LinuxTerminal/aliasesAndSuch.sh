@@ -1,12 +1,6 @@
 
 
 
-
-# wsl ease of use
-windows_username=$1
-alias wsl='cd /mnt/c/Users/'$windows_username'/Desktop/WSL'
-wsl
-
 # main dev aliases
 alias m='make'
 alias t='task'
@@ -70,5 +64,3 @@ alias cox='codex --search -a on-failure --sandbox workspace-write'
 alias coxr='codex --search -a never --sandbox read-only'
 
 
-# random aliases
-alias farmer='cd /mnt/c/Users/'$windows_username'/AppData/LocalLow/TheFarmerWasReplaced/TheFarmerWasReplaced/Saves/Claude'

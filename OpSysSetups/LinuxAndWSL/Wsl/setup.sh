@@ -8,7 +8,7 @@
 # winUsername="Uporabnik"
 
 sourceAliases="
-source $(pwd)/aliasesAndSuch.sh "$winUsername
+source $(pwd)/WSLaliasesAndSuch.sh "$winUsername
 
 echo $sourceAliases >> ~/.bashrc
 echo $sourceAliases >> ~/.zshrc
