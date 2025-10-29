@@ -2,6 +2,43 @@
 
 
 
+## Quick Zsh setup (do first)
+
+1. Install Zsh
+```sh
+ sudo apt update
+ sudo apt install zsh -y
+``` 
+
+2. Install Oh My Zsh 
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# answer y to overwriting (nothing is in it yet anyways)
+# You can answer y to make it the default shell.
+```
+
+3. (not needed if already default shell) Set Zsh as Default Shell 
+```sh
+chsh -s $(which zsh)
+```
+You'll need to log out and back into WSL for this to take effect.
+
+4. Install fzf
+
+```sh
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 
+~/.fzf/install
+
+echo "[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh" >> ~/.zshrc
+echo "source <(fzf --zsh)" >> ~/.zshrc | source ~/.zshrc
+
+# Do y for all 3 questions.
+# This will now create .fzf.zsh (as it sees you have zsh intalled)
+```
+
+
+
 ## Alias setup:
 
 Cd to here, then:
@@ -11,12 +48,10 @@ Cd to here, then:
 
 ## Vim motions inside Ubuntu/WSL terminal:
 
-### .bashrc
 echo "
 set -o vi" >> ~/.bashrc
 source ~/.bashrc
 
-### .zshrc
 echo "
 bindkey -v" >> ~/.zshrc
 source ~/.zshrc
@@ -26,13 +61,10 @@ source ~/.zshrc
 
 
 
-## ZSH setup:
+## Continued ZSH setup:
 
 
-1. Install Zsh
- sudo apt update
- sudo apt install zsh -y
- 
+
 2. Install Oh My Zsh 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 This will:
@@ -41,20 +73,7 @@ This will:
 - Backup any existing .zshrc to .zshrc.pre-oh-my-zsh
 - Ask if you want to change default shell to Zsh
 
-3. (sometimes not needed) Set Zsh as Default Shell 
-chsh -s $(which zsh)
-You'll need to log out and back into WSL for this to take effect.
 
-4. Migrate Your Existing Configurations
-echo "source $(pwd)/aliasesAndSuch.sh" >> ~/.zshrc
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 
-~/.fzf/install
-
-# do this git clone even if previously already did it. Do y for all 3 questions.
-# This will now create .fzf.zsh (as it sees you have zsh intalled)
-
-echo "[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh" >> ~/.zshrc
-echo "source <(fzf --zsh)" >> ~/.zshrc | source ~/.zshrc
 
 
 

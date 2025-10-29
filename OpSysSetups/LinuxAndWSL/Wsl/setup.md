@@ -15,9 +15,12 @@ Go follow the LinuxTerminal/ steps
 
 Cd to this directory.
 
-In setup.sh, you might need to change The "Uporabnik" to your windows user name.
+do (changing Uporabnik to your windows username):
+mkdir -p /mnt/c/Users/Uporabnik/Desktop/WSL'
+
 
 Then:
+In the script, you might need to change The "Uporabnik" to your windows user name.
 
 . setup.sh
 
