@@ -5,10 +5,20 @@
 
 ## Why port 2847
 
-```sh
-# we are setting up ssh on port 2847
-# I use that port everywhere (could be used just on the router to confuse portscanners, and elswhere use port 22 as it is the regular ssh port, but idk, i just use it everywhere)
-```
+Generally, ssh works on port 22.
+On the router to confuse portscanners we use some random port to face the public internet (like 2847).
+I like to use this port also on the ssh config itself (when I set it up on a linux machine locally).
+But
+With mirrored network wsl we have a problem:
+windows can randomly take a port before you start up wsl and therefore ssh starts (you will see ssh is inactive if you go check).
+And this happens exactly to port 2847 in my case.
+So, for wsl ssh, I like to use 2222 (this is the standard alternate ssh port and will probably be free).
+(This way we leave port 22 for windows ssh if we ever needed it.)
+
+We caoul also do a port reservation on windows, but we could break something, and idk how to then make sure that it is actually enabled for the wsl ssh.
+SO we will just leave it like this for now.
+
+
 
 ## general idea: portproxy vs mirrored networking
 
@@ -47,8 +57,6 @@ networkingMode=mirrored
 
 
 
-# The following setup uses portproxy.
-
 ```
 
 ## Basics
@@ -60,19 +68,21 @@ sudo apt install openssh-server
 sudo service ssh start
 ```
 
-### WSL firewal
-```sh
-# set up wsl2 firewall to accept on port 2847
-sudo apt update && sudo apt install ufw
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw limit 2847/tcp
-sudo ufw enable
-sudo ufw status numbered
-```
+### WSL firewal - we decide to skip this
+
+You don't really need this firewall.
+Windows Firewall is the first layer and everything has to go through it anyway.
+And setting wsl firewall messes up a bunch of things (vscode for wsl, docker, etc.)
+
+I used ufw to only allow the ssh port to come through.
+But this messes up using vscode with wsl locally, but:
+- just enabling loopback isn't enough
+- and you can't just allow a fixed port, because vscode chooses a different port every time. 
+- And finding where to set vscode to use a fixed port was hard and I didn't find it. 
+
 
 ### check if works inside WSL2:
-ssh -p 2847 localhost
+ssh -p 2222 localhost
 
 
 ### make ssh start in wsl whenever wsl starts:
@@ -97,7 +107,7 @@ sudo systemctl enable fail2ban
 ip addr | grep eth0
 # try in windows:
 # (get user name in WSL by doing   whoami)
-ssh -p 2847 localhost
+ssh -p 2222 localhost
 
 # Why doesnt use of WSL's IP directly work?
 # WSL2 VM IP (e.g. 172.24.108.3) on an arbitrary port often fails from Windows due to the Hyper-V/WSL virtual switch firewall 
@@ -108,7 +118,31 @@ ssh -p 2847 localhost
 
 
 
+
+
+
+
 ### do the security precautions as explained in the regular SSH server setup notes
+
+!!! Watch out to change the port in sshd to actually be 2222 as we intend to have. 
+
+
+
+
+
+
+
+### do ssh keygen on windows and wsl
+Add their .pub keys to authorized_keys (the file you set in sshd under AuthorizedKeysFile)
+This way you can try ssh locally and see if it works. 
+
+
+
+
+
+
+
+
 
 
 
@@ -116,11 +150,11 @@ ssh -p 2847 localhost
 ### Can we ssh from wsl itself and from windows?
 
 ```sh
-# check if  works inside WSL2 (now using the allowed users setting:
-ssh -p 2847 wslUserName@localhost
+# check if  works inside WSL2 (now using the allowed users setting):
+ssh -p 2222 wslUserName@localhost
 
 # check if logging in from windows works too:
-ssh -p 2847 wslUserName@localhost
+ssh -p 2222 wslUserName@localhost
 ```
 
 
@@ -141,6 +175,32 @@ and see what the ip is
 
 
 
+### set up windows firewall to be open to 2222
+```powershell
+New-NetFirewallRule `
+  -DisplayName "WSL SSH inbound 2222" `
+  -Direction Inbound `
+  -Action Allow `
+  -Protocol TCP `
+  -LocalPort 2222 `
+  -Profile Any  `
+  -ErrorAction SilentlyContinue `
+  -EdgeTraversalPolicy Allow 
+
+# to see the rules:
+Get-NetFirewallRule -DisplayName "*2222*"
+# or
+Get-NetFirewallRule -DisplayName "*SSH*"
+
+# delete any existing rule with that exact name (optional)
+Get-NetFirewallRule -DisplayName "WSL SSH inbound 2222" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
+# clean up rules:
+Get-NetFirewallRule -DisplayName "*2222*" | Where-Object { $_.DisplayName -ne "WSL SSH 2222" } | Remove-NetFirewallRule
+```
+
+
+
+
 
 
 
@@ -153,7 +213,7 @@ and see what the ip is
 sudo systemctl enable ssh
 sudo systemctl restart ssh || sudo service ssh restart
 # now others can connect with:
-ssh -p 2847  WindowsUserName@<your_windows_local_ip>
+ssh -p 2222  WindowsUserName@<your_windows_local_ip>
 
 ```
 

@@ -22,6 +22,7 @@ You can have a shit laptop, but just connect to your good desktop computer with 
 Important files and commands:
 
 code /etc/ssh/sshd_config
+code ~/.ssh/authorized_keys
 code  /etc/fail2ban/jail.local
 
 sudo sshd -t    # (no output = good)
