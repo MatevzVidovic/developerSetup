@@ -124,7 +124,7 @@ ssh -p 2222 localhost
 
 ### do the security precautions as explained in the regular SSH server setup notes
 
-!!! Watch out to change the port in sshd to actually be 2222 as we intend to have. 
+!!! Watch out to have the port in sshd actually be 2222 as we intend to have. 
 
 
 

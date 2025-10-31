@@ -1,7 +1,49 @@
 
 
+# SSH server setup
 
 
+## safety advice
+
+
+Only open router port when you are going to be using it
+
+You do
+ipconfig
+Get the default gateway
+Paste that ip in your browser
+And turn on the port you set up.
+Put that URL into pinned ones so you can always do it quickly.
+
+And after not using it, you just stop it when you come home.
+
+
+
+Run commands that tell you logs of logins and attempted logins.
+Monitor it from time to time to see there is no funky business
+
+
+
+Maybe also: you could have ssh allow only one active connection.
+And so as soon as opening the port, you connect to it.
+Maybe it would be cool to have your phone connect to it (i heard tmux can work on your phone).
+So this way you've basically disabled anyone from accessing.
+
+
+
+## !!! Warning on HOST IDENTIFICATION HAS CHANGED - Important note
+
+When sshing to same IP address,
+when you changed ports or the actual machine you are sshing to, or you reinstall the ssh server or sth similar,
+you have different fingerprint that it returns.
+So safety makes it stop enabling it.
+You have to delete the old known host.
+You can delete all of them, it's no biggie.
+
+code ~/.ssh/known_hosts
+sudo nano ~/.ssh/known_hosts
+
+## Why ssh
 
 This is the best programming experience.
 You can have a shit laptop, but just connect to your good desktop computer with ssh. You run docker there, run everything there, it's awesome.
@@ -14,25 +56,26 @@ You can have a shit laptop, but just connect to your good desktop computer with 
 - on client machines, do ssh keygen (make longest key possible), and copy the publickey onto this server and put in correct place
 - change /etc/ssh/sshd_config/
 - install fail2ban (on 3 tries in 30min window, that IP is locked out (sadly can't do it in an IP agnostic way, where any 3 attempts lock everyone out))
-- install mailing and use PAM (email notif on login successful attempts (cant configure on any attempt, sadly)
+- install mailing and use PAM (email notif on login successful attempts (cant configure on any attempt, sadly))
 - make the connection on your local network with the local IP address
 - set router port forwarding, so you can access the ssh from anywhere
 
 
-Important files and commands:
+## Important files and commands:
 
-code /etc/ssh/sshd_config
-code ~/.ssh/authorized_keys
-code  /etc/fail2ban/jail.local
+nano ~/.ssh/authorized_keys
 
+sudo nano /etc/ssh/sshd_config
 sudo sshd -t    # (no output = good)
 sudo systemctl restart ssh
+
+sudo nano  /etc/fail2ban/jail.local
 sudo systemctl restart fail2ban
 sudo fail2ban-client status sshd
 
 
 
-Important notes:
+##  Important notes:
 We really want to use VScode with RemoteSSH. It's how you develop completely on the remote computer.
 But to have it, we need:
 - AllowTcpForwarding local  # can't be no
@@ -41,12 +84,15 @@ But to have it, we need:
 
 
 
-router setup:
-in your browser, write your router's local IP (get the IP with some command in the terminal),
+##  router setup:
+in your browser, write your router's local IP 
+(get the IP with some command in the terminal:
+windows: ipconfig     (default gateway is the router ip)
+),
 log in (usually credentials are: admin   admin),
 
-DHCP reservation:
-(Can be done on Router (more reliable) or locally (if router doesnt support DHCP reservation). For local settings, see lower in the text.
+## DHCP reservation:
+Can be done on Router (more reliable) or locally (if router doesnt support DHCP reservation). For local settings, see lower in the text.
 DHCP means your comp dynamically gets a local IP addr. So this means it can change between reboots. We don't want that, so that our ssh local network login can work, and so that our port forwarding can work. 
 We need the router to reserve a local IP for our desktop comp.
 On the server machine, do:
@@ -69,30 +115,11 @@ Add a port forwarding, that will forward your local network's singular global IP
 Fir the global part, take a random high port, so port scanners don't know it is ssh (standard ssh port is 22).
 
 
-Local DHCP server reservation:
-The problem eith this is: maybe router already has device with this IP, and then there can be problems.
-{
-ip addr show 
-(following thing uses this IP addr:)
-sudo nano /etc/netplan/01-network-manager-all.yaml
-
-network:
-  version: 2
-  renderer: NetworkManager
-  ethernets:
-    enp3s0:
-      dhcp4: no
-      addresses: [192.168.0.42/24]
-      gateway4: 192.168.0.1
-      nameservers:
-        addresses: [1.1.1.1,8.8.8.8]
-
-sudo netplan apply
-}
 
 
-VScode remote ssh setup on client:
-(if on windows, set up ssh on windows and  use the windows vscode. I tried with WESL but stuff didn't work)
+
+## VScode remote ssh setup on client:
+(if on windows, set up ssh on windows and  use the windows vscode. I tried with WSL but stuff didn't work)
 code ~/ssh/.config
 RemoteSSH gets ideas for available hosts from there.
 Try this in the terminal first, to see if connection works:
@@ -102,64 +129,63 @@ ssh
 Give it this (mb diff identity file? Depends on how you named it):
 Host my-ubuntu
   HostName <your.public.ip.or.ddns>
-  Port 2847
+  Port 2222
   User sshremote
   IdentityFile ~/.ssh/id_ed25519
   IdentitiesOnly yes
   ServerAliveInterval 60
 
 
-user setup with sudoers ability:
+
+## user setup with sudoers ability:
+```sh
 sudo adduser sshremote
 sudo usermod -aG sudo sshremote
+```
 
-
-server install:
+## server install:
+```sh
 sudo apt update
 sudo apt install openssh-server
+```
 
-
-firewal ufw (untested):
+## (if doing native linux server setup) firewal ufw:
+If doing it for wsl on windows, use just the windows firewall (see wsl specific setup).
+```sh
 sudo apt update && sudo apt install ufw
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw limit 2847/tcp
+sudo ufw allow 2222/tcp
 sudo ufw enable
 sudo ufw status numbered
+```
 
 
 
-
-SSH setup:
-client:
+## SSH setup:
+```sh
+# client:
 ssh-keygen -t ed25519 -a 100 -C "laptop@you"
-server:
+# server:
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 touch ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
-
-
-
-/etc/fail2ban/jail.local:
-
-    [sshd]
-    enabled = true
-    port = 2847
-    filter = sshd
-    logpath = /var/log/auth.log
-    maxretry = 3
-    findtime = 30m
-    bantime = 30m
+```
 
 
 
 
-/etc/ssh/sshd_config:
+## sshd_config
 
+```sh
+sudo nano /etc/ssh/sshd_config:
+```
+
+```sh
 
 # Change default port for security
-Port 2847
+Port 2222
 
 # Disable root login
 PermitRootLogin no
@@ -207,6 +233,7 @@ Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.
 MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com
 KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512
 
+```
 
 
 
@@ -221,8 +248,7 @@ KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-
 
 
 
-
-  Brute-Force Defense
+##   Brute-Force Defense
 
 We lock out an IP address for 30 minutes if it tried too many times.
 We can't make a global lock (if too many attempts in last 30 min, don't allow anyone to log in). Just doesn't exist, sadly.
@@ -235,7 +261,7 @@ sudo nano  /etc/fail2ban/jail.local # and give it this;
 
     [sshd]
     enabled = true
-    port = 2847
+    port = 2222
     filter = sshd
     logpath = /var/log/auth.log
     maxretry = 3
@@ -259,7 +285,44 @@ sudo fail2ban-client status sshd   # is it working?
 
 
 
-How do I set up login notifications with pam?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## (tried but not working yet) How do I set up login notifications with pam?
 in   /etc/ssh/sshd_config    have:    UsePAM yes
 sudo systemctl reload sshd
 
@@ -287,7 +350,7 @@ sudo systemctl reload sshd
   Change the recipient address; log to syslog instead if you prefer (`logger "SSH login..."`).
 
   **Wire Into PAM**
- code /etc/pam.d/sshd
+ nano /etc/pam.d/sshd
 and add near the bottom (above the final `session` line):
 
   session optional pam_exec.so seteuid /usr/local/sbin/ssh-login-notify.sh
@@ -299,6 +362,39 @@ and add near the bottom (above the final `session` line):
   2. Restart sshd (`sudo systemctl restart sshd`).
   3. Log in from another host and confirm an email arrives (check `/var/log/mail.log` if not).
   4. Tail journal `sudo journalctl -u ssh -f` to verify PAM logs show the hook firing.
+
+
+
+
+
+
+
+
+## (we do not use this) Local DHCP server reservation:
+The problem eith this is: maybe router already has device with this IP, and then there can be problems.
+{
+ip addr show 
+(following thing uses this IP addr:)
+sudo nano /etc/netplan/01-network-manager-all.yaml
+
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp3s0:
+      dhcp4: no
+      addresses: [192.168.0.42/24]
+      gateway4: 192.168.0.1
+      nameservers:
+        addresses: [1.1.1.1,8.8.8.8]
+
+sudo netplan apply
+}
+
+
+
+
+
 
 
 
