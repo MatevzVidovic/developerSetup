@@ -130,6 +130,8 @@ ssh -p 22 matevz2@localhost    # port not changed yet, so 22
 
 !!! Watch out to have the port in sshd actually be 2222 as we intend to have. 
 
+MFA SSH? You want it? Look into SSH_MFA_setup.md
+
 
 
 

@@ -47,15 +47,64 @@ sudo grep "Failed password" /var/log/auth.log | tail -n 20
 
 
 
-### Allowing only one connection at a time?
+### Allowing limited connections and saturating them
 
-Maybe also: you could have ssh allow only one active connection.
-And so as soon as opening the port forwarding on the router, you connect to your ssh with your laptop so noone else can.
-But ssh will probably disconnect if laptop goes to sleep, so:
-Maybe it would be cool to have your phone connect to it (i heard tmux can work on your phone) and then this will be persistent over mobile data, I think.
-So this way you've basically disabled anyone from accessing.
+Aside from all the regular precautions, you can make it impossible for anyone to even try connecting 
+by limiting number of allowed sessions (max startups in settings, not max sessions - look it up if wanna know more)
+
+As soon as opening the port forwarding on the router, 
+you connect to your ssh with your phone with as many different users as you have MaxStartups so noone else can even try conencting.
 And when you want to connect with your laptop, you just disconnect on your phone.
 
+You should be on mobile data so you always have a connection.
+But, on mobile data, your IP changes all the time, so ssh will break.
+So you should connect to a consumer VPN (e.g. ProtonVPN, NordVPN) and enable having a static IP.
+This way ssh will persist.
+
+For ssh-ing from your phone,
+You can use a phone ssh app (Termius, JuiceSSH). You do keygen and user creation there.
+And you can even check status of long-running processes on your when you have that
+(look up using tmux for seeing how elegantly you can have long running processes, 
+and also very easily see active terminal sessions from your phone.) 
+
+### Peer-to-peer VPNs?
+
+This can be an additional security layer. It can also work instead of the consumer VPN explained above.
+
+What is a VPN here really:
+
+Both devices have a pub and private key.
+They do a handshake.
+They establish a vitrual network (they have virtual static IPs when talking to eachother 
+(that static IP is what would solve the ssh disconnecting due to mobile data connection problem))
+
+When packets go from your phone → desktop:
+Peer-to-peer VPN process encrypts them using the desktop’s public key.
+The desktop decrypts them using its private key.
+No middleman ever sees the contents.
+So it’s basically the same asymmetric cryptography model as SSH.
+You just add another layer of protection on top of ssh.
+
+And sth like WireGuard is a much much smaller tool than ssh, so even less potential for security vulnerabilities in the code.
+
+
+WireGuard:
+Peer to peer.
+You need to set up your router to still do port forwarding.
+
+Tailscale:
+I think your router doesn't even have to open a port - so this would be an amazing level of security.
+No portscanner would even know there is anything there.
+
+There are Tailscale servers over which your 2 devices communicate.
+And so since your desktop comp (otherwise behid NAT) does an outgoing connection first,
+no port has to manually be opened on the router - it's just the regular way devices behind a NAT have outgoing connections.
+
+Tailscale automates the peer-to-peer process with a coordination server:
+Each device registers its public key with your Tailscale account.
+When you log into Tailscale, the coordination server tells devices each other’s current public IP + port.
+The devices then do a direct UDP handshake (NAT traversal) using those keys.
+If that fails, traffic relays through a fallback encrypted relay (“DERP server”).
 
 
 ## !!! Warning on HOST IDENTIFICATION HAS CHANGED - Important note
