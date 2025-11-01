@@ -82,16 +82,20 @@ But this messes up using vscode with wsl locally, but:
 
 
 ### check if works inside WSL2:
-ssh -p 2222 localhost
+ssh -p 22 localhost    # port not changed yet, so 22
 
 
 ### make ssh start in wsl whenever wsl starts:
 ```sh
 printf "[boot]\nsystemd=true\n" | sudo tee /etc/wsl.conf
 # on wsl-launch, wsl.conf runs. And now it starts systemd, which is the linux system for background services, which runs whatever is enabled.
+```
+```powershell
 # Now close all wsl terminal sessions you have running.
 # in windows powershell:
 wsl.exe --shutdown
+```
+```sh
 # after WSL restarts, in WSL:
 sudo systemctl enable ssh
 sudo systemctl start ssh
@@ -107,7 +111,7 @@ sudo systemctl enable fail2ban
 ip addr | grep eth0
 # try in windows:
 # (get user name in WSL by doing   whoami)
-ssh -p 2222 localhost
+ssh -p 22 matevz2@localhost    # port not changed yet, so 22
 
 # Why doesnt use of WSL's IP directly work?
 # WSL2 VM IP (e.g. 172.24.108.3) on an arbitrary port often fails from Windows due to the Hyper-V/WSL virtual switch firewall 

@@ -94,6 +94,10 @@ You can have a shit laptop, but just connect to your good desktop computer with 
 ## Important files and commands:
 
 
+sudo systemctl status ssh    # is ssh running?
+sudo ss -tulpn | grep ssh   # where is ssh? on which port?
+
+
 nano ~/.ssh/authorized_keys
 
 sudo nano /etc/ssh/sshd_config
