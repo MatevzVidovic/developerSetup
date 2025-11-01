@@ -183,6 +183,13 @@ ssh -p 2222 wslUserName@localhost
 ssh -p 2222 wslUserName@localhost
 ```
 
+If not working, see:
+```sh
+sudo ss -tulpn | grep ssh   # where is ssh? on which port?
+```
+If not the correct port, try:
+wsl --shutdown
+
 
 
 ## Make WSL accessible over LAN
@@ -192,12 +199,16 @@ code ~/.wslconfig
 [wsl2]
 networkingMode=mirrored
 ```
-also in phs:
+### Even if this has been done already
+```sh
+# also in phs:
 wsl --shutdown
-then in wsl do:
+# then in wsl do:
 ip a
-and see what the ip is
-
+# and see what the ip is
+sudo ss -tulpn | grep ssh   # where is ssh? on which port?
+# see if the port is correct
+```
 
 
 
