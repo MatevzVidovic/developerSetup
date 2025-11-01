@@ -5,9 +5,15 @@
 
 ## !!! Important !!!
 
-This setup didn't work very well due to the changing IP of wsl.
+Due to the changing IP of wsl, whis setup has problems.
+
+On the bottom, we tried to automate port forwarding, but it didn't work.
+
 So you would have to set up the port forwarding every time you open wsl for ssh 
 (just 2 commands, so not too bad - I'm just saying the automation approach didn't work)
+
+So yeah, if you don't have Windows version and wsl version high enough for mirrored networking, just do this, 
+and set up port forwarding evvery time; it's not that much work, it's fine
 
 
 ## Why port 2847

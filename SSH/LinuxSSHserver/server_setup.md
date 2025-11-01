@@ -6,6 +6,8 @@
 ## safety advice
 
 
+### Only have router port forwarding when you need it:
+
 Only open router port when you are going to be using it
 
 You do
@@ -18,16 +20,41 @@ Put that URL into pinned ones so you can always do it quickly.
 And after not using it, you just stop it when you come home.
 
 
+### Login attempt monitoring
 
-Run commands that tell you logs of logins and attempted logins.
-Monitor it from time to time to see there is no funky business
+Run commands that tell you logs of logins and attempted logins:
+Monitor it from time to time to see there is no funky business.
+
+When you see the IPs, you can put them into a website like WhereIsMyIp, give them the IP, and see where it is coming from.
+So you verify it was you.
 
 
+sudo fail2ban-client status
+
+
+sudo cat /var/log/auth.log \
+ | grep -oP '(?<=from )[^ ]+' \
+ | sort | uniq -c | sort -n
+
+
+sudo grep "Failed password" /var/log/auth.log \
+ | grep -oP '(?<=from )[^ ]+' \
+ | sort | uniq -c | sort -rn | head -20
+
+
+sudo tail -F /var/log/auth.log
+sudo grep "Failed password" /var/log/auth.log | tail -n 20
+
+
+
+### Allowing only one connection at a time?
 
 Maybe also: you could have ssh allow only one active connection.
-And so as soon as opening the port, you connect to it.
-Maybe it would be cool to have your phone connect to it (i heard tmux can work on your phone).
+And so as soon as opening the port forwarding on the router, you connect to your ssh with your laptop so noone else can.
+But ssh will probably disconnect if laptop goes to sleep, so:
+Maybe it would be cool to have your phone connect to it (i heard tmux can work on your phone) and then this will be persistent over mobile data, I think.
 So this way you've basically disabled anyone from accessing.
+And when you want to connect with your laptop, you just disconnect on your phone.
 
 
 
@@ -42,6 +69,9 @@ You can delete all of them, it's no biggie.
 
 code ~/.ssh/known_hosts
 sudo nano ~/.ssh/known_hosts
+
+
+
 
 ## Why ssh
 
@@ -63,6 +93,7 @@ You can have a shit laptop, but just connect to your good desktop computer with 
 
 ## Important files and commands:
 
+
 nano ~/.ssh/authorized_keys
 
 sudo nano /etc/ssh/sshd_config
@@ -72,6 +103,13 @@ sudo systemctl restart ssh
 sudo nano  /etc/fail2ban/jail.local
 sudo systemctl restart fail2ban
 sudo fail2ban-client status sshd
+
+
+Testing if connections work:
+
+nc -vz -w2 192.168.101.126 2222
+Test-NetConnection 192.168.101.126 -Port 2222
+
 
 
 
