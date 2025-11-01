@@ -68,19 +68,6 @@ sudo apt install openssh-server
 sudo service ssh start
 ```
 
-### WSL firewal - we decide to skip this
-
-You don't really need this firewall.
-Windows Firewall is the first layer and everything has to go through it anyway.
-And setting wsl firewall messes up a bunch of things (vscode for wsl, docker, etc.)
-
-I used ufw to only allow the ssh port to come through.
-But this messes up using vscode with wsl locally, but:
-- just enabling loopback isn't enough
-- and you can't just allow a fixed port, because vscode chooses a different port every time. 
-- And finding where to set vscode to use a fixed port was hard and I didn't find it. 
-
-
 ### check if works inside WSL2:
 ssh -p 22 localhost    # port not changed yet, so 22
 
@@ -142,6 +129,10 @@ MFA SSH? You want it? Look into SSH_MFA_setup.md
 Add their .pub keys to authorized_keys (the file you set in sshd under AuthorizedKeysFile)
 This way you can try ssh locally and see if it works. 
 
+```sh
+ssh-keygen -t ed25519 -a 100 -C "self@self"
+cat ~/.ssh/id_ed25519.pub
+```
 
 
 
@@ -149,6 +140,35 @@ This way you can try ssh locally and see if it works.
 
 
 
+
+
+
+
+
+
+
+### set up windows firewall to be open to 2222
+```powershell
+New-NetFirewallRule `
+  -DisplayName "WSL SSH inbound 2222" `
+  -Direction Inbound `
+  -Action Allow `
+  -Protocol TCP `
+  -LocalPort 2222 `
+  -Profile Any  `
+  -ErrorAction SilentlyContinue `
+  -EdgeTraversalPolicy Allow 
+
+# to see the rules:
+Get-NetFirewallRule -DisplayName "*2222*"
+# or
+Get-NetFirewallRule -DisplayName "*SSH*"
+
+# delete any existing rule with that exact name (optional)
+Get-NetFirewallRule -DisplayName "WSL SSH inbound 2222" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
+# clean up rules:
+Get-NetFirewallRule -DisplayName "*2222*" | Where-Object { $_.DisplayName -ne "WSL SSH 2222" } | Remove-NetFirewallRule
+```
 
 
 
@@ -181,37 +201,15 @@ and see what the ip is
 
 
 
-### set up windows firewall to be open to 2222
-```powershell
-New-NetFirewallRule `
-  -DisplayName "WSL SSH inbound 2222" `
-  -Direction Inbound `
-  -Action Allow `
-  -Protocol TCP `
-  -LocalPort 2222 `
-  -Profile Any  `
-  -ErrorAction SilentlyContinue `
-  -EdgeTraversalPolicy Allow 
-
-# to see the rules:
-Get-NetFirewallRule -DisplayName "*2222*"
-# or
-Get-NetFirewallRule -DisplayName "*SSH*"
-
-# delete any existing rule with that exact name (optional)
-Get-NetFirewallRule -DisplayName "WSL SSH inbound 2222" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
-# clean up rules:
-Get-NetFirewallRule -DisplayName "*2222*" | Where-Object { $_.DisplayName -ne "WSL SSH 2222" } | Remove-NetFirewallRule
-```
-
-
-
-
-
-
 
 
 ## Do ssh keygen on client machine
+
+```sh
+ssh-keygen -t ed25519 -a 100 -C "self@self"
+cat ~/.ssh/id_ed25519.pub
+```
+
 ```sh
 
 # copy the .pub to ~/ssh/authorized_keys  (literally just paste it in as a line)
@@ -234,11 +232,30 @@ ssh -p 2222  WindowsUserName@<your_windows_local_ip>
 
 
 
-
-##### Prevent Windows-side idle trigger (rare but possible):
+## Prevent Windows-side idle trigger (rare but possible):
 Sometimes Windows still kills idle WSL if its “Virtual Machine Platform” subsystem thinks it’s unused.
 You can prevent this by setting:
 wsl --set-default Ubuntu-24.04
+
+
+
+
+
+### WSL firewal - we decide to skip this
+
+You don't really need this firewall.
+Windows Firewall is the first layer and everything has to go through it anyway.
+And setting wsl firewall messes up a bunch of things (vscode for wsl, docker, etc.)
+
+I used ufw to only allow the ssh port to come through.
+But this messes up using vscode with wsl locally, but:
+- just enabling loopback isn't enough
+- and you can't just allow a fixed port, because vscode chooses a different port every time. 
+- And finding where to set vscode to use a fixed port was hard and I didn't find it. 
+
+
+
+
 
 
 

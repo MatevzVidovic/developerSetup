@@ -2,8 +2,9 @@
 
 # SSH server setup
 
+## Initial info
 
-## safety advice
+### safety advice
 
 
 ### Only have router port forwarding when you need it:
@@ -29,6 +30,7 @@ When you see the IPs, you can put them into a website like WhereIsMyIp, give the
 So you verify it was you.
 
 
+```sh
 sudo fail2ban-client status
 
 
@@ -44,7 +46,7 @@ sudo grep "Failed password" /var/log/auth.log \
 
 sudo tail -F /var/log/auth.log
 sudo grep "Failed password" /var/log/auth.log | tail -n 20
-
+```
 
 
 ### Allowing limited connections and saturating them
@@ -107,7 +109,7 @@ The devices then do a direct UDP handshake (NAT traversal) using those keys.
 If that fails, traffic relays through a fallback encrypted relay (“DERP server”).
 
 
-## !!! Warning on HOST IDENTIFICATION HAS CHANGED - Important note
+### !!! Warning on HOST IDENTIFICATION HAS CHANGED - Important note
 
 When sshing to same IP address,
 when you changed ports or the actual machine you are sshing to, or you reinstall the ssh server or sth similar,
@@ -116,13 +118,14 @@ So safety makes it stop enabling it.
 You have to delete the old known host.
 You can delete all of them, it's no biggie.
 
+```sh
 code ~/.ssh/known_hosts
 sudo nano ~/.ssh/known_hosts
+```
 
 
 
-
-## Why ssh
+### Why ssh
 
 This is the best programming experience.
 You can have a shit laptop, but just connect to your good desktop computer with ssh. You run docker there, run everything there, it's awesome.
@@ -140,9 +143,20 @@ You can have a shit laptop, but just connect to your good desktop computer with 
 - set router port forwarding, so you can access the ssh from anywhere
 
 
+
+###  Important notes on how to use VScode with Remote ssh:
+We really want to use VScode with RemoteSSH. It's how you develop completely on the remote computer.
+But to have it, we need:
+- AllowTcpForwarding local  # can't be no
+- In client's VScode, RemoteSSH setting: Use Local Server should be False
+- we can't use TOTP MFA (Vscode can't handle it). We need publickey only. (unless doing ssh tuneling - see .md about that in this repo)
+
+
+
 ## Important files and commands:
 
 
+```sh
 sudo systemctl status ssh    # is ssh running?
 sudo ss -tulpn | grep ssh   # where is ssh? on which port?
 
@@ -162,16 +176,9 @@ Testing if connections work:
 
 nc -vz -w2 192.168.101.126 2222
 Test-NetConnection 192.168.101.126 -Port 2222
+```
 
 
-
-
-##  Important notes:
-We really want to use VScode with RemoteSSH. It's how you develop completely on the remote computer.
-But to have it, we need:
-- AllowTcpForwarding local  # can't be no
-- we can't use TOTP MFA (Vscode can't handle it). We need publickey only.
-- In client's VScode, RemoteSSH setting: Use Local Server should be False
 
 
 
@@ -182,7 +189,7 @@ windows: ipconfig     (default gateway is the router ip)
 ),
 log in (usually credentials are: admin   admin),
 
-## DHCP reservation:
+### DHCP reservation:
 Can be done on Router (more reliable) or locally (if router doesnt support DHCP reservation). For local settings, see lower in the text.
 DHCP means your comp dynamically gets a local IP addr. So this means it can change between reboots. We don't want that, so that our ssh local network login can work, and so that our port forwarding can work. 
 We need the router to reserve a local IP for our desktop comp.
@@ -209,38 +216,23 @@ Fir the global part, take a random high port, so port scanners don't know it is 
 
 
 
-## VScode remote ssh setup on client:
-(if on windows, set up ssh on windows and  use the windows vscode. I tried with WSL but stuff didn't work)
-code ~/ssh/.config
-RemoteSSH gets ideas for available hosts from there.
-Try this in the terminal first, to see if connection works:
-ssh -vvv my-ubuntu
-
-ssh
-Give it this (mb diff identity file? Depends on how you named it):
-Host my-ubuntu
-  HostName <your.public.ip.or.ddns>
-  Port 2222
-  User sshremote
-  IdentityFile ~/.ssh/id_ed25519
-  IdentitiesOnly yes
-  ServerAliveInterval 60
 
 
+## Native linux server setup
 
-## user setup with sudoers ability:
+### user setup with sudoers ability:
 ```sh
 sudo adduser sshremote
 sudo usermod -aG sudo sshremote
 ```
 
-## server install:
+### server install:
 ```sh
 sudo apt update
 sudo apt install openssh-server
 ```
 
-## (if doing native linux server setup) firewal ufw:
+### (if doing native linux server setup) firewal ufw:
 If doing it for wsl on windows, use just the windows firewall (see wsl specific setup).
 ```sh
 sudo apt update && sudo apt install ufw
@@ -256,12 +248,14 @@ sudo ufw status numbered
 ## SSH setup:
 ```sh
 # client:
-ssh-keygen -t ed25519 -a 100 -C "laptop@you"
+ssh-keygen -t ed25519 -a 100 -C "self@self"
+cat ~/.ssh/id_ed25519.pub
 # server:
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 touch ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
+code ~/.ssh/authorized_keys
 ```
 
 
@@ -270,8 +264,11 @@ chmod 600 ~/.ssh/authorized_keys
 ## sshd_config
 
 ```sh
-sudo nano /etc/ssh/sshd_config:
+sudo nano /etc/ssh/sshd_config
 ```
+
+Delete what is there (maybe copy it and save it to somewhere).
+Add this:
 
 ```sh
 
@@ -309,7 +306,7 @@ ClientAliveInterval 300
 ClientAliveCountMax 3
 
 # Restrict users (optional - only allow SSH user)
-AllowUsers sshremote alex
+# AllowUsers sshremote alex matevz2
 
 # Disable unused features
 PermitEmptyPasswords no
@@ -346,10 +343,13 @@ We can't make a global lock (if too many attempts in last 30 min, don't allow an
 
   Fail2ban Setup
 
-  sudo apt install fail2ban
+```sh
+sudo apt install fail2ban
 sudo cat /var/log/auth.log   # is it available? Otherwise use "journal"
 sudo nano  /etc/fail2ban/jail.local # and give it this;
+```
 
+```sh
     [sshd]
     enabled = true
     port = 2222
@@ -358,11 +358,12 @@ sudo nano  /etc/fail2ban/jail.local # and give it this;
     maxretry = 3
     findtime = 30m
     bantime = 30m
+```
 
-
+```sh
 sudo systemctl restart fail2ban
 sudo fail2ban-client status sshd   # is it working?
-
+```
 
 
 
@@ -377,6 +378,31 @@ sudo fail2ban-client status sshd   # is it working?
 
 
 
+## VScode remote ssh setup on client:
+(if on windows, set up ssh on windows and  use the windows vscode. I tried with WSL but stuff didn't work)
+
+```sh
+code ~/ssh/.config
+```
+RemoteSSH gets ideas for available hosts from there.
+
+
+ssh
+Give it this (mb diff identity file? Depends on how you named it):
+```sh
+Host my-ubuntu
+  HostName <your.public.ip.or.ddns>
+  Port 2222
+  User <username>
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+  ServerAliveInterval 60
+```
+
+Try this in the terminal first, to see if connection works:
+```sh
+ssh -vvv my-ubuntu
+```
 
 
 
@@ -412,6 +438,12 @@ sudo fail2ban-client status sshd   # is it working?
 
 
 
+
+
+
+
+
+# Not used
 
 ## (tried but not working yet) How do I set up login notifications with pam?
 in   /etc/ssh/sshd_config    have:    UsePAM yes
@@ -501,7 +533,7 @@ sudo netplan apply
 
 
 
-# Info:
+## General info:
 
   - Set AllowTcpForwarding local to permit only local (client→server) forwards, which is enough for VS Code while blocking
   server→client reverse tunnels.
