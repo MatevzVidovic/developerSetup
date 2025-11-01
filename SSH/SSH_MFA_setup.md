@@ -63,7 +63,7 @@ sudo service ssh restart
 ```
 
 
-## VScode Remote-SSH not connecting
+## VScode Remote-SSH not connecting - I have not gotten this to work
 
 It can't handle MFA, because it can't do keyboard interacting to give TOTP.
 So you need to do ssh -L tunneling in the terminal to the ssh port of the host machine,
@@ -73,8 +73,8 @@ then in VScode you connect to the -L local port on the localhost address and thi
 
 ```sh
 # make a tunnel with local port being whatever, that points to the actual ssh port of the host machine 
-# (change 22 to your actual ssh port)
-ssh  -L 3333:192.168.101.126:22 matevz@192.168.101.126  # do the MFA thingy
+# (change 2222 to your actual ssh port)
+ssh -p 2222 -L 3333:192.168.101.126:2222 matevz@192.168.101.126  # do the MFA thingy
 # make sure the ssh tunnel works from your client machine
 ssh -p 3333  matevz@localhost   # this is what vscode will do in the background when we connect using this as a host
 # then make a Remote SSH VScode host thingy that has ip localhost and port being 3333 in this case
@@ -82,5 +82,14 @@ ssh -p 3333  matevz@localhost   # this is what vscode will do in the background 
 
 Look at the SSH tunneling .md in developerSetup git repo or in the keep note (Dragan Tech) to look up more about ssh tunneling and how to do this.
 
+### How far I've come:
+
+this worked the first time, but not afterwards:
+ssh -p 3333  matevz@localhost
+
+And vscode actually started the connection, asked for verification code in the vscode terminal
+(this didn't happen on the first time I did the MFA setup without tunneling - there it just didn't work).
+But after entering the verification code, it did not work.
+So we are staying on regular old non-mfa ssh for now.
 
 
