@@ -129,6 +129,12 @@ MFA SSH? You want it? Look into SSH_MFA_setup.md
 Add their .pub keys to authorized_keys (the file you set in sshd under AuthorizedKeysFile)
 This way you can try ssh locally and see if it works. 
 
+self@self is just the key id so you know what (comp+OS)'s identity this is.
+So change it to sth like:
+
+matevz_desktop@windows
+matevz_desktop@wsl_24_04_basic
+
 ```sh
 ssh-keygen -t ed25519 -a 100 -C "self@self"
 cat ~/.ssh/id_ed25519.pub
@@ -216,6 +222,9 @@ sudo ss -tulpn | grep ssh   # where is ssh? on which port?
 
 ## Do ssh keygen on client machine
 
+self@self is just the key id so you know what (comp+OS)'s identity this is.
+So change it to sth like:
+matevz_laptop@wsl_24_04_basic
 ```sh
 ssh-keygen -t ed25519 -a 100 -C "self@self"
 cat ~/.ssh/id_ed25519.pub

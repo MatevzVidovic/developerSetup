@@ -38,6 +38,24 @@ Any connection I make to that port should be forwarded through this SSH connecti
 
 This way you can access a remote port as if it were local.
 
+But even more powerfully, you can make it so that what you send to the local port goes through the tunnel, and instead of it just coming with the IP from your machine, the target can appear like it is coming from localhost.
+This can bypass a lot of firewall and config restrictions.
+
+```sh
+ssh -L 127.0.0.1:3333:127.0.0.1:5000 matevz2@192.168.101.126 -p 2223 -i C:\Users\Uporabnik\.ssh\id_ed25519_wsl_factory 
+# meaning of this:
+# -L [LOCAL_BIND_IP]:[LOCAL_PORT]:[REMOTE_DEST_IP]:[REMOTE_DEST_PORT]  
+```
+
+And even more powerfully, you can make the target port the ssh port itself.
+Since you can put a match block in your /etc/ssh/sshd_config on your server and set different restrictions for login attempts coming from localhost, this means you can set things up so you first have to connect with strict rules (like using MFA TOTP) and later the connection is much simpler through the tunnel.
+This enables using tools like VScode which cant handle the more complex connection.
+
+
+```sh
+ssh -L 127.0.0.1:3333:127.0.0.1:2223 matevz2@192.168.101.126 -p 2223 -i C:\Users\Uporabnik\.ssh\id_ed25519_wsl_factory 
+```
+
 
 ### Remote forwarding:
 

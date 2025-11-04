@@ -52,9 +52,13 @@ alias pym='python3 -m'
 alias dr='docker'
 alias drc='docker-compose'
 alias pr='poetry run' # nice for short scripts you define in pyproject.toml
-alias gssh='ssh-keygen -t ed25519 -C example@gmail.com
-cat ~/.ssh/id_ed25519.pub
-ssh -T git@github.com
+alias gssh='# Have just one ssh key per (comp+os)
+# The example@gmail.com is actually just an id for you to know what comp id this is refering to.
+# So change it to sth like: matevz_desktop@windows or matevz_desktop@wsl_24_04_basic
+
+ssh-keygen -t ed25519 -C example@gmail.com
+cat ~/.ssh/id_ed25519.pub    # add this to github in settings/ssh keys
+ssh -T git@github.com    # see if you can connect to github
 yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 

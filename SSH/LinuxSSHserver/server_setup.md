@@ -246,6 +246,11 @@ sudo ufw status numbered
 
 
 ## SSH setup:
+
+self@self is just the key id so you know what (comp+OS)'s identity this is.
+So change it to sth like:
+
+matevz_desktop@wsl_24_04_basic
 ```sh
 # client:
 ssh-keygen -t ed25519 -a 100 -C "self@self"
