@@ -50,10 +50,6 @@
         { "before": ["p"], "after": ["\"", "+", "p"] },
         { "before": ["P"], "after": ["\"", "+", "P"] }
     ],
-    "vim.visualModeKeyBindingsNonRecursive": [
-        { "before": ["y"], "after": ["\"", "+", "y"] },
-        { "before": ["x"], "after": ["\"", "+", "x"] }
-    ],
 
 
     // Enable vim-surround motions: S in Visual, ys/ds/cs in Normal, etc.
