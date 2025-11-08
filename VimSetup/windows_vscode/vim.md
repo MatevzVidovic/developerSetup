@@ -63,16 +63,79 @@
     // "vim.timeout": true,
     // "vim.timeoutlen": 1000,
 
-    // Let VS Code handle Ctrl+C so we can bind it to Copy in Visual modes below.
-    // (If you later want other Ctrl/Alt combos to be handled by VS Code, add them here.)
+
+
+
+    // Let VS Code handle keybindings
     "vim.handleKeys": {
-        "<C-c>": false,
-        "<C-y>": false,
-        "<C-x>": false,
-        "<C-a>": false,
-        "<C-w>": false,
-        "<C-j>": false,
-        "<C-f>": false,
+      // ==========================
+      // CTRL — letters (A–Z)
+      // ==========================
+      "<C-a>": false, "<C-b>": false, "<C-c>": false, "<C-d>": false, "<C-e>": false,
+      "<C-f>": false, "<C-g>": false, "<C-h>": false, "<C-i>": false, "<C-j>": false,
+      "<C-k>": false, "<C-l>": false, "<C-m>": false, "<C-n>": false, "<C-o>": false,
+      "<C-p>": false, "<C-q>": false, "<C-r>": false, "<C-s>": false, "<C-t>": false,
+      "<C-u>": false, "<C-v>": false, "<C-w>": false, "<C-x>": false, "<C-y>": false, "<C-z>": false,
+
+      // ==========================
+      // CTRL — numbers (0–9) + common specials
+      // ==========================
+      "<C-0>": false, "<C-1>": false, "<C-2>": false, "<C-3>": false, "<C-4>": false,
+      "<C-5>": false, "<C-6>": false, "<C-7>": false, "<C-8>": false, "<C-9>": false,
+      "<C-Left>": false, "<C-Right>": false, "<C-Up>": false, "<C-Down>": false,
+      "<C-Home>": false, "<C-End>": false, "<C-PageUp>": false, "<C-PageDown>": false,
+      "<C-Backspace>": false, "<C-Delete>": false, "<C-Insert>": false,
+      "<C-Enter>": false, "<C-Tab>": false, "<C-Escape>": false,
+
+      // ==========================
+      // ALT / OPTION (and META) — letters (A–Z)
+      // Use <A-…> for Alt/Option; <M-…> included for Meta compatibility
+      // ==========================
+      "<A-a>": false, "<A-b>": false, "<A-c>": false, "<A-d>": false, "<A-e>": false,
+      "<A-f>": false, "<A-g>": false, "<A-h>": false, "<A-i>": false, "<A-j>": false,
+      "<A-k>": false, "<A-l>": false, "<A-m>": false, "<A-n>": false, "<A-o>": false,
+      "<A-p>": false, "<A-q>": false, "<A-r>": false, "<A-s>": false, "<A-t>": false,
+      "<A-u>": false, "<A-v>": false, "<A-w>": false, "<A-x>": false, "<A-y>": false, "<A-z>": false,
+
+      "<M-a>": false, "<M-b>": false, "<M-c>": false, "<M-d>": false, "<M-e>": false,
+      "<M-f>": false, "<M-g>": false, "<M-h>": false, "<M-i>": false, "<M-j>": false,
+      "<M-k>": false, "<M-l>": false, "<M-m>": false, "<M-n>": false, "<M-o>": false,
+      "<M-p>": false, "<M-q>": false, "<M-r>": false, "<M-s>": false, "<M-t>": false,
+      "<M-u>": false, "<M-v>": false, "<M-w>": false, "<M-x>": false, "<M-y>": false, "<M-z>": false,
+
+      // ==========================
+      // ALT / OPTION (and META) — numbers + navigation/specials
+      // ==========================
+      "<A-0>": false, "<A-1>": false, "<A-2>": false, "<A-3>": false, "<A-4>": false,
+      "<A-5>": false, "<A-6>": false, "<A-7>": false, "<A-8>": false, "<A-9>": false,
+      "<A-Left>": false, "<A-Right>": false, "<A-Up>": false, "<A-Down>": false,
+      "<A-Home>": false, "<A-End>": false, "<A-PageUp>": false, "<A-PageDown>": false,
+      "<A-Backspace>": false, "<A-Delete>": false, "<A-Insert>": false,
+      "<A-Enter>": false, "<A-Tab>": false, "<A-Escape>": false,
+
+      "<M-0>": false, "<M-1>": false, "<M-2>": false, "<M-3>": false, "<M-4>": false,
+      "<M-5>": false, "<M-6>": false, "<M-7>": false, "<M-8>": false, "<M-9>": false,
+      "<M-Left>": false, "<M-Right>": false, "<M-Up>": false, "<M-Down>": false,
+      "<M-Home>": false, "<M-End>": false, "<M-PageUp>": false, "<M-PageDown>": false,
+      "<M-Backspace>": false, "<M-Delete>": false, "<M-Insert>": false,
+      "<M-Enter>": false, "<M-Tab>": false, "<M-Escape>": false,
+
+      // ==========================
+      // SHIFT — special/navigation keys (Shifted letters are usually just letters; pass specials explicitly)
+      // (This includes Shift+Tab so VS Code outdent works.)
+      // ==========================
+      "<S-Tab>": false, "<S-Enter>": false, "<S-Backspace>": false, "<S-Delete>": false, "<S-Insert>": false,
+      "<S-Left>": false, "<S-Right>": false, "<S-Up>": false, "<S-Down>": false,
+      "<S-Home>": false, "<S-End>": false, "<S-PageUp>": false, "<S-PageDown>": false,
+      "<S-Escape>": false, "<S-SPACE>": false,
+
+      // ==========================
+      // Function keys — pass through all F1–F24
+      // ==========================
+      "<F1>": false, "<F2>": false, "<F3>": false, "<F4>": false, "<F5>": false, "<F6>": false,
+      "<F7>": false, "<F8>": false, "<F9>": false, "<F10>": false, "<F11>": false, "<F12>": false,
+      "<F13>": false, "<F14>": false, "<F15>": false, "<F16>": false, "<F17>": false, "<F18>": false,
+      "<F19>": false, "<F20>": false, "<F21>": false, "<F22>": false, "<F23>": false, "<F24>": false
     },
 }
 ```

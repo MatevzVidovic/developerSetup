@@ -36,21 +36,46 @@ alias gcon2='git remote -v && git branch -M main && git push -u origin main && g
 
 # conda aliases
 alias cn='conda'
+alias cnel="conda env list"
 alias cna='conda activate'
+alias cnd='conda deactivate'
 alias cncr='conda create --name'
-alias cnex='mkdir -p .conda && conda env export > .conda/environment.yml'
+alias cnex='mkdir -p .conda && conda env export > .conda/environment.yml && conda env export --from-history > .conda/env-readable.yml'
 alias cnu='conda env update -f .conda/environment.yml'
 # r for regular:
 alias cnrex='conda env export > environment.yml'
 alias cnru='conda env update -f environment.yml'
+
+# docker
+alias dr='docker'
+alias drc='docker-compose'
+alias dru="docker compose up --build"
+alias drd="docker compose down"
+# alias dru="docker compose -f .docker/docker-compose.yml up --build"
+# alias drd="docker compose -f .docker/docker-compose.yml down"
+alias drcr="docker compose run --rm --service-ports" # <service_name_from_compose_yml> sh   # open single service as a shell.
+# main observability
+alias drps="docker ps"
+alias drt="docker exec -it" # container-name sh  # or bash or zsh   # get terminal access to the running container  
+alias drl="docker compose logs -f" # <optionally: service_name> to get logs for a specific service.
+# all observability
+alias drpsa="docker ps -a"    # also show stopped containers
+alias drr="sudo service docker status" # is docker engine running on Linux?
+alias drim="docker images"
+alias drin="docker inspect" # <container_name_or_id>
+alias drlf="docker logs -f" # <container_name_or_id>
+# cleanup
+alias drrmc="docker rm" # <container_id_or_name>   # removeing containers
+alias drrmi="docker rmi" # <image_id_or_name>    # removing images
+alias drp="docker system prune"    # prune what is unused
+alias drpa="docker system prune -a"    # prune agressively - everything not currently used (except persistent volumes)
+alias drpav="docker system prune -a --volumes"    # also removes volume contents for complete reset.
 
 # other dev aliases
 alias c='code'
 alias cx='code .'
 alias py='python3'
 alias pym='python3 -m'
-alias dr='docker'
-alias drc='docker-compose'
 alias pr='poetry run' # nice for short scripts you define in pyproject.toml
 alias gssh='# Have just one ssh key per (comp+os)
 # The example@gmail.com is actually just an id for you to know what comp id this is refering to.
