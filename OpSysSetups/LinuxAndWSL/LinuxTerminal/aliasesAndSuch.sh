@@ -1,6 +1,10 @@
 
 
 
+# Setup of aliases
+
+# ======================================================================
+
 # main dev aliases
 alias m='make'
 alias t='task'
@@ -91,5 +95,7 @@ yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot 
 alias cla='claude --dangerously-skip-permissions --allowedTools Bash,Read,Glob,Grep,WebFetch,WebSearch,TodoWrite,Task,BashOutput,KillShell'
 alias cox='codex --search -a on-failure --sandbox workspace-write'
 alias coxr='codex --search -a never --sandbox read-only'
+
+# ======================================================================
 
 

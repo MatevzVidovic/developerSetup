@@ -19,6 +19,10 @@
 # [commit]
 # 	gpgsign = true
 
+# [user]
+#     email = matevz.vidovic@flycom.si
+#     name = Matevž Vidovič
+
 [user]
     email = matevz.vidovic@gmail.com
     name = Matevž Vidovič
