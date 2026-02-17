@@ -12,7 +12,7 @@
 
 [
   // search
-  { "key": "alt+f",           "command": "editor.actions.find" },
+  { "key": "alt+f",           "command": "actions.find" },
   { "key": "alt+r",           "command": "editor.action.startFindReplaceAction" },
   // awesome feature to remember - in the find field, there is a button to toggle "Find in selection":
   // you do alt f, make a selection, then click that button, 
