@@ -32,8 +32,8 @@
   { "key": "alt+w",           "command": "workbench.action.closeActiveEditor" }, // also closes groups (side panels)
   { "key": "alt+left",        "command": "workbench.action.previousEditor" },
   { "key": "alt+right",       "command": "workbench.action.nextEditor" }, // goes over group boundaries too
-  {  "key": "alt+shift+left", "command": "workbench.action.moveEditorLeftInGroup","when": "editorTextFocus" }, // moves current tab left within its group
-  {  "key": "alt+shift+right","command": "workbench.action.moveEditorRightInGroup","when": "editorTextFocus" },
+  { "key": "ctrl+shift+left", "command": "workbench.action.moveEditorLeftInGroup","when": "editorTextFocus" }, // moves current tab left within its group
+  { "key": "ctrl+shift+right","command": "workbench.action.moveEditorRightInGroup","when": "editorTextFocus" },
   { "key": "alt+cmd+right", "command": "workbench.action.moveEditorToNextGroup", "when": "editorIsOpen" }, // moves current tab to next group (side-panel). Creates group if it didn't exist.
   { "key": "alt+cmd+left",  "command": "workbench.action.moveEditorToPreviousGroup", "when": "editorIsOpen" },
   { "key": "alt+9",           "command": "workbench.action.lastEditorInGroup" },
