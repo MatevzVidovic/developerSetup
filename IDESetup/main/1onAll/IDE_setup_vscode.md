@@ -15,6 +15,17 @@ Reload VS Code after editing settings.json/keybindings.json to ensure all keybin
 ctrl + shift + p   and then pick  Developer: Reload Window
 
 
+### PUML in md setup
+
+To have puml rendering you usually need to install some java stuff and GraphViz or what is it and all this stuff.
+It sucks.
+
+Rather, have puml in an extension (like markdown-preview-enhanced)
+and give it a URL to an external puml display server and it works like magic.
+In settings.json:
+
+    "markdown-preview-enhanced.plantumlServer": "https://www.plantuml.com/plantuml/proxy?src=",
+
 
 ### Explanations
 
