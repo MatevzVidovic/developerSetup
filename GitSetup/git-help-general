@@ -1,0 +1,58 @@
+
+
+
+
+This all has a problem if you have important untracked files
+It worked at 3fs because we had a minimal .env that was easily set up when you did
+task setup
+where you just pasted in some little string or sth like that
+
+So worktrees cant work if you dont have this clean setup approach
+Zou need to do actual copying of the entire dir and then do checkout there.
+
+
+
+[branch-name]
+
+Create:
+
+git worktree add ~/[branch-name] -b [branch-name] origin/main
+cd ~/[branch-name]
+# git push -u origin [branch-name]
+# git worktree add ~/[branch-name]-dev -b [branch-name]-dev [branch-name]
+
+Switch to and push and rebase:
+
+cd ~/[branch-name]
+git fap
+git push --force-with-lease -u origin [branch-name]
+git rebase origin/main
+git push --force-with-lease -u origin [branch-name]
+
+
+
+
+
+cp -rP ~/gurs-html-report ~/report_dev
+cd ~/report_dev
+git checkout -b report_dev origin/master
+
+
+
+
+report_dev
+
+Create:
+
+git worktree add ~/report_dev -b report_dev origin/main
+cd ~/report_dev
+# git push -u origin report_dev
+# git worktree add ~/report_dev-dev -b report_dev-dev report_dev
+
+Switch to and push and rebase:
+
+cd ~/report_dev
+git fap
+git push --force-with-lease -u origin report_dev
+git rebase origin/main
+git push --force-with-lease -u origin report_dev
