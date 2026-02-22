@@ -1,6 +1,71 @@
 
 
 
+
+# Put fns to the top
+
+# Add MCPs by name: cla_mcp context7 serena ...
+cla_mcp() {
+  local tools=()
+  local m
+  for m in "$@"; do
+    tools+=("MCPTool(${m}:*)")
+  done
+
+  claude \
+  --allow-dangerously-skip-permissions \
+  --permission-mode dontAsk \
+  --allowedTools \
+    "Bash(workspace_only:true)" \
+    "Edit" "Write" "Read" \
+    "WebSearch" "WebFetch" \
+    "TodoRead" "TodoWrite" \
+    "Grep" "Glob" "LS" \
+    "Task" "BashOutput" "KillShell" \
+    "NotebookEdit" \
+    "${tools[@]}"
+}
+
+clar_mcp() {
+  local tools=()
+  local m
+  for m in "$@"; do
+    tools+=("MCPTool(${m}:*)")
+  done
+
+  claude \
+  --allow-dangerously-skip-permissions \
+  --permission-mode dontAsk \
+  --allowedTools \
+    "Bash(git log:*)" "Bash(git diff:*)" \
+    "Bash(git show:*)" "Bash(git status:*)" \
+    "Read" "WebSearch" "WebFetch" \
+    "TodoRead" "Grep" "Glob" "LS" \
+    "Task" "BashOutput" "KillShell" \
+    "NotebookEdit" \
+    "${tools[@]}"
+}
+
+
+
+
+_codex_with_mcp() {
+  local approval="$1"; shift
+  local sandbox="$1"; shift
+
+  local args=(codex --search -a "$approval" --sandbox "$sandbox")
+
+  # Enable only the listed MCP servers (defaults should be enabled=false in config.toml)
+  for s in "$@"; do
+    args+=(-c "mcp_servers.${s}.enabled=true")
+  done
+
+  "${args[@]}"
+}
+
+
+
+
 # Setup of aliases
 
 # ======================================================================
@@ -91,10 +156,30 @@ ssh -T git@github.com    # see if you can connect to github
 yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 
+
+
 # LLM CLI stuff
-alias cla='claude --dangerously-skip-permissions --allowedTools Bash,Read,Glob,Grep,WebFetch,WebSearch,TodoWrite,Task,BashOutput,KillShell'
-alias cox='codex --search -a on-failure --sandbox workspace-write'
-alias coxr='codex --search -a never --sandbox read-only'
+
+alias cla='cla_mcp'
+alias clar='clar_mcp'
+
+alias clam='cla_mcp context7 serena'
+alias clarm='clar_mcp context7 serena'
+alias clam1='cla_mcp context7 serena zen consult7'
+alias clarm1='clar_mcp context7 serena zen consult7'
+
+
+alias cox='_codex_with_mcp on-failure workspace-write'
+alias coxr='_codex_with_mcp never read-only'
+
+alias coxm='cox context7 serena'
+alias coxrm='coxr context7 serena'
+alias coxm1='cox context7 serena zen consult7'
+alias coxrm1='coxr context7 serena zen consult7'
+
+
+
+
 
 # show aliases
 shal() {

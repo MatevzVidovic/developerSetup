@@ -67,6 +67,16 @@ which uvx
 uvx --version
 
 
+# Liating and removing mcp servers
+
+claude mcp list
+codex mcp list
+
+claude mcp remove <name from list>
+codex mcp remove <name from list>
+
+## When i misconfigured a mcp server and called it --transport, i had to do:
+claude mcp remove -- "--transport"
 
 
 
@@ -81,20 +91,25 @@ uvx --version
 ########################
 
 # Context7 (live docs)
-claude mcp add --transport stdio --scope user context7 -- npx -y @upstash/context7-mcp
+claude mcp add --transport stdio --scope user context7 -- \
+  npx -y @upstash/context7-mcp
 # Optional higher limits:
 # claude mcp add --transport stdio --scope user --env CONTEXT7_API_KEY=YOUR_KEY context7 -- \
 #   npx -y @upstash/context7-mcp
 
 # Serena (symbol-level code navigation)
-claude mcp add --transport stdio --scope user serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context=claude-code --project-from-cwd
+claude mcp add --transport stdio --scope user serena -- \
+  uvx --from git+https://github.com/oraios/serena \
+  serena start-mcp-server --context=claude-code --project-from-cwd
 
 # Consult7 (big-context offload; uses OpenRouter key)
-claude mcp add --transport stdio --scope user consult7 -- uvx -- consult7 YOUR_OPENROUTER_API_KEY
+claude mcp add --transport stdio --scope user consult7 -- \
+  uvx -- consult7 YOUR_OPENROUTER_API_KEY
 
 # Zen (multi-model orchestration) — run as an MCP stdio process
-
-claude mcp add --transport stdio --scope user zen -- uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git zen-mcp-server
+claude mcp add --transport stdio --scope user zen -- \
+  uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git \
+  zen-mcp-server
 
 
 ########################
@@ -102,20 +117,28 @@ claude mcp add --transport stdio --scope user zen -- uvx --from git+https://gith
 ########################
 
 # Context7
-codex mcp add context7 -- npx -y @upstash/context7-mcp
+codex mcp add context7 -- \
+  npx -y @upstash/context7-mcp
 # Optional higher limits:
 # codex mcp add context7 --env CONTEXT7_API_KEY=YOUR_KEY -- \
 #   npx -y @upstash/context7-mcp
 
 # Serena
-codex mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context=codex
+codex mcp add serena -- \
+  uvx --from git+https://github.com/oraios/serena \
+  serena start-mcp-server --context codex
 
 # Consult7
-codex mcp add consult7 -- uvx -- consult7 YOUR_OPENROUTER_API_KEY
+codex mcp add consult7 -- \
+  uvx -- consult7 YOUR_OPENROUTER_API_KEY
 
 # Zen (multi-model orchestration) — run as an MCP stdio process
+# NOTE: codex mcp add does NOT support --transport / --scope
+codex mcp add zen -- \
+  uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git \
+  zen-mcp-server
 
-codex mcp add -- --transport stdio --scope user zen -- uvx --from git+https://github.com/BeehiveInnovations/zen-mcp-server.git zen-mcp-server
+
 
 
 
@@ -191,147 +214,148 @@ codex mcp add playwright -- \
 
 
 
-
-
-
-<!-- 
-# old install instructions
-
-
-## Claude mcp Install and setup
-
-# 1. Zen/PAL (multi-model orchestration)
-git clone https://github.com/BeehiveInnovations/zen-mcp-server.git ~/zen-mcp-server
-cd ~/zen-mcp-server && ./run-server.sh
-# creates its own config entry as "zen"
-
-# 2. Context7 (live docs)
-claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp
-# optional: get free API key at context7.com/dashboard for higher limits
-# then: claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp --api-key YOUR_KEY
-
-# 3. Consult7 (big-context offload)
-
-claude mcp add -s user consult7 uvx -- consult7 your-openrouter-api-key
-
-Then create a config file at ~/.consult7/config.yaml (or wherever their README points) with your API keys. Claude Code launches it automatically like the others.
-
-# 4. Serena (symbol-level code nav)
-claude mcp add --scope user serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project-from-cwd
-
-Serena is project-aware — with --project-from-cwd it auto-detects your project from wherever you run claude. If it doesn't activate, just tell it "activate the current project using serena" at the start of a session.
-
-# 5. Playwright (browser control)
-claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
-
-# 6. SuperClaude — not an MCP, skip for aliases
-
-
-
-
-
-## codex mcp setup
-
-# Context7
-codex mcp add context7 -- npx -y @upstash/context7-mcp
-
-# Playwright
-codex mcp add playwright -- npx -y @playwright/mcp@latest
-
-# Serena
-codex mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context codex 
-    # not using--project-from-cwd
-
-# Zen
-codex mcp add zen -- /path/to/zen-mcp-server/run-server.sh
-
-# Consult7
-codex mcp add consult7 -- uvx --from git+https://github.com/szeider/consult7 consult7-mcp -->
-
-
-
-
-
-
 ## Aliases
 
 
-# clam: full dev worker + MCPs (same as cla but with MCP tools)
-alias clam='claude \
+
+### Codex alias way
+
+all mcp tools are in ~/.codex/config.toml
+Mcp servers get added there automatically when: codex mcp add.
+You can change the settings using the -c flag.
+
+<!-- 
+
+Basic command examples:
+
+alias cox='codex --search -a on-failure --sandbox workspace-write'
+
+alias coxr='codex --search -a never --sandbox read-only'
+
+alias coxm='codex --search -a on-failure --sandbox workspace-write \
+  -c mcp_servers.playwright.enabled=false'
+ -->
+
+
+### First list all, and then disable them
+
+codex mcp list
+# or machine-readable:
+codex mcp list --json
+
+### Edit ~/.codex/config.toml
+
+code ~/.codex/config.toml
+
+set to every mcp:
+enabled = false
+
+example:
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+enabled = false
+
+[mcp_servers.serena]
+# ...
+enabled = false
+
+
+
+
+
+```sh
+
+# Put fns to the top
+
+# Add MCPs by name: cla_mcp context7 serena ...
+cla_mcp() {
+  local tools=()
+  local m
+  for m in "$@"; do
+    tools+=("MCPTool(${m}:*)")
+  done
+
+  claude \
   --allow-dangerously-skip-permissions \
   --permission-mode dontAsk \
   --allowedTools \
     "Bash(workspace_only:true)" \
-    "Edit" \
-    "Write" \
-    "Read" \
-    "WebSearch" \
-    "TodoRead" \
-    "TodoWrite" \
-    "Grep" \
-    "Glob" \
-    "LS" \
-    "WebFetch" \
+    "Edit" "Write" "Read" \
+    "WebSearch" "WebFetch" \
+    "TodoRead" "TodoWrite" \
+    "Grep" "Glob" "LS" \
+    "Task" "BashOutput" "KillShell" \
     "NotebookEdit" \
-    "MCPTool(zen:*)" \
-    "MCPTool(context7:*)" \
-    "MCPTool(consult7:*)" \
-    "MCPTool(serena:*)"'
+    "${tools[@]}"
+}
 
-# clarm: read-only reviewer + MCPs (same as clar but with MCP tools)
-alias clarm='claude \
+clar_mcp() {
+  local tools=()
+  local m
+  for m in "$@"; do
+    tools+=("MCPTool(${m}:*)")
+  done
+
+  claude \
   --allow-dangerously-skip-permissions \
   --permission-mode dontAsk \
   --allowedTools \
-    "Bash(git log:*)" \
-    "Bash(git diff:*)" \
-    "Bash(git show:*)" \
-    "Bash(git status:*)" \
-    "Read" \
-    "WebSearch" \
-    "TodoRead" \
-    "Grep" \
-    "Glob" \
-    "LS" \
-    "WebFetch" \
+    "Bash(git log:*)" "Bash(git diff:*)" \
+    "Bash(git show:*)" "Bash(git status:*)" \
+    "Read" "WebSearch" "WebFetch" \
+    "TodoRead" "Grep" "Glob" "LS" \
+    "Task" "BashOutput" "KillShell" \
     "NotebookEdit" \
-    "MCPTool(zen:*)" \
-    "MCPTool(context7:*)" \
-    "MCPTool(consult7:*)" \
-    "MCPTool(serena:*)"'
+    "${tools[@]}"
+}
 
-    # clap: full dev worker + MCPs + browser control
-alias clap='claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(workspace_only:true)" \
-    "Edit" \
-    "Write" \
-    "Read" \
-    "WebSearch" \
-    "TodoRead" \
-    "TodoWrite" \
-    "Grep" \
-    "Glob" \
-    "LS" \
-    "WebFetch" \
-    "NotebookEdit" \
-    "MCPTool(zen:*)" \
-    "MCPTool(context7:*)" \
-    "MCPTool(consult7:*)" \
-    "MCPTool(serena:*)" \
-    "MCPTool(playwright:*)"'
+
+
+
+_codex_with_mcp() {
+  local approval="$1"; shift
+  local sandbox="$1"; shift
+
+  local args=(codex --search -a "$approval" --sandbox "$sandbox")
+
+  # Enable only the listed MCP servers (defaults should be enabled=false in config.toml)
+  for s in "$@"; do
+    args+=(-c "mcp_servers.${s}.enabled=true")
+  done
+
+  "${args[@]}"
+}
 
 
 
 
 
+alias cla='cla_mcp'
+alias clar='clar_mcp'
+
+alias clam='cla_mcp context7 serena'
+alias clarm='clar_mcp context7 serena'
+alias clam1='cla_mcp context7 serena zen consult7'
+alias clarm1='clar_mcp context7 serena zen consult7'
+
+
+alias cox='_codex_with_mcp on-failure workspace-write'
+alias coxr='_codex_with_mcp never read-only'
+
+alias coxm='cox context7 serena'
+alias coxrm='coxr context7 serena'
+alias coxm1='cox context7 serena zen consult7'
+alias coxrm1='coxr context7 serena zen consult7'
+```
 
 
 
 
-## Claude aliases very specifically
+
+## More granular choice of what part of the MCP server we will take
+
 
 # ─── REFERENCE ────────────────────────────────────────────────────────────────
 # context7 tools:    resolve-library-id, get-library-docs
@@ -350,45 +374,6 @@ alias clap='claude \
 # consult7 tools:    consult (single tool)
 # ──────────────────────────────────────────────────────────────────────────────
 
-# cla: full dev worker, no MCPs (unchanged)
-alias cla='claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(workspace_only:true)" \
-    "Edit" "Write" "Read" \
-    "WebSearch" "WebFetch" \
-    "TodoRead" "TodoWrite" \
-    "Grep" "Glob" "LS" \
-    "NotebookEdit"'
-
-# clar: read-only reviewer, no MCPs (unchanged)
-alias clar='claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(git log:*)" "Bash(git diff:*)" \
-    "Bash(git show:*)" "Bash(git status:*)" \
-    "Read" "WebSearch" "WebFetch" \
-    "TodoRead" "Grep" "Glob" "LS" \
-    "NotebookEdit"'
-
-# clam: full dev worker + all MCPs (no playwright)
-alias clam='claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(workspace_only:true)" \
-    "Edit" "Write" "Read" \
-    "WebSearch" "WebFetch" \
-    "TodoRead" "TodoWrite" \
-    "Grep" "Glob" "LS" \
-    "NotebookEdit" \
-    "MCPTool(zen:*)" \
-    "MCPTool(context7:*)" \
-    "MCPTool(serena:*)" \
-    "MCPTool(consult7:*)"
-
 # clarm: read-only reviewer + read-only MCPs (no serena writes, no playwright)
 alias clarm='claude \
   --allow-dangerously-skip-permissions \
@@ -398,6 +383,7 @@ alias clarm='claude \
     "Bash(git show:*)" "Bash(git status:*)" \
     "Read" "WebSearch" "WebFetch" \
     "TodoRead" "Grep" "Glob" "LS" \
+    "Task", "BashOutput", "KillShell" \
     "NotebookEdit" \
     "MCPTool(context7:resolve-library-id)" \
     "MCPTool(context7:get-library-docs)" \
@@ -418,35 +404,6 @@ alias clarm='claude \
     "MCPTool(serena:list_memories)" \
     "MCPTool(serena:initial_instructions)" \
     "MCPTool(consult7:consult)"'
-
-# clap: full dev worker + all MCPs + playwright
-alias clap='claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(workspace_only:true)" \
-    "Edit" "Write" "Read" \
-    "WebSearch" "WebFetch" \
-    "TodoRead" "TodoWrite" \
-    "Grep" "Glob" "LS" \
-    "NotebookEdit" \
-    "MCPTool(zen:*)" \
-    "MCPTool(context7:*)" \
-    "MCPTool(serena:*)" \
-    "MCPTool(consult7:*)"
-
-
-## Codex way
-all mcp tools are in ~/.codex/config.toml
-Mcp servers get added there automatically when: codex mcp add.
-You can change the settings using the -c flag.
-
-alias coxm='codex --search -a on-failure --sandbox workspace-write \
-  -c mcp_servers.playwright.enabled=false'
-
-
-
-
 
 
 
