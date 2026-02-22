@@ -24,7 +24,7 @@ cla_mcp() {
       "Grep" "Glob" "LS" \
       "Task" "BashOutput" "KillShell" \
       "NotebookEdit" \
-      "${tools[@]}"
+      "${tools[@]}" \
 }
 
 # Review (read-only)
@@ -46,7 +46,7 @@ clar_mcp() {
       "TodoRead" "Grep" "Glob" "LS" \
       "Task" "BashOutput" "KillShell" \
       "NotebookEdit" \
-      "${tools[@]}"
+      "${tools[@]}" \
 }
 
 
@@ -175,7 +175,7 @@ cla() {
       "Task" "BashOutput" "KillShell" \
       "NotebookEdit" \
       "${tools[@]}" \
-    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
 }
 
 clar() {
@@ -190,7 +190,7 @@ clar() {
       "Task" "BashOutput" "KillShell" \
       "NotebookEdit" \
       "${tools[@]}" \
-	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}' \
 }
 
 alias cla='cla_mcp'
@@ -202,7 +202,7 @@ alias clam1='cla_mcp context7 serena zen consult7'
 alias clarm1='clar_mcp context7 serena zen consult7'
 
 
-alias cox='_codex_with_mcp on-failure workspace-write'
+alias cox='_codex_with_mcp never workspace-write'
 alias coxr='_codex_with_mcp never read-only'
 
 alias coxm='cox context7 serena'
