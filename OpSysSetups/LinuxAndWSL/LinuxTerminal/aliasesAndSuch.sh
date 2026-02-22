@@ -4,40 +4,8 @@
 
 # Put fns to the top
 
-# Add MCPs by name: cla_mcp context7 serena ...
-
-# Requires: jq
-
-# Build a strict MCP config JSON from registered MCP servers by name
-_mcp_cfg_json() {
-  if [ "$#" -eq 0 ]; then
-    printf '{"mcpServers":{}}'
-    return 0
-  fi
-
-  # Merge: {"mcpServers": { name: (claude mcp get name --json).mcpServers[name], ... }}
-  local tmp
-  tmp="$(mktemp)"
-
-  # Start empty
-  printf '{"mcpServers":{}}' > "$tmp"
-
-  local s
-  for s in "$@"; do
-    claude mcp get "$s" --json \
-      | jq --arg s "$s" '{mcpServers: {($s): .mcpServers[$s]}}' \
-      | jq -s '.[0] * .[1]' "$tmp" - \
-      > "${tmp}.new" && mv "${tmp}.new" "$tmp"
-  done
-
-  cat "$tmp"
-  rm -f "$tmp"
-}
-
 # Dev (workspace write)
 cla_mcp() {
-  local cfg
-  cfg="$(_mcp_cfg_json "$@")"
 
   local tools=()
   local s
@@ -46,7 +14,6 @@ cla_mcp() {
   done
 
   claude \
-    --strict-mcp-config --mcp-config "$cfg" \
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
@@ -62,8 +29,6 @@ cla_mcp() {
 
 # Review (read-only)
 clar_mcp() {
-  local cfg
-  cfg="$(_mcp_cfg_json "$@")"
 
   local tools=()
   local s
@@ -72,7 +37,6 @@ clar_mcp() {
   done
 
   claude \
-    --strict-mcp-config --mcp-config "$cfg" \
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
@@ -198,6 +162,37 @@ yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot 
 
 # LLM CLI stuff
 
+cla() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(workspace_only:true)" \
+      "Edit" "Write" "Read" \
+      "WebSearch" "WebFetch" \
+      "TodoRead" "TodoWrite" \
+      "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}" \
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+}
+
+clar() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(git log:*)" "Bash(git diff:*)" \
+      "Bash(git show:*)" "Bash(git status:*)" \
+      "Read" "WebSearch" "WebFetch" \
+      "TodoRead" "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}" \
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
+}
+
 alias cla='cla_mcp'
 alias clar='clar_mcp'
 
@@ -222,6 +217,10 @@ alias coxrm1='coxr context7 serena zen consult7'
 # show aliases
 shal() {
     cat << 'EOF'
+
+# Setup of aliases
+
+# ======================================================================
 
 # main dev aliases
 alias m='make'
@@ -309,10 +308,58 @@ ssh -T git@github.com    # see if you can connect to github
 yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 
+
+
 # LLM CLI stuff
-alias cla='claude --dangerously-skip-permissions --allowedTools Bash,Read,Glob,Grep,WebFetch,WebSearch,TodoWrite,Task,BashOutput,KillShell'
-alias cox='codex --search -a on-failure --sandbox workspace-write'
-alias coxr='codex --search -a never --sandbox read-only'
+
+cla() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(workspace_only:true)" \
+      "Edit" "Write" "Read" \
+      "WebSearch" "WebFetch" \
+      "TodoRead" "TodoWrite" \
+      "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}" \
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+}
+
+clar() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(git log:*)" "Bash(git diff:*)" \
+      "Bash(git show:*)" "Bash(git status:*)" \
+      "Read" "WebSearch" "WebFetch" \
+      "TodoRead" "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}" \
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
+}
+
+alias cla='cla_mcp'
+alias clar='clar_mcp'
+
+alias clam='cla_mcp context7 serena'
+alias clarm='clar_mcp context7 serena'
+alias clam1='cla_mcp context7 serena zen consult7'
+alias clarm1='clar_mcp context7 serena zen consult7'
+
+
+alias cox='_codex_with_mcp on-failure workspace-write'
+alias coxr='_codex_with_mcp never read-only'
+
+alias coxm='cox context7 serena'
+alias coxrm='coxr context7 serena'
+alias coxm1='cox context7 serena zen consult7'
+alias coxrm1='coxr context7 serena zen consult7'
+
 
 EOF
 }
