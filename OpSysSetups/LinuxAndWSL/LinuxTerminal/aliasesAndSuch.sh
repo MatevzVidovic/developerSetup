@@ -5,47 +5,85 @@
 # Put fns to the top
 
 # Add MCPs by name: cla_mcp context7 serena ...
+
+# Requires: jq
+
+# Build a strict MCP config JSON from registered MCP servers by name
+_mcp_cfg_json() {
+  if [ "$#" -eq 0 ]; then
+    printf '{"mcpServers":{}}'
+    return 0
+  fi
+
+  # Merge: {"mcpServers": { name: (claude mcp get name --json).mcpServers[name], ... }}
+  local tmp
+  tmp="$(mktemp)"
+
+  # Start empty
+  printf '{"mcpServers":{}}' > "$tmp"
+
+  local s
+  for s in "$@"; do
+    claude mcp get "$s" --json \
+      | jq --arg s "$s" '{mcpServers: {($s): .mcpServers[$s]}}' \
+      | jq -s '.[0] * .[1]' "$tmp" - \
+      > "${tmp}.new" && mv "${tmp}.new" "$tmp"
+  done
+
+  cat "$tmp"
+  rm -f "$tmp"
+}
+
+# Dev (workspace write)
 cla_mcp() {
+  local cfg
+  cfg="$(_mcp_cfg_json "$@")"
+
   local tools=()
-  local m
-  for m in "$@"; do
-    tools+=("MCPTool(${m}:*)")
+  local s
+  for s in "$@"; do
+    tools+=("MCPTool(${s}:*)")
   done
 
   claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(workspace_only:true)" \
-    "Edit" "Write" "Read" \
-    "WebSearch" "WebFetch" \
-    "TodoRead" "TodoWrite" \
-    "Grep" "Glob" "LS" \
-    "Task" "BashOutput" "KillShell" \
-    "NotebookEdit" \
-    "${tools[@]}"
+    --strict-mcp-config --mcp-config "$cfg" \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(workspace_only:true)" \
+      "Edit" "Write" "Read" \
+      "WebSearch" "WebFetch" \
+      "TodoRead" "TodoWrite" \
+      "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}"
 }
 
+# Review (read-only)
 clar_mcp() {
+  local cfg
+  cfg="$(_mcp_cfg_json "$@")"
+
   local tools=()
-  local m
-  for m in "$@"; do
-    tools+=("MCPTool(${m}:*)")
+  local s
+  for s in "$@"; do
+    tools+=("MCPTool(${s}:*)")
   done
 
   claude \
-  --allow-dangerously-skip-permissions \
-  --permission-mode dontAsk \
-  --allowedTools \
-    "Bash(git log:*)" "Bash(git diff:*)" \
-    "Bash(git show:*)" "Bash(git status:*)" \
-    "Read" "WebSearch" "WebFetch" \
-    "TodoRead" "Grep" "Glob" "LS" \
-    "Task" "BashOutput" "KillShell" \
-    "NotebookEdit" \
-    "${tools[@]}"
+    --strict-mcp-config --mcp-config "$cfg" \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "Bash(git log:*)" "Bash(git diff:*)" \
+      "Bash(git show:*)" "Bash(git status:*)" \
+      "Read" "WebSearch" "WebFetch" \
+      "TodoRead" "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+      "${tools[@]}"
 }
-
 
 
 
