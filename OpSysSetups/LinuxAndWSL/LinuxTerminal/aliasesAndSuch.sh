@@ -4,6 +4,54 @@
 
 # Put fns to the top
 
+
+## With claude, we cant easily enable and disable mcps in the commandline.
+## You have to do     --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+## So you have to build this json, which means you need jq command and complex logic to build it. Its not worth it.
+## So we simply have all or nothing.
+## In _mcp fns we simply only make certain mcp servers allowed (so we don't have context poisoning from them automatically)
+## But the mcp servers will still get run.
+
+CLA_RW_PERMS << 'EOF'
+      "Bash(workspace_only:true)" \
+      "Edit" "Write" "Read" \
+      "WebSearch" "WebFetch" \
+      "TodoRead" "TodoWrite" \
+      "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+EOF
+
+CLA_READ_PERMS << 'EOF'
+      "Bash(git log:*)" "Bash(git diff:*)" \
+      "Bash(git show:*)" "Bash(git status:*)" \
+      "Read" "WebSearch" "WebFetch" \
+      "TodoRead" "Grep" "Glob" "LS" \
+      "Task" "BashOutput" "KillShell" \
+      "NotebookEdit" \
+EOF
+
+
+cla() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      $CLA_RW_PERMS \
+      "${tools[@]}" \
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+}
+
+clar() {
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      $CLA_READ_PERMS \
+      "${tools[@]}" \
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+}
+
 # Dev (workspace write)
 cla_mcp() {
 
@@ -17,13 +65,7 @@ cla_mcp() {
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      "Bash(workspace_only:true)" \
-      "Edit" "Write" "Read" \
-      "WebSearch" "WebFetch" \
-      "TodoRead" "TodoWrite" \
-      "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
+      $CLA_RW_PERMS \
       "${tools[@]}" \
 }
 
@@ -40,12 +82,7 @@ clar_mcp() {
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      "Bash(git log:*)" "Bash(git diff:*)" \
-      "Bash(git show:*)" "Bash(git status:*)" \
-      "Read" "WebSearch" "WebFetch" \
-      "TodoRead" "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
+      $CLA_READ_PERMS \
       "${tools[@]}" \
 }
 
@@ -159,49 +196,17 @@ ssh -T git@github.com    # see if you can connect to github
 yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 
-
-
 # LLM CLI stuff
 
-cla() {
-  claude \
-    --allow-dangerously-skip-permissions \
-    --permission-mode dontAsk \
-    --allowedTools \
-      "Bash(workspace_only:true)" \
-      "Edit" "Write" "Read" \
-      "WebSearch" "WebFetch" \
-      "TodoRead" "TodoWrite" \
-      "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-      "${tools[@]}" \
-    --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
-}
+## With claude, mcp servers still run! They just aren't in allowed tools.
 
-clar() {
-  claude \
-    --allow-dangerously-skip-permissions \
-    --permission-mode dontAsk \
-    --allowedTools \
-      "Bash(git log:*)" "Bash(git diff:*)" \
-      "Bash(git show:*)" "Bash(git status:*)" \
-      "Read" "WebSearch" "WebFetch" \
-      "TodoRead" "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-      "${tools[@]}" \
-	--strict-mcp-config --mcp-config '{"mcpServers":{}}' \
-}
-
-alias cla='cla_mcp'
-alias clar='clar_mcp'
+alias cla='cla'
+alias clar='clar'
 
 alias clam='cla_mcp context7 serena'
 alias clarm='clar_mcp context7 serena'
 alias clam1='cla_mcp context7 serena zen consult7'
 alias clarm1='clar_mcp context7 serena zen consult7'
-
 
 alias cox='_codex_with_mcp never workspace-write'
 alias coxr='_codex_with_mcp never read-only'
@@ -309,51 +314,19 @@ ssh -T git@github.com    # see if you can connect to github
 yes' # perhaps use your actual     # ssh keygen for github    # newlines cannot automatically confirm the keygen choices. I tried.
 
 
-
-
 # LLM CLI stuff
 
-cla() {
-  claude \
-    --allow-dangerously-skip-permissions \
-    --permission-mode dontAsk \
-    --allowedTools \
-      "Bash(workspace_only:true)" \
-      "Edit" "Write" "Read" \
-      "WebSearch" "WebFetch" \
-      "TodoRead" "TodoWrite" \
-      "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-      "${tools[@]}" \
-    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
-}
+## With claude, mcp servers still run! They just aren't in allowed tools.
 
-clar() {
-  claude \
-    --allow-dangerously-skip-permissions \
-    --permission-mode dontAsk \
-    --allowedTools \
-      "Bash(git log:*)" "Bash(git diff:*)" \
-      "Bash(git show:*)" "Bash(git status:*)" \
-      "Read" "WebSearch" "WebFetch" \
-      "TodoRead" "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-      "${tools[@]}" \
-	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
-}
-
-alias cla='cla_mcp'
-alias clar='clar_mcp'
+alias cla='cla'
+alias clar='clar'
 
 alias clam='cla_mcp context7 serena'
 alias clarm='clar_mcp context7 serena'
 alias clam1='cla_mcp context7 serena zen consult7'
 alias clarm1='clar_mcp context7 serena zen consult7'
 
-
-alias cox='_codex_with_mcp on-failure workspace-write'
+alias cox='_codex_with_mcp never workspace-write'
 alias coxr='_codex_with_mcp never read-only'
 
 alias coxm='cox context7 serena'
