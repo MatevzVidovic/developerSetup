@@ -12,49 +12,58 @@
 ## In _mcp fns we simply only make certain mcp servers allowed (so we don't have context poisoning from them automatically)
 ## But the mcp servers will still get run.
 
-CLA_RW_PERMS << 'EOF'
-      "Bash(workspace_only:true)" \
-      "Edit" "Write" "Read" \
-      "WebSearch" "WebFetch" \
-      "TodoRead" "TodoWrite" \
-      "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-EOF
+CLA_RW_PERMS=(
+    # "Bash(workspace_only:true)" # messed everyhting up - constantly needed permission for stuff even in this workspace (i think bc of using abs paths)
+    "Bash(*)"
+    "Edit" "Write" "Read"
+    "WebSearch" "WebFetch"
+    "TodoRead" "TodoWrite"
+    "Grep" "Glob" "LS"
+    "Task" "BashOutput" "KillShell"
+    "NotebookEdit"
+  )
 
-CLA_READ_PERMS << 'EOF'
-      "Bash(git log:*)" "Bash(git diff:*)" \
-      "Bash(git show:*)" "Bash(git status:*)" \
-      "Read" "WebSearch" "WebFetch" \
-      "TodoRead" "Grep" "Glob" "LS" \
-      "Task" "BashOutput" "KillShell" \
-      "NotebookEdit" \
-EOF
+CLA_READ_PERMS=(
+      "Bash(git log:*)" "Bash(git diff:*)" 
+      "Bash(git show:*)" "Bash(git status:*)" 
+      "Read" "WebSearch" "WebFetch" 
+      "TodoRead" "Grep" "Glob" "LS" 
+      "Task" "BashOutput" "KillShell" 
+      "NotebookEdit" 
+)
 
 
 cla() {
+  set -x  # prints every command with expanded args
   claude \
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      $CLA_RW_PERMS \
+      "${CLA_RW_PERMS[@]}" \
       "${tools[@]}" \
-    --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+
+  set +x
 }
 
 clar() {
+  set -x  # prints every command with expanded args
   claude \
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      $CLA_READ_PERMS \
+      "${CLA_READ_PERMS[@]}" \
       "${tools[@]}" \
-	--strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
+
+  set +x
+
 }
 
 # Dev (workspace write)
 cla_mcp() {
 
+  set -x  # prints every command with expanded args
   local tools=()
   local s
   for s in "$@"; do
@@ -65,13 +74,15 @@ cla_mcp() {
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      $CLA_RW_PERMS \
-      "${tools[@]}" \
+      "${CLA_RW_PERMS[@]}" \
+      "${tools[@]}"
+    
+    set +x
 }
 
 # Review (read-only)
 clar_mcp() {
-
+  set -x  # prints every command with expanded args
   local tools=()
   local s
   for s in "$@"; do
@@ -82,8 +93,10 @@ clar_mcp() {
     --allow-dangerously-skip-permissions \
     --permission-mode dontAsk \
     --allowedTools \
-      $CLA_READ_PERMS \
-      "${tools[@]}" \
+      "${CLA_READ_PERMS[@]}" \
+      "${tools[@]}" 
+    
+  set +x
 }
 
 
