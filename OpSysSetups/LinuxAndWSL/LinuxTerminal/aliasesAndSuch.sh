@@ -105,7 +105,7 @@ _codex_with_mcp() {
   local approval="$1"; shift
   local sandbox="$1"; shift
   local args=(codex --search -a "$approval" --sandbox "$sandbox"
-    -c "sandbox_workspace_write.network_access=true"
+    -c "sandbox_workspace_write.network_access=true" -c "vim=true"
   )
   
   # Enable only the listed MCP servers (defaults should be enabled=false in config.toml)
