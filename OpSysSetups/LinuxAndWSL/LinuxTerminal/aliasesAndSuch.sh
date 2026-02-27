@@ -237,6 +237,124 @@ alias coxrm1='coxr context7 serena zen consult7'
 shal() {
     cat << 'EOF'
 
+
+# Put fns to the top
+
+
+## With claude, we cant easily enable and disable mcps in the commandline.
+## You have to do     --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
+## So you have to build this json, which means you need jq command and complex logic to build it. Its not worth it.
+## So we simply have all or nothing.
+## In _mcp fns we simply only make certain mcp servers allowed (so we don't have context poisoning from them automatically)
+## But the mcp servers will still get run.
+
+CLA_RW_PERMS=(
+    # "Bash(workspace_only:true)" # messed everyhting up - constantly needed permission for stuff even in this workspace (i think bc of using abs paths)
+    "Bash(*)"
+    "Edit" "Write" "Read"
+    "WebSearch" "WebFetch"
+    "TodoRead" "TodoWrite"
+    "Grep" "Glob" "LS"
+    "Task" "BashOutput" "KillShell"
+    "NotebookEdit"
+  )
+
+CLA_READ_PERMS=(
+      "Bash(git log:*)" "Bash(git diff:*)" 
+      "Bash(git show:*)" "Bash(git status:*)" 
+      "Read" "WebSearch" "WebFetch" 
+      "TodoRead" "Grep" "Glob" "LS" 
+      "Task" "BashOutput" "KillShell" 
+      "NotebookEdit" 
+)
+
+
+cla() {
+  set -x  # prints every command with expanded args
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "${CLA_RW_PERMS[@]}" \
+      "${tools[@]}" \
+    --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+
+  set +x
+}
+
+clar() {
+  set -x  # prints every command with expanded args
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "${CLA_READ_PERMS[@]}" \
+      "${tools[@]}" \
+	--strict-mcp-config --mcp-config '{"mcpServers":{}}'
+
+  set +x
+
+}
+
+# Dev (workspace write)
+cla_mcp() {
+
+  set -x  # prints every command with expanded args
+  local tools=()
+  local s
+  for s in "$@"; do
+    tools+=("MCPTool(${s}:*)")
+  done
+
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "${CLA_RW_PERMS[@]}" \
+      "${tools[@]}"
+    
+    set +x
+}
+
+# Review (read-only)
+clar_mcp() {
+  set -x  # prints every command with expanded args
+  local tools=()
+  local s
+  for s in "$@"; do
+    tools+=("MCPTool(${s}:*)")
+  done
+
+  claude \
+    --allow-dangerously-skip-permissions \
+    --permission-mode dontAsk \
+    --allowedTools \
+      "${CLA_READ_PERMS[@]}" \
+      "${tools[@]}" 
+    
+  set +x
+}
+
+
+
+_codex_with_mcp() {
+  local approval="$1"; shift
+  local sandbox="$1"; shift
+  local args=(codex --search -a "$approval" --sandbox "$sandbox"
+    -c "sandbox_workspace_write.network_access=true" -c "vim=true"
+  )
+  
+  # Enable only the listed MCP servers (defaults should be enabled=false in config.toml)
+  for s in "$@"; do
+    args+=(-c "mcp_servers.${s}.enabled=true")
+  done
+
+  "${args[@]}"
+}
+
+
+
+
 # Setup of aliases
 
 # ======================================================================
